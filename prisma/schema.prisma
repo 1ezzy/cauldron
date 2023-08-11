@@ -40,8 +40,8 @@ model Key {
 
 model Spellbook {
   id                    String      @id @default(auto()) @map("_id") @db.ObjectId
-  spellbook_name        String      @unique
   index                 String
+  spellbook_name        String      @unique
   character_name        String
   spellbook_description String?
   image_url             String?
