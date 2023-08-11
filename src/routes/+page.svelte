@@ -3,5 +3,5 @@
 </script>
 
 <PageBlock>
-	<h1 class="h1 mb-4 text-primary-500">Dashboard</h1>
+	<h1 class="h1 mb-8 text-primary-500">Dashboard</h1>
 </PageBlock>

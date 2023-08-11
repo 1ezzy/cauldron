@@ -11,7 +11,7 @@
 </script>
 
 <PageBlock>
-	<h1 class="h1 mb-4 text-primary-500">{spellData.name}</h1>
+	<h1 class="h1 mb-8 text-primary-500">{spellData.name}</h1>
 	<h3 class="h3 mb-6 italic">
 		{formatSpellLevelWithSchool(spellData.level, spellData.school.name)}
 	</h3>
