@@ -66,15 +66,15 @@ model Spell {
   higher_level   String[]
   range          String
   components     Components[]
-  material       String
-  area_of_effect AreaOfEffect
+  material       String?
+  area_of_effect AreaOfEffect?
   ritual         Boolean
   duration       String
   concentration  Boolean
   casting_time   String
   level          Int
-  attack_type    String
-  damage         Json
+  attack_type    String?
+  damage         Json?
   school         APIReference
   classes        APIReference[]
   subclasses     APIReference[]

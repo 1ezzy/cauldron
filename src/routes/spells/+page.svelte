@@ -3,10 +3,10 @@
 
 	export let data;
 
-	const spellData = data.item;
+	const spellsData = data.item;
 </script>
 
 <PageBlock>
-	<h1 class="h1 mb-4 text-primary-500">Spells ({spellData.count})</h1>
+	<h1 class="h1 mb-4 text-primary-500">Spells ({spellsData.length})</h1>
 	<button class="btn variant-filled-tertiary"><a href="/spells/acid-splash">Acid Splash</a></button>
 </PageBlock>
