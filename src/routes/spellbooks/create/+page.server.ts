@@ -1,11 +1,14 @@
-import { ClassEnum } from '@prisma/client';
+import { get, writable } from 'svelte/store';
+import { ClassEnum, type User } from '@prisma/client';
 import { redirect, fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { prisma } from '$lib/server/prisma';
+import { stringToIndex } from '$lib/utils/string-utils';
 
 import { z } from 'zod';
 import { superValidate } from 'sveltekit-superforms/server';
-import { stringToIndex } from '$lib/utils/string-utils';
+
+const userStore = writable('');
 
 const createSpellbookSchema = z.object({
 	name: z.string(),
@@ -19,6 +22,8 @@ const createSpellbookSchema = z.object({
 export const load = (async ({ locals }) => {
 	const session = await locals.auth.validate();
 	if (!session) throw redirect(302, '/login');
+
+	userStore.set(session.user.userId);
 
 	const form = await superValidate(createSpellbookSchema);
 
@@ -40,16 +45,20 @@ export const actions = {
 			}
 		});
 
-		// const spellbook = await prisma.spellbook.create({
-		// 	data: {
-		// 		index: stringToIndex(form.data.name),
-		// 		spellbook_name: form.data.name,
-		// 		character_name: form.data.characterName,
-		// 		class: classes,
-		// 		auth_user: user
-		// 	}
-		// });
+		try {
+			await prisma.spellbook.create({
+				data: {
+					index: stringToIndex(form.data.name),
+					spellbook_name: form.data.name,
+					character_name: form.data.characterName,
+					class: classes,
+					user_id: get(userStore)
+				}
+			});
+		} catch (error) {
+			console.log(error);
+		}
 
-		return { form };
+		throw redirect(303, '/spellbooks');
 	}
 } satisfies Actions;
