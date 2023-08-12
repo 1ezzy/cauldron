@@ -15,7 +15,7 @@
 	<h3 class="h3 mb-6 italic">
 		{formatSpellLevelWithSchool(spellData.level, spellData.school.name)}
 	</h3>
-	<div class="py-4 px-6 mb-6 flex gap-12 bg-surface-300 dark:bg-surface-400 rounded-full">
+	<div class="py-4 px-6 mb-6 flex gap-12 bg-surface-300 dark:bg-surface-500 rounded-full">
 		<p>Casting Time: {spellData.casting_time}</p>
 		<p>Range: {spellData.range}</p>
 		<p>Components: {spellData.components.join(', ')}</p>
