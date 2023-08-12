@@ -1,39 +1,97 @@
 <script lang="ts">
+	import type { PageData } from './$types';
 	import PageBlock from '$lib/components/PageBlock.svelte';
+	import { capitalizeFirstLetter } from '$lib/utils/string-utils';
 	import { ClassEnum } from '@prisma/client';
+	import { superForm } from 'sveltekit-superforms/client';
+
+	export let data: PageData;
+	const { form } = superForm(data.form);
+
+	let classes: number = 1;
 </script>
 
 <PageBlock>
 	<h1 class="h1 mb-8 text-primary-500">Create a Spellbook</h1>
-	<form class="flex flex-col gap-6">
+	<form class="flex flex-col flex-1 gap-6" method="POST">
 		<label class="label">
 			<span>Spellbook Name</span>
-			<input class="input" type="text" placeholder="Enter a spellbook name" />
+			<input
+				class="input"
+				type="text"
+				name="name"
+				bind:value={$form.name}
+				placeholder="Enter a spellbook name"
+			/>
 		</label>
 		<label class="label">
 			<span>Character Name</span>
-			<input class="input" type="text" placeholder="Enter a character name" />
+			<input
+				class="input"
+				type="text"
+				name="characterName"
+				bind:value={$form.characterName}
+				placeholder="Enter a character name"
+			/>
 		</label>
 		<label class="label">
 			<span>Spellbook Description</span>
-			<textarea class="textarea" rows="4" placeholder="Enter a description for your spellbook" />
+			<textarea
+				class="textarea"
+				rows={4}
+				name="description"
+				bind:value={$form.description}
+				placeholder="Enter a description for your spellbook"
+			/>
 		</label>
 		<label class="label">
-			<span>Character Class</span>
-			<select class="select">
-				<option value={ClassEnum.barbarian}>Barbarian</option>
-				<option value={ClassEnum.bard}>Bard</option>
-				<option value={ClassEnum.cleric}>Cleric</option>
-				<option value={ClassEnum.druid}>Druid</option>
-				<option value={ClassEnum.fighter}>Fighter</option>
-				<option value={ClassEnum.monk}>Monk</option>
-				<option value={ClassEnum.paladin}>Paladin</option>
-				<option value={ClassEnum.ranger}>Ranger</option>
-				<option value={ClassEnum.rogue}>Rogue</option>
-				<option value={ClassEnum.sorcerer}>Sorcerer</option>
-				<option value={ClassEnum.warlock}>Warlock</option>
-				<option value={ClassEnum.wizard}>Wizard</option>
-			</select>
+			<span>{classes === 1 ? 'Character Class' : 'Character Classes'}</span>
+			<div class="flex flex-col gap-4">
+				<select class="select" bind:value={$form.class1} name="class1">
+					{#each Object.values(ClassEnum) as value}
+						<option {value}>{capitalizeFirstLetter(value)}</option>
+					{/each}
+				</select>
+				{#if classes >= 2}
+					<select class="select" bind:value={$form.class2} name="class2">
+						{#each Object.values(ClassEnum) as value}
+							<option {value}>{capitalizeFirstLetter(value)}</option>
+						{/each}
+					</select>
+				{/if}
+				{#if classes >= 3}
+					<select class="select" bind:value={$form.class3} name="class3">
+						{#each Object.values(ClassEnum) as value}
+							<option {value}>{capitalizeFirstLetter(value)}</option>
+						{/each}
+					</select>
+				{/if}
+				<div class="flex">
+					{#if classes < 3}
+						<button
+							class="btn variant-filled-secondary w-fit"
+							on:click={(event) => {
+								event.preventDefault();
+								classes += 1;
+							}}
+						>
+							Add Class
+						</button>
+					{/if}
+					{#if classes > 1}
+						<button
+							class="ml-auto btn variant-filled-tertiary w-fit"
+							on:click={(event) => {
+								event.preventDefault();
+								classes -= 1;
+							}}
+						>
+							Remove Class
+						</button>
+					{/if}
+				</div>
+			</div>
 		</label>
+		<button class="mt-auto btn variant-filled-primary">Create Spellbook</button>
 	</form>
 </PageBlock>

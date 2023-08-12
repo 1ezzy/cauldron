@@ -12,3 +12,14 @@ export const formatSpellLevelWithSchool = (level: number, school: string) => {
 			return `${level}th level ${school}`;
 	}
 };
+
+export const capitalizeFirstLetter = (text: string) => {
+	return text.charAt(0).toUpperCase() + text.slice(1);
+};
+
+export const stringToIndex = (name: string) => {
+	return name
+		.toLowerCase()
+		.replace(/[^-\w\s]/gi, '')
+		.replaceAll(/\s+/g, '-');
+};
