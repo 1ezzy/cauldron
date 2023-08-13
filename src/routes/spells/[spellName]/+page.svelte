@@ -10,11 +10,17 @@
 	});
 </script>
 
-<PageBlock>
+<PageBlock styles="w-fit">
 	<h1 class="h1 mb-4 text-primary-500">{spellData.name}</h1>
-	<h3 class="h3 mb-8 text-tertiary-500">
-		{formatSpellLevelWithSchool(spellData.level, spellData.school.name)}
-	</h3>
+	<div class="w-full flex items-start">
+		<span class="flex-1" />
+		<h3 class="h3 mb-8 flex-1 text-tertiary-500 text-center">
+			{formatSpellLevelWithSchool(spellData.level, spellData.school.name)}
+		</h3>
+		<div class="flex flex-1 justify-end">
+			<button class="w-fit btn variant-filled-primary">Add to Spellbook</button>
+		</div>
+	</div>
 	<div class="py-4 px-6 mb-6 flex gap-12 bg-surface-300 dark:bg-surface-500 rounded-full">
 		<p>Casting Time: {spellData.casting_time}</p>
 		<p>Range: {spellData.range}</p>
@@ -30,9 +36,9 @@
 		{/if}
 	</div>
 	<div class="mt-auto flex text-xl text-secondary-500">
-		<span>
+		<p>
 			<strong>Classes: </strong>
 			{classes.join(', ')}
-		</span>
+		</p>
 	</div>
 </PageBlock>
