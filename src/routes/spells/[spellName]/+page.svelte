@@ -11,8 +11,8 @@
 </script>
 
 <PageBlock>
-	<h1 class="h1 mb-8 text-primary-500">{spellData.name}</h1>
-	<h3 class="h3 mb-6 italic">
+	<h1 class="h1 mb-4 text-primary-500">{spellData.name}</h1>
+	<h3 class="h3 mb-8 text-tertiary-500">
 		{formatSpellLevelWithSchool(spellData.level, spellData.school.name)}
 	</h3>
 	<div class="py-4 px-6 mb-6 flex gap-12 bg-surface-300 dark:bg-surface-500 rounded-full">
@@ -29,7 +29,7 @@
 			<p><strong>At higher levels: </strong>{spellData.higher_level}</p>
 		{/if}
 	</div>
-	<div class="mt-auto flex text-xl">
+	<div class="mt-auto flex text-xl text-secondary-500">
 		<span>
 			<strong>Classes: </strong>
 			{classes.join(', ')}

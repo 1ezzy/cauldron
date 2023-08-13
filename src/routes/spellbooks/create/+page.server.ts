@@ -51,6 +51,7 @@ export const actions = {
 					index: stringToIndex(form.data.name),
 					spellbook_name: form.data.name,
 					character_name: form.data.characterName,
+					spellbook_description: form.data.description,
 					class: classes,
 					user_id: get(userStore)
 				}

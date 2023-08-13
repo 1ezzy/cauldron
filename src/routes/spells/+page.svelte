@@ -8,5 +8,5 @@
 
 <PageBlock>
 	<h1 class="h1 mb-8 text-primary-500">Spells ({spellsData.length})</h1>
-	<button class="btn variant-filled-tertiary"><a href="/spells/acid-splash">Acid Splash</a></button>
+	<button class="btn variant-filled-primary"><a href="/spells/acid-splash">Acid Splash</a></button>
 </PageBlock>
