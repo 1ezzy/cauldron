@@ -1,13 +1,31 @@
 <script lang="ts">
+	import AddSpellModal from '$lib/components/modals/AddSpellModal.svelte';
 	import PageBlock from '$lib/components/PageBlock.svelte';
 	import { formatSpellLevelWithSchool } from '$lib/utils/string-utils.js';
+	import { modalStore, type ModalComponent, type ModalSettings } from '@skeletonlabs/skeleton';
 
 	export let data;
 
-	const spellData = data.item;
+	const spellData = data.spellItem;
+	const spellbookData = data.spellbookItem;
 	const classes: Array<string> = spellData.classes.map((item: any) => {
 		return item.name;
 	});
+
+	const modalAddSpell = () => {
+		const modalComponent: ModalComponent = {
+			ref: AddSpellModal,
+			props: { data: spellbookData }
+		};
+
+		const modal: ModalSettings = {
+			type: 'component',
+			component: modalComponent,
+			title: 'Add to Spellbook'
+		};
+
+		modalStore.trigger(modal);
+	};
 </script>
 
 <PageBlock styles="w-fit">
@@ -18,10 +36,12 @@
 			{formatSpellLevelWithSchool(spellData.level, spellData.school.name)}
 		</h3>
 		<div class="flex flex-1 justify-end">
-			<button class="w-fit btn variant-filled-primary">Add to Spellbook</button>
+			<button class="w-fit btn variant-filled-primary" on:click={modalAddSpell}
+				>Add to Spellbook</button
+			>
 		</div>
 	</div>
-	<div class="py-4 px-6 mb-6 flex gap-12 bg-surface-300 dark:bg-surface-500 rounded-full">
+	<div class="py-4 px-6 mb-6 flex gap-12 bg-surface-300 dark:bg-surface-500 rounded-xl">
 		<p>Casting Time: {spellData.casting_time}</p>
 		<p>Range: {spellData.range}</p>
 		<p>Components: {spellData.components.join(', ')}</p>

@@ -24,7 +24,7 @@
 				<span>Click <a class="text-secondary-500" href="/spells">here</a> to add some</span>
 			{/if}
 		</div>
-		<span class="divider-vertical h-[90%]" />
+		<span class="divider-vertical my-auto h-[95%]" />
 		<div class="p-8 basis-1/3 flex flex-col">
 			<h3 class="h3 mb-8 text-secondary-500">Spellbook Details</h3>
 			<div class="mb-8">

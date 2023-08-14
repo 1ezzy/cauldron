@@ -6,12 +6,13 @@
 	import type { PageData } from './$types';
 	import Header from '$lib/components/Header.svelte';
 	import Sidebar from '$lib/components/Sidebar.svelte';
-	import { AppShell } from '@skeletonlabs/skeleton';
+	import { AppShell, Modal } from '@skeletonlabs/skeleton';
 
 	export let data: PageData;
 </script>
 
 {#if data.session}
+	<Modal />
 	<AppShell>
 		<svelte:fragment slot="header"><Header /></svelte:fragment>
 		<svelte:fragment slot="sidebarLeft"><Sidebar /></svelte:fragment>

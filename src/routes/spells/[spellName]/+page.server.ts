@@ -5,8 +5,11 @@ export const load = (async ({ fetch, params, locals }) => {
 	const session = await locals.auth.validate();
 	if (!session) throw redirect(302, '/login');
 
-	const res = await fetch(`/api/spells/${params.spellName}`);
-	const item = await res.json();
+	const spellRes = await fetch(`/api/spells/${params.spellName}`);
+	const spellbookRes = await fetch(`/api/spellbooks?user_id=${session.user.userId}`);
 
-	return { item };
+	const spellItem = await spellRes.json();
+	const spellbookItem = await spellbookRes.json();
+
+	return { spellItem, spellbookItem };
 }) satisfies PageServerLoad;
