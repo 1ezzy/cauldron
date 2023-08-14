@@ -1,10 +1,11 @@
 <script lang="ts">
 	import PageBlock from '$lib/components/PageBlock.svelte';
 	import { capitalizeFirstLetter } from '$lib/utils/string-utils.js';
+	import type { Spellbook } from '@prisma/client';
 
 	export let data;
 
-	let spellbookData = data.spellbook;
+	let spellbookData: Spellbook = data.spellbookItem;
 </script>
 
 <PageBlock>
@@ -18,7 +19,9 @@
 		<div class="p-8 basis-2/3">
 			<h3 class="h3 mb-8 text-secondary-500">Your Spells</h3>
 			{#if spellbookData?.spells}
-				<div>Test</div>
+				{#each spellbookData.spells as spell}
+					<p>{spell.name}</p>
+				{/each}
 			{:else}
 				<span>No spells to display</span><br />
 				<span>Click <a class="text-secondary-500" href="/spells">here</a> to add some</span>
@@ -33,7 +36,7 @@
 			</div>
 			<div class="mb-8">
 				<h4 class="h4 mb-2 text-tertiary-500">Created</h4>
-				{spellbookData?.created_at.toDateString()}
+				{new Date(spellbookData?.created_at).toDateString()}
 			</div>
 		</div>
 	</div>

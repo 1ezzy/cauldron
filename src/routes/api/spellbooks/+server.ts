@@ -1,5 +1,5 @@
 import { prisma } from '$lib/server/prisma';
-import type { RequestHandler } from '@sveltejs/kit';
+import { json, type RequestHandler } from '@sveltejs/kit';
 
 export const GET: RequestHandler = async ({ url }) => {
 	const userId = url.searchParams.get('user_id') ?? '';
@@ -10,10 +10,8 @@ export const GET: RequestHandler = async ({ url }) => {
 	});
 
 	if (!spellbooks) {
-		return new Response(JSON.stringify({ message: `No spellbooks found` }), {
-			status: 404
-		});
+		return json({ message: `No spellbooks found`, status: 404 });
 	}
 
-	return new Response(JSON.stringify(spellbooks), { status: 200 });
+	return json(spellbooks);
 };

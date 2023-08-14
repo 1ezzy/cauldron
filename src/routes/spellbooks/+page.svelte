@@ -1,39 +1,24 @@
 <script lang="ts">
 	import PageBlock from '$lib/components/PageBlock.svelte';
-	import { capitalizeFirstLetter } from '$lib/utils/string-utils.js';
+	import SpellbookCard from '$lib/components/SpellbookCard.svelte';
+	import type { Spellbook } from '@prisma/client';
 
 	export let data;
 
-	let spellbookData = data.spellbooks;
+	let spellbookData: Spellbook[] = data.spellbooksItem;
 </script>
 
 <PageBlock>
 	<h1 class="h1 mb-8 text-primary-500">Spellbooks</h1>
 	{#if spellbookData.length > 0}
-		<div class="my-auto">
-			{#each spellbookData as spellbook}
-				<div
-					class="card h-96 w-72 p-4 flex flex-col items-center bg-gradient-to-br variant-gradient-primary-secondary"
-				>
-					<header class="card-header mb-2 text-xl">
-						<span class="text-xl font-bold">{spellbook.spellbook_name}</span><br />
-						<span class="text-lg"
-							>{spellbook.character_name} the {capitalizeFirstLetter(
-								spellbook.class.join(', ')
-							)}</span
-						>
-					</header>
-					<hr class="w-full !border-t-2 my-1" />
-					<section class="mt-2 px-4">
-						{spellbook.spellbook_description ?? 'No Description'}
-					</section>
-					<footer class="card-footer mt-auto">
-						<button class="btn variant-filled-tertiary">
-							<a href="/spellbooks/{spellbook.index}">Open Spellbook</a>
-						</button>
-					</footer>
-				</div>
-			{/each}
+		<div class="my-auto w-full flex justify-center">
+			<div
+				class="flex overflow-x-scroll snap-x scroll-px-4 snap-mandatory scroll-smooth gap-8 px-4 py-10"
+			>
+				{#each spellbookData as spellbook}
+					<SpellbookCard {spellbook} />
+				{/each}
+			</div>
 		</div>
 	{:else}
 		<button class="btn variant-filled-primary"
