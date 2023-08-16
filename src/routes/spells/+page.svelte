@@ -1,12 +1,29 @@
 <script lang="ts">
 	import PageBlock from '$lib/components/PageBlock.svelte';
+	import SpellTable from '$lib/components/table/SpellTable.svelte';
+	import AddSpellModal from '$lib/components/modals/AddSpellModal.svelte';
+	import type { ModalComponent, ModalSettings } from '@skeletonlabs/skeleton';
 
 	export let data;
 
-	const spellsData = data.item;
+	const spellsData = data.spellsItem;
+	const spellbookData = data.spellbookItem;
+
+	const modalComponent: ModalComponent = {
+		ref: AddSpellModal,
+		props: { data: spellbookData }
+	};
+
+	const modal: ModalSettings = {
+		type: 'component',
+		component: modalComponent,
+		title: 'Add to Spellbook'
+	};
 </script>
 
 <PageBlock>
 	<h1 class="h1 mb-8 text-primary-500">Spells ({spellsData.length})</h1>
-	<button class="btn variant-filled-primary"><a href="/spells/acid-splash">Acid Splash</a></button>
+	<span class="w-full">
+		<SpellTable data={spellsData} {modal} />
+	</span>
 </PageBlock>

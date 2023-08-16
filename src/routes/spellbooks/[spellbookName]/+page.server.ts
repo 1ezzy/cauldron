@@ -11,7 +11,5 @@ export const load = (async ({ fetch, locals, params }) => {
 
 	const spellbookItem = await spellbookRes.json();
 
-	console.log(spellbookItem.data);
-
 	return { spellbookItem };
 }) satisfies PageServerLoad;
