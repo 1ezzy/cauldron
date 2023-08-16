@@ -7,23 +7,11 @@
 	export let data;
 
 	const spellsData = data.spellsItem;
-	const spellbookData = data.spellbookItem;
-
-	const modalComponent: ModalComponent = {
-		ref: AddSpellModal,
-		props: { data: spellbookData }
-	};
-
-	const modal: ModalSettings = {
-		type: 'component',
-		component: modalComponent,
-		title: 'Add to Spellbook'
-	};
 </script>
 
 <PageBlock>
 	<h1 class="h1 mb-8 text-primary-500">Spells ({spellsData.length})</h1>
 	<span class="w-full">
-		<SpellTable data={spellsData} {modal} />
+		<SpellTable {data} />
 	</span>
 </PageBlock>

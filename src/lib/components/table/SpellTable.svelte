@@ -17,18 +17,17 @@
 	import { Icon } from '@steeze-ui/svelte-icon';
 	import { ArrowSmallLeft, ArrowSmallRight } from '@steeze-ui/heroicons';
 	import SpellTableAddCell from './SpellTableAddCell.svelte';
-	import type { ModalSettings } from '@skeletonlabs/skeleton';
 
-	export let data: Spell[];
-	export let modal: ModalSettings;
+	export let data: any;
 
 	let sorting: any = [];
 
 	const columns: ColumnDef<Spell>[] = [
 		{
 			id: 'select',
+			accessorKey: 'id',
 			header: () => 'Add',
-			cell: () => renderComponent(SpellTableAddCell, { modal })
+			cell: (info) => renderComponent(SpellTableAddCell, { data: data, spellId: info.getValue() })
 		},
 		{
 			accessorKey: 'level',
@@ -80,7 +79,7 @@
 	};
 
 	const options = writable<TableOptions<Spell>>({
-		data: data,
+		data: data.spellsItem,
 		columns: columns,
 		state: {
 			sorting

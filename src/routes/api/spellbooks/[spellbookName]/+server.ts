@@ -9,6 +9,9 @@ export const GET: RequestHandler = async ({ url, params }) => {
 		where: {
 			user_id: userId,
 			index: spellbookName
+		},
+		include: {
+			spells: true
 		}
 	});
 
