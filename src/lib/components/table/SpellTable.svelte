@@ -155,7 +155,7 @@
 			{#each $table.getHeaderGroups() as headerGroup}
 				<tr>
 					{#each headerGroup.headers as header, i}
-						<th class:w-16={i <= 1} class="!px-3">
+						<th class:w-16={i <= 1} class="!px-3 whitespace-nowrap">
 							{#if !header.isPlaceholder}
 								<div
 									role="grid"
