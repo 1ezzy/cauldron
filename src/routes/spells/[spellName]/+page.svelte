@@ -7,23 +7,23 @@
 	export let data;
 
 	const spellData = data.spellItem;
-	const spellbookData = data.spellbookItem;
+	const spellId: string = spellData.id;
 	const classes: Array<string> = spellData.classes.map((item: any) => {
 		return item.name;
 	});
 
+	const modalComponent: ModalComponent = {
+		ref: AddSpellModal,
+		props: { data, spellId }
+	};
+
+	const modal: ModalSettings = {
+		type: 'component',
+		component: modalComponent,
+		title: 'Add to Spellbook'
+	};
+
 	const modalAddSpell = () => {
-		const modalComponent: ModalComponent = {
-			ref: AddSpellModal,
-			props: { data: spellbookData }
-		};
-
-		const modal: ModalSettings = {
-			type: 'component',
-			component: modalComponent,
-			title: 'Add to Spellbook'
-		};
-
 		modalStore.trigger(modal);
 	};
 </script>
