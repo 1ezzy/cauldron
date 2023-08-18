@@ -17,6 +17,7 @@
 	import { Icon } from '@steeze-ui/svelte-icon';
 	import { ArrowSmallLeft, ArrowSmallRight } from '@steeze-ui/heroicons';
 	import SpellTableAddCell from './SpellTableAddCell.svelte';
+	import SpellTableLinkCell from './SpellTableLinkCell.svelte';
 
 	export let data: any;
 
@@ -37,7 +38,11 @@
 		{
 			accessorKey: 'name',
 			header: () => 'Name',
-			cell: (info) => info.getValue()
+			cell: (info) =>
+				renderComponent(SpellTableLinkCell, {
+					index: info.row.original.index,
+					name: info.getValue() as string
+				})
 		},
 		{
 			id: 'classes',
