@@ -12,6 +12,7 @@ model User {
   username     String      @unique
   role         Role        @default(USER)
   created_at   DateTime    @default(now())
+  updated_at   DateTime?   @updatedAt
   auth_key     Key[]
   auth_session Session[]
   spellbooks   Spellbook[]
@@ -46,7 +47,7 @@ model Spellbook {
   spellbook_description String?
   image_url             String?
   created_at            DateTime    @default(now())
-  updated_at            DateTime    @updatedAt
+  updated_at            DateTime?   @updatedAt
   user_id               String
   auth_user             User        @relation(fields: [user_id], references: [id])
   spell_ids             String[]    @db.ObjectId
