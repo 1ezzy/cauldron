@@ -11,10 +11,8 @@
 <PageBlock>
 	<h1 class="h1 mb-8 text-primary-500">Spellbooks</h1>
 	{#if spellbookData.length > 0}
-		<div class="my-auto w-full flex justify-center">
-			<div
-				class="flex overflow-x-scroll snap-x scroll-px-4 snap-mandatory scroll-smooth gap-8 px-4 py-10"
-			>
+		<div class="my-auto flex justify-center">
+			<div class="flex-1 grid xl:grid-cols-6 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8">
 				{#each spellbookData as spellbook}
 					<SpellbookCard {spellbook} />
 				{/each}

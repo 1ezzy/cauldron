@@ -11,23 +11,24 @@
 <PageBlock>
 	<h1 class="h1 mb-4 text-primary-500">{spellbookData?.spellbook_name}</h1>
 	<h3 class="h3 mb-8 text-tertiary-500">
-		{spellbookData?.character_name} the {capitalizeFirstLetter(
-			(spellbookData?.class ?? []).join('/')
-		)}
+		{spellbookData?.character_name} the
+		{spellbookData.class.map((word) => capitalizeFirstLetter(word)).join('/')}
 	</h3>
 	<div class="w-full flex flex-1">
 		<div class="p-8 basis-2/3">
 			<h3 class="h3 mb-8 text-secondary-500">Your Spells</h3>
-			{#if spellbookData?.spells}
-				{#each spellbookData.spells as spell}
-					<p>{spell.name}</p>
-				{/each}
+			{#if spellbookData?.spells.length > 0}
+				<div class="flex flex-col gap-2">
+					{#each spellbookData.spells as spell}
+						<a href="/spells/{spell.index}"><h4 class="h4">{spell.name}</h4></a>
+					{/each}
+				</div>
 			{:else}
 				<span>No spells to display</span><br />
 				<span>Click <a class="text-secondary-500" href="/spells">here</a> to add some</span>
 			{/if}
 		</div>
-		<span class="divider-vertical my-auto h-[95%]" />
+		<span class="divider-vertical my-auto h-[90%]" />
 		<div class="p-8 basis-1/3 flex flex-col">
 			<h3 class="h3 mb-8 text-secondary-500">Spellbook Details</h3>
 			<div class="mb-8">

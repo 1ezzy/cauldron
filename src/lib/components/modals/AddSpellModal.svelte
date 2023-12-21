@@ -30,13 +30,13 @@
 			<h3 class="h3 mb-4">{$modalStore[0].title}</h3>
 		</header>
 		<div class="mb-12 p-4 flex flex-col gap-4 border-2 border-surface-500 rounded-xl">
-			{#each spellbookData as spellbook, i}
+			{#each spellbookData as spellbook}
 				<label class="flex items-center space-x-2">
 					<input
 						class="radio"
 						type="radio"
-						checked={i <= 0}
-						name="radio-{i}"
+						checked={selectedSpellbookId === spellbook.id}
+						name="radio-{spellbook.id}"
 						on:change={() => (selectedSpellbookId = spellbook.id)}
 					/>
 					<p>{spellbook.spellbook_name}</p>

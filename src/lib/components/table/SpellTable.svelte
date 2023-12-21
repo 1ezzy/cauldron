@@ -17,6 +17,7 @@
 	import { Icon } from '@steeze-ui/svelte-icon';
 	import { ArrowSmallLeft, ArrowSmallRight } from '@steeze-ui/heroicons';
 	import SpellTableAddCell from './SpellTableAddCell.svelte';
+	import SpellTableSpellCell from './SpellTableSpellCell.svelte';
 
 	export let data: any;
 
@@ -37,7 +38,11 @@
 		{
 			accessorKey: 'name',
 			header: () => 'Name',
-			cell: (info) => info.getValue()
+			cell: (info) =>
+				renderComponent(SpellTableSpellCell, {
+					index: info.row.original.index,
+					spellName: info.getValue() as string
+				})
 		},
 		{
 			id: 'classes',
@@ -135,7 +140,9 @@
 		<button on:click={() => $table.previousPage()}>
 			<Icon src={ArrowSmallLeft} theme="mini" size="40px" />
 		</button>
-		<span>{$table.getState().pagination.pageIndex + 1} of {$table.getPageCount()}</span>
+		<span class="text-center"
+			>{$table.getState().pagination.pageIndex + 1} of {$table.getPageCount()}</span
+		>
 		<button
 			on:click={() => {
 				if ($table.getState().pagination.pageIndex + 1 < $table.getPageCount()) {

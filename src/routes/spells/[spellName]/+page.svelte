@@ -49,7 +49,7 @@
 	</div>
 	<div class="max-w-2xl text-xl leading-relaxed">
 		{#each spellData.desc as item}
-			<p class="mb-4">{item + '\r\n'}</p>
+			<p class="mb-4">{item.replaceAll('*', '') + '\r\n'}</p>
 		{/each}
 		{#if spellData.higher_level.length > 0}
 			<p><strong>At higher levels: </strong>{spellData.higher_level}</p>
