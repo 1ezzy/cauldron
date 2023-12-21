@@ -13,7 +13,7 @@
 			<h3 class="h3 mb-2 text-tertiary-500">Username</h3>
 			<h4 class="h4">{profileData?.username}</h4>
 		</div>
-		<div class="mb-8 text-center">
+		<!-- <div class="mb-8 text-center">
 			<h3 class="h3 mb-2 text-tertiary-500">Account Created</h3>
 			<h4 class="h4">{new Date(profileData?.created_at).toDateString()}</h4>
 			<div class="w-full flex flex-1">
@@ -37,6 +37,6 @@
 					<h3 class="h3 mb-8 text-secondary-500">Edit account details</h3>
 				</div>
 			</div>
-		</div>
+		</div> -->
 	</div></PageBlock
 >
