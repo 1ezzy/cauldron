@@ -6,17 +6,24 @@
 	export let data;
 
 	let spellbookData: Spellbook[] = data.spellbooksItem;
+
+	const gridSizes: { [key: number]: string } = {
+		1: 'grid-cols-1',
+		2: 'md:grid-cols-2 grid-cols-1',
+		3: 'lg:grid-cols-3 md:grid-cols-2 grid-cols-1',
+		4: 'lg:grid-cols-4 md:grid-cols-2 grid-cols-1',
+		5: 'lg:grid-cols-5 md:grid-cols-2 grid-cols-1',
+		6: 'xl:grid-cols-6 md:grid-cols-2 grid-cols-1'
+	};
 </script>
 
 <PageBlock>
 	<h1 class="h1 mb-8 text-primary-500">Spellbooks</h1>
 	{#if spellbookData.length > 0}
-		<div class="my-auto flex justify-center">
-			<div class="flex-1 grid xl:grid-cols-6 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8">
-				{#each spellbookData as spellbook}
-					<SpellbookCard {spellbook} />
-				{/each}
-			</div>
+		<div class={`my-auto grid ${gridSizes[Math.min(6, spellbookData.length)]} gap-8`}>
+			{#each spellbookData as spellbook}
+				<SpellbookCard {spellbook} />
+			{/each}
 		</div>
 	{:else}
 		<button class="btn variant-filled-primary"

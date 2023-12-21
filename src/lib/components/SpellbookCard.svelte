@@ -6,7 +6,7 @@
 </script>
 
 <div
-	class="card h-96 w-72 md:w-60 p-4 flex flex-col items-center bg-gradient-to-br variant-gradient-primary-secondary justify-self-center shrink-0"
+	class="card h-96 w-72 md:w-60 p-4 flex flex-col items-center bg-gradient-to-br variant-gradient-primary-secondary shrink-0"
 >
 	<header class="card-header mb-2 text-xl text-center">
 		<span class="text-xl font-bold">{spellbook.spellbook_name}</span><br />
