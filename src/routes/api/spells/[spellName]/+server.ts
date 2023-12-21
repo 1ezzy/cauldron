@@ -10,7 +10,7 @@ export const GET: RequestHandler = async ({ params }) => {
 	});
 
 	if (!spell) {
-		return json({ message: `Spell '${spellName}' not found`, status: 404 });
+		return json({ message: `Spell '${spellName}' not found` }, { status: 404 });
 	}
 
 	return json(spell);

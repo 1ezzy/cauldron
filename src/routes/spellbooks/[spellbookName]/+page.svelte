@@ -32,7 +32,7 @@
 		<div class="p-8 basis-1/3 flex flex-col">
 			<h3 class="h3 mb-8 text-secondary-500">Spellbook Details</h3>
 			<div class="mb-8">
-				<h4 class="h4 mb-2 text-tertiary-500">Spellbook Description</h4>
+				<h4 class="h4 mb-2 text-tertiary-500">Description</h4>
 				{spellbookData?.spellbook_description}
 			</div>
 			<div class="mb-8">

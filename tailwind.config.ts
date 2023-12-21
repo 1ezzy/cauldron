@@ -1,7 +1,8 @@
-/** @type {import('tailwindcss').Config}*/
 import { join } from 'path';
-import skeleton from '@skeletonlabs/skeleton/tailwind/skeleton.cjs';
+import type { Config } from 'tailwindcss';
 import forms from '@tailwindcss/forms';
+import { skeleton } from '@skeletonlabs/tw-plugin';
+import { theme } from './src/theme';
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -13,5 +14,12 @@ module.exports = {
 	theme: {
 		extend: {}
 	},
-	plugins: [...skeleton(), forms]
-};
+	plugins: [
+		skeleton({
+			themes: {
+				custom: [theme]
+			}
+		}),
+		forms
+	]
+} satisfies Config;

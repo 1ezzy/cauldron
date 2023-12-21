@@ -9,7 +9,7 @@
 
 <PageBlock>
 	<h1 class="h1 mb-16 text-primary-500">Spells ({spellsData.length})</h1>
-	<span class="w-full">
+	<section class="w-full">
 		<SpellTable {data} />
-	</span>
+	</section>
 </PageBlock>

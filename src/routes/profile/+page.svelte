@@ -1,9 +1,8 @@
 <script lang="ts">
 	import PageBlock from '$lib/components/PageBlock.svelte';
-	import type { User } from '@prisma/client';
 
 	export let data;
-	const profileData: User = data.profileItem;
+	const profileData = data.profileItem;
 </script>
 
 <PageBlock>

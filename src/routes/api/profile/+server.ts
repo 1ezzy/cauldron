@@ -10,7 +10,7 @@ export const GET: RequestHandler = async ({ url }) => {
 	});
 
 	if (!profile) {
-		return json({ message: `No user found`, status: 404 });
+		return json({ message: `No user found` }, { status: 404 });
 	}
 
 	return json(profile);

@@ -6,24 +6,35 @@ export const POST: RequestHandler = async ({ url }) => {
 	const spellbookId = url.searchParams.get('spellbook_id') ?? '';
 	const spellId = url.searchParams.get('spell_id') ?? '';
 
-	const updateSpellbook = await prisma.spellbook.update({
+	const spellbook = await prisma.spellbook.findUnique({
 		where: {
 			user_id: userId,
 			id: spellbookId
-		},
-		data: {
-			spell_ids: {
-				push: spellId
-			},
-			spells: {
-				connect: [{ id: spellId }]
-			}
 		}
 	});
 
-	if (!updateSpellbook) {
-		return json({ message: `Failed to update spellbook`, status: 404 });
+	if (!spellbook) {
+		return json({ message: `Could not find spellbook` }, { status: 404 });
 	}
 
-	return json(updateSpellbook);
+	let updateSpellbook;
+	if (!spellbook.spell_ids.includes(spellId)) {
+		updateSpellbook = await prisma.spellbook.update({
+			where: {
+				user_id: userId,
+				id: spellbookId
+			},
+			data: {
+				spell_ids: {
+					push: spellId
+				},
+				spells: {
+					connect: [{ id: spellId }]
+				}
+			}
+		});
+		return json(updateSpellbook);
+	} else {
+		return json({ message: `Spell already in ${spellbook.spellbook_name}` }, { status: 404 });
+	}
 };

@@ -11,5 +11,5 @@ export const load = (async ({ fetch, params, locals }) => {
 	const spellItem = await spellRes.json();
 	const spellbookItem = await spellbookRes.json();
 
-	return { spellItem, spellbookItem };
+	return { spellItem, spellbookItem, session };
 }) satisfies PageServerLoad;

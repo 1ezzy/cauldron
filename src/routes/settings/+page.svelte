@@ -1,7 +1,0 @@
-<script lang="ts">
-	import PageBlock from '$lib/components/PageBlock.svelte';
-</script>
-
-<PageBlock>
-	<h1 class="h1 mb-8 text-primary-500">Settings</h1>
-</PageBlock>

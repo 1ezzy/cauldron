@@ -2,9 +2,11 @@
 	import AddSpellModal from '$lib/components/modals/AddSpellModal.svelte';
 	import PageBlock from '$lib/components/PageBlock.svelte';
 	import { formatSpellLevelWithSchool } from '$lib/utils/string-utils.js';
-	import { modalStore, type ModalComponent, type ModalSettings } from '@skeletonlabs/skeleton';
+	import { getModalStore, type ModalComponent, type ModalSettings } from '@skeletonlabs/skeleton';
 
 	export let data;
+
+	const modalStore = getModalStore();
 
 	const spellData = data.spellItem;
 	const spellId: string = spellData.id;

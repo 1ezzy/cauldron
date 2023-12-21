@@ -16,7 +16,7 @@ export const GET: RequestHandler = async ({ url, params }) => {
 	});
 
 	if (!spellbook) {
-		return json({ message: `Spellbook not found`, status: 404 });
+		return json({ message: `Spellbook not found` }, { status: 404 });
 	}
 
 	return json(spellbook);

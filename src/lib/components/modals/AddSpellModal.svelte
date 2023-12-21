@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { modalStore } from '@skeletonlabs/skeleton';
+	import { getModalStore, getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
 
 	export let parent: any;
 	export let data: any;
@@ -13,14 +13,36 @@
 	});
 	let selectedSpellbookId: string = spellbooks[0];
 
+	const modalStore = getModalStore();
+	const toastStore = getToastStore();
+
 	const handleSubmit = async () => {
-		const response = await fetch(
+		const addRes = await fetch(
 			`/api/spells/add?user_id=${userId}&spellbook_id=${selectedSpellbookId}&spell_id=${spellId}`,
 			{
 				method: 'POST'
 			}
 		);
+		const data = await addRes.json();
+		const selectedSpellbookName = spellbookData.find(
+			(index) => index.id === selectedSpellbookId
+		).spellbook_name;
+
 		modalStore.close();
+
+		if (!addRes.ok) {
+			const toastAddSpellFail: ToastSettings = {
+				message: `Error: ${data.message}`,
+				background: 'variant-filled-error'
+			};
+			toastStore.trigger(toastAddSpellFail);
+		} else {
+			const toastAddSpellSuccess: ToastSettings = {
+				message: `Spell successfully added to ${selectedSpellbookName}`,
+				background: 'variant-filled-success'
+			};
+			toastStore.trigger(toastAddSpellSuccess);
+		}
 	};
 </script>
 

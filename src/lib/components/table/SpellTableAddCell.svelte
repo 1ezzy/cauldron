@@ -1,11 +1,13 @@
 <script lang="ts">
-	import { modalStore, type ModalSettings, type ModalComponent } from '@skeletonlabs/skeleton';
+	import { getModalStore, type ModalSettings, type ModalComponent } from '@skeletonlabs/skeleton';
 	import AddSpellModal from '../modals/AddSpellModal.svelte';
 	import { Icon } from '@steeze-ui/svelte-icon';
 	import { Plus } from '@steeze-ui/heroicons';
 
 	export let data;
 	export let spellId: any;
+
+	const modalStore = getModalStore();
 
 	const modalComponent: ModalComponent = {
 		ref: AddSpellModal,
