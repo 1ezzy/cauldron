@@ -18,7 +18,7 @@
 			return capitalizeFirstLetter(word);
 		});
 		const pageName = formattedPageName.join(' ');
-		return pageName === '' ? 'Dashboard' : pageName;
+		return pageName === '' ? 'Cauldron | Dashboard' : `Cauldron | ${pageName}`;
 	};
 
 	export let data;
