@@ -83,7 +83,7 @@
 					{:else}
 						<button
 							class="mt-auto self-start btn variant-filled-primary"
-							on:click={(event) => {
+							on:click={() => {
 								spellsEditMode = !spellsEditMode;
 							}}>Add More Spells</button
 						>
@@ -98,11 +98,19 @@
 		<div class="p-8 basis-1/3 flex flex-col">
 			<div class="mb-8 flex items-center">
 				<h3 class="h3 mr-4 text-secondary-500">Details</h3>
-				<Icon src={PencilSquare} size="16px" theme="mini" class="text-secondary-500 mt-1" />
+				<!-- <button
+					on:click={() => {
+						detailsEditMode = !detailsEditMode;
+					}}
+				>
+					<Icon src={PencilSquare} size="16px" theme="mini" class="text-secondary-500 mt-1" />
+				</button> -->
 			</div>
 			<div class="mb-8">
 				<h4 class="h4 mb-2 text-tertiary-500">Description</h4>
-				{spellbookData?.spellbook_description}
+				{#if !detailsEditMode}
+					{spellbookData?.spellbook_description}
+				{:else}{/if}
 			</div>
 			<div class="mb-8">
 				<h4 class="h4 mb-2 text-tertiary-500">Created</h4>
