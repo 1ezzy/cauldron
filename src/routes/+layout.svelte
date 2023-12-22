@@ -20,6 +20,9 @@
 		const pageName = formattedPageName.join(' ');
 		return pageName === '' ? 'Dashboard' : pageName;
 	};
+
+	export let data;
+	$: isActive = data.user;
 </script>
 
 <svelte:head>
@@ -27,10 +30,14 @@
 </svelte:head>
 <Modal />
 <Toast position="tr" />
-<AppShell slotSidebarLeft="bg-surface-100 dark:bg-surface-800">
-	<svelte:fragment slot="header"><Header /></svelte:fragment>
-	<svelte:fragment slot="sidebarLeft"><Sidebar /></svelte:fragment>
-	<!-- Router Slot -->
+{#if isActive}
+	<AppShell slotSidebarLeft="bg-surface-100 dark:bg-surface-800">
+		<svelte:fragment slot="header"><Header /></svelte:fragment>
+		<svelte:fragment slot="sidebarLeft"><Sidebar /></svelte:fragment>
+		<!-- Router Slot -->
+		<slot />
+		<!-- ---- / ---- -->
+	</AppShell>
+{:else}
 	<slot />
-	<!-- ---- / ---- -->
-</AppShell>
+{/if}

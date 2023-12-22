@@ -115,11 +115,16 @@
 	<div class="flex flex-col sm:flex-row gap-4">
 		<label>
 			<span>Name</span>
-			<input class="input" type="text" placeholder="Search name..." on:input={handleNameFilter} />
+			<input
+				class="input mt-1"
+				type="text"
+				placeholder="Search name..."
+				on:input={handleNameFilter}
+			/>
 		</label>
 		<label>
 			<span>Class</span>
-			<select class="select" on:input={(event) => handleSelectFilter(event, 3)}>
+			<select class="select mt-1" on:input={(event) => handleSelectFilter(event, 3)}>
 				<option value="any">Any</option>
 				{#each Object.values(CastingClassEnum) as value}
 					<option {value}>{capitalizeFirstLetter(value)}</option>
@@ -128,7 +133,7 @@
 		</label>
 		<label>
 			<span>School</span>
-			<select class="select" on:input={(event) => handleSelectFilter(event, 6)}>
+			<select class="select mt-1" on:input={(event) => handleSelectFilter(event, 6)}>
 				<option value="any">Any</option>
 				{#each Object.values(SpellSchoolEnum) as value}
 					<option {value}>{capitalizeFirstLetter(value)}</option>

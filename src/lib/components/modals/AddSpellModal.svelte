@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import { getModalStore, getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
 
 	export let parent: any;
@@ -27,6 +28,9 @@
 		const selectedSpellbookName = spellbookData.find(
 			(index) => index.id === selectedSpellbookId
 		).spellbook_name;
+		const selectedSpellbookIndex = spellbookData.find(
+			(index) => index.id === selectedSpellbookId
+		).index;
 
 		modalStore.close();
 
@@ -39,6 +43,10 @@
 		} else {
 			const toastAddSpellSuccess: ToastSettings = {
 				message: `Spell successfully added to ${selectedSpellbookName}`,
+				action: {
+					label: 'View spellbook',
+					response: () => goto(`/spellbooks/${selectedSpellbookIndex}`)
+				},
 				background: 'variant-filled-success'
 			};
 			toastStore.trigger(toastAddSpellSuccess);

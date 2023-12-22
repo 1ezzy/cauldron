@@ -6,15 +6,15 @@
 </script>
 
 <div
-	class="card h-96 w-72 md:w-60 p-4 flex flex-col items-center bg-gradient-to-br variant-gradient-primary-secondary shrink-0"
+	class="card h-96 w-72 md:w-60 p-4 flex flex-col items-center bg-gradient-to-br variant-gradient-primary-secondary"
 >
-	<header class="card-header mb-2 text-xl text-center">
-		<span class="text-xl font-bold">{spellbook.spellbook_name}</span><br />
-		<span class="text-lg truncate"
-			>{spellbook.character_name} the {spellbook.class
+	<header class="card-header w-72 md:w-60 mb-2 text-xl text-center">
+		<p class="text-xl font-bold truncate">{spellbook.spellbook_name}</p>
+		<p class="text-lg truncate">
+			{spellbook.character_name} the {spellbook.class
 				.map((word) => capitalizeFirstLetter(word))
-				.join('/')}</span
-		>
+				.join('/')}
+		</p>
 	</header>
 	<hr class="w-full !border-t-2 my-1" />
 	<section class="mt-2 px-4 line-clamp">

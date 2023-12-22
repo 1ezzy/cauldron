@@ -1,3 +1,18 @@
+export const formatSpellLevel = (level: number) => {
+	switch (level) {
+		case 0:
+			return `Cantrip`;
+		case 1:
+			return `${level}st level spell`;
+		case 2:
+			return `${level}nd level spell`;
+		case 3:
+			return `${level}rd level spell`;
+		default:
+			return `${level}th level spell`;
+	}
+};
+
 export const formatSpellLevelWithSchool = (level: number, school: string) => {
 	switch (level) {
 		case 0:
