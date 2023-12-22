@@ -11,7 +11,11 @@ export const GET: RequestHandler = async ({ url, params }) => {
 			index: spellbookName
 		},
 		include: {
-			spells: true
+			spells: {
+				orderBy: {
+					level: 'asc'
+				}
+			}
 		}
 	});
 
