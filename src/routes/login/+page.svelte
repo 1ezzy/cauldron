@@ -3,7 +3,7 @@
 </script>
 
 <div class="container h-full mx-auto p-10 flex flex-col justify-center items-center">
-	<h1 class="h1 text-primary-500">Sign in</h1>
+	<h1 class="h1 mb-8 text-primary-500">Sign in</h1>
 	<form method="POST" class="flex flex-col gap-4" use:enhance>
 		<label class="label" for="username">
 			<span>Username</span>
