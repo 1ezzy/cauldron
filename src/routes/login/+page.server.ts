@@ -5,7 +5,7 @@ import { fail, redirect } from '@sveltejs/kit';
 
 export const load = (async ({ locals }) => {
 	const session = await locals.auth.validate();
-	if (session) redirect(302, '/');
+	if (session) redirect(307, '/');
 	return {};
 }) satisfies PageServerLoad;
 
@@ -47,6 +47,6 @@ export const actions = {
 				message: 'An unknown error occured'
 			});
 		}
-		redirect(302, '/');
+		redirect(307, '/');
 	}
 } satisfies Actions;

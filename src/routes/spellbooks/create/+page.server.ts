@@ -21,7 +21,7 @@ const createSpellbookSchema = z.object({
 
 export const load = (async ({ locals }) => {
 	const session = await locals.auth.validate();
-	if (!session) redirect(302, '/login');
+	if (!session) redirect(307, '/login');
 
 	userStore.set(session.user.userId);
 
