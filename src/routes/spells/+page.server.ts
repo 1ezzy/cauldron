@@ -3,7 +3,7 @@ import { redirect } from '@sveltejs/kit';
 
 export const load = (async ({ fetch, locals }) => {
 	const session = await locals.auth.validate();
-	if (!session) throw redirect(302, '/login');
+	if (!session) redirect(302, '/login');
 
 	const spellsRes = await fetch(`/api/spells`);
 	const spellbookRes = await fetch(`/api/spellbooks?user_id=${session.user.userId}`);
