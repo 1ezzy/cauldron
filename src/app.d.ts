@@ -4,6 +4,12 @@ declare global {
 			auth: import('lucia').AuthRequest;
 			user: import('lucia').User;
 		}
+
+		interface Platform {
+			env: {
+				MONGODB_URL: DurableObjectNamespace;
+			};
+		}
 	}
 }
 
