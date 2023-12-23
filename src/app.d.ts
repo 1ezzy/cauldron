@@ -8,6 +8,7 @@ declare global {
 		interface Platform {
 			env: {
 				MONGODB_URL: DurableObjectNamespace;
+				ACCELERATE_URL: DurableObjectNamespace;
 			};
 		}
 	}
