@@ -7,7 +7,7 @@ export const load = (async ({ fetch, locals }) => {
 
 	const spellbooksRes = await fetch(`/api/spellbooks?user_id=${session.user.userId}`);
 
-	const spellbooksItem = spellbooksRes.json();
+	const spellbooksItem = await spellbooksRes.json();
 
 	return { spellbooksItem };
 }) satisfies PageServerLoad;
