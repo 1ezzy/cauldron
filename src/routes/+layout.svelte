@@ -5,8 +5,8 @@
 	import Header from '$lib/components/Header.svelte';
 	import Sidebar from '$lib/components/Sidebar.svelte';
 	import { capitalizeFirstLetter } from '$lib/utils/string-utils';
-	import { initializeStores } from '@skeletonlabs/skeleton';
-	import { AppShell, Modal, Toast } from '@skeletonlabs/skeleton';
+	import { AppShell, Modal, Toast, initializeStores } from '@skeletonlabs/skeleton';
+	import HeaderDrawer from '$lib/components/HeaderDrawer.svelte';
 
 	initializeStores();
 
@@ -29,6 +29,7 @@
 	<title>{pageTitle}</title>
 </svelte:head>
 <Modal />
+<HeaderDrawer />
 <Toast position="tr" />
 {#if isActive}
 	<AppShell slotSidebarLeft="bg-surface-100 dark:bg-surface-800">

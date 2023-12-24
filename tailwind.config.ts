@@ -12,7 +12,11 @@ module.exports = {
 		join(require.resolve('@skeletonlabs/skeleton'), '../**/*.{html,js,svelte,ts}')
 	],
 	theme: {
-		extend: {}
+		extend: {
+			transitionProperty: {
+				width: 'width'
+			}
+		}
 	},
 	plugins: [
 		skeleton({
