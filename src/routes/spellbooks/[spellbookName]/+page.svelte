@@ -5,7 +5,6 @@
 	import { Icon } from '@steeze-ui/svelte-icon';
 	import { PencilSquare, MinusCircle, CheckCircle } from '@steeze-ui/heroicons';
 	import { invalidateAll } from '$app/navigation';
-	import { redirect } from '@sveltejs/kit';
 	import { getModalStore, type ModalComponent, type ModalSettings } from '@skeletonlabs/skeleton';
 	import DeleteSpellbookModal from '$lib/components/modals/DeleteSpellbookModal.svelte';
 
