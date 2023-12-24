@@ -20,7 +20,7 @@ export const POST: RequestHandler = async ({ url }) => {
 			spellbook_name: spellbookName,
 			spellbook_description: spellbookDescription,
 			character_name: characterName,
-			class: eval(classes)
+			class: JSON.parse(classes)
 		}
 	});
 
