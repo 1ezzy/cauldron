@@ -51,7 +51,7 @@ export const GET = async ({ url, cookies, locals }) => {
 			});
 		}
 		return new Response(null, {
-			status: 500
+			status: 504
 		});
 	}
 };
