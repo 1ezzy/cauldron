@@ -7,32 +7,56 @@
 		Sparkles,
 		Cog8Tooth,
 		UserCircle,
-		ArrowLeftOnRectangle
+		ArrowLeftOnRectangle,
+		ChevronDoubleLeft,
+		ChevronDoubleRight
 	} from '@steeze-ui/heroicons';
 
 	const listClasses = 'rounded-full bg-primary-500';
+	const expandedAClasses = 'w-56 h-14 px-4 flex items-center justify-between';
+	const AClasses = 'w-14 h-14 flex justify-center items-center';
+
+	let expanded: boolean = true;
 </script>
 
-<div class="w-56 h-[calc(100%-4rem)] m-8 flex flex-col items-center">
+<div
+	class="h-[calc(100%-4rem)] m-8 flex flex-col items-start relative"
+	class:w-56={expanded}
+	class:w-16={!expanded}
+>
+	<button
+		class="absolute top-[-32px] right-[-30px]"
+		on:click={() => {
+			expanded = !expanded;
+		}}
+	>
+		<Icon src={expanded ? ChevronDoubleLeft : ChevronDoubleRight} theme="mini" size="24px" />
+	</button>
 	<div class="space-y-4">
 		<ul class={listClasses}>
-			<a href="/" class="w-56 h-14 px-4 flex items-center justify-between">
+			<a href="/" class={expanded ? expandedAClasses : AClasses}>
 				<Icon src={Home} theme="mini" size="40px" />
-				<h4 class="h4">Dashboard</h4>
+				{#if expanded}
+					<h4 class="h4">Dashboard</h4>
+				{/if}
 			</a>
 		</ul>
 	</div>
 	<div class="mt-10 space-y-4">
 		<ul class={listClasses}>
-			<a href="/spellbooks" class="w-56 h-14 px-4 flex items-center justify-between">
+			<a href="/spellbooks" class={expanded ? expandedAClasses : AClasses}>
 				<Icon src={BookOpen} theme="mini" size="40px" />
-				<h4 class="h4">Spellbooks</h4>
+				{#if expanded}
+					<h4 class="h4">Spellbooks</h4>
+				{/if}
 			</a>
 		</ul>
 		<ul class={listClasses}>
-			<a href="/spells" class="w-56 h-14 px-4 flex items-center justify-between">
+			<a href="/spells" class={expanded ? expandedAClasses : AClasses}>
 				<Icon src={Sparkles} theme="mini" size="40px" />
-				<h4 class="h4">Spells</h4>
+				{#if expanded}
+					<h4 class="h4">Spells</h4>
+				{/if}
 			</a>
 		</ul>
 	</div>
@@ -44,20 +68,20 @@
 			</a>
 		</ul> -->
 		<ul class={listClasses}>
-			<a href="/profile" class="w-56 h-14 px-4 flex items-center justify-between">
+			<a href="/profile" class={expanded ? expandedAClasses : AClasses}>
 				<Icon src={UserCircle} theme="mini" size="40px" />
-				<h4 class="h4">Profile</h4>
+				{#if expanded}
+					<h4 class="h4">Profile</h4>
+				{/if}
 			</a>
 		</ul>
 		<ul class={listClasses}>
 			<form method="POST" action="/logout" use:enhance>
-				<button
-					type="submit"
-					value="Sign out"
-					class="w-56 h-14 px-4 flex items-center justify-between"
-				>
+				<button type="submit" value="Sign out" class={expanded ? expandedAClasses : AClasses}>
 					<Icon src={ArrowLeftOnRectangle} theme="mini" size="40px" />
-					<h4 class="h4">Log Out</h4>
+					{#if expanded}
+						<h4 class="h4">Log Out</h4>
+					{/if}
 				</button>
 			</form>
 		</ul>
