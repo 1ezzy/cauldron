@@ -1,5 +1,5 @@
 import { get, writable } from 'svelte/store';
-import { ClassEnum } from '@prisma/client';
+import { CastingClassEnum } from '$lib/types/casting-class.enum';
 import { redirect, fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { prisma } from '$lib/server/prisma';
@@ -14,9 +14,9 @@ const createSpellbookSchema = z.object({
 	name: z.string(),
 	characterName: z.string(),
 	description: z.string(),
-	class1: z.nativeEnum(ClassEnum),
-	class2: z.optional(z.nativeEnum(ClassEnum)),
-	class3: z.optional(z.nativeEnum(ClassEnum))
+	class1: z.nativeEnum(CastingClassEnum),
+	class2: z.optional(z.nativeEnum(CastingClassEnum)),
+	class3: z.optional(z.nativeEnum(CastingClassEnum))
 });
 
 export const load = (async ({ locals }) => {
@@ -38,7 +38,7 @@ export const actions = {
 			return fail(400, { form });
 		}
 
-		const classes: Array<ClassEnum> = [];
+		const classes: Array<CastingClassEnum> = [];
 		[form.data.class1, form.data.class2, form.data.class3].forEach((item) => {
 			if (item !== undefined) {
 				classes.push(item);
