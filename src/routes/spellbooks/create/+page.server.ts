@@ -1,5 +1,5 @@
 import { get, writable } from 'svelte/store';
-import { ClassEnum, type User } from '@prisma/client';
+import { ClassEnum } from '@prisma/client';
 import { redirect, fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { prisma } from '$lib/server/prisma';
