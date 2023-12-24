@@ -11,15 +11,13 @@
 	const toastStore = getToastStore();
 
 	const handleSubmit = async () => {
-		console.log('handleSubmit started');
 		const deleteRes = await fetch(
 			`/api/spellbooks/delete?user_id=${userId}&spellbook_id=${spellbookId}`,
 			{
 				method: 'DELETE'
 			}
 		);
-		const data = await deleteRes.json();
-		console.log('hit');
+		await deleteRes.json();
 
 		modalStore.close();
 
