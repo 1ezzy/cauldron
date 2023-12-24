@@ -46,7 +46,7 @@
 	<div class="mt-10 space-y-4">
 		<ul class={listClasses}>
 			<a href="/spellbooks" class={expanded ? expandedAClasses : AClasses}>
-				<Icon src={BookOpen} theme="mini" size="40px" />
+				<Icon src={BookOpen} theme="mini" size="24px" />
 				{#if expanded}
 					<h4 class="h4" in:slide={{ delay: 50, axis: 'x' }}>Spellbooks</h4>
 				{/if}
@@ -54,7 +54,7 @@
 		</ul>
 		<ul class={listClasses}>
 			<a href="/spells" class={expanded ? expandedAClasses : AClasses}>
-				<Icon src={Sparkles} theme="mini" size="40px" />
+				<Icon src={Sparkles} theme="mini" size="24px" />
 				{#if expanded}
 					<h4 class="h4" in:slide={{ delay: 100, axis: 'x' }}>Spells</h4>
 				{/if}
@@ -64,13 +64,13 @@
 	<div class="mt-auto space-y-4">
 		<!-- <ul class={listClasses}>
 			<a href="/settings" class="w-56 h-14 px-4 flex items-center justify-between">
-				<Icon src={Cog8Tooth} theme="mini" size="40px" />
+				<Icon src={Cog8Tooth} theme="mini" size="24px" />
 				<h4 class="h4">Settings</h4>
 			</a>
 		</ul> -->
 		<ul class={listClasses}>
 			<a href="/profile" class={expanded ? expandedAClasses : AClasses}>
-				<Icon src={UserCircle} theme="mini" size="40px" />
+				<Icon src={UserCircle} theme="mini" size="24px" />
 				{#if expanded}
 					<h4 class="h4" in:slide={{ delay: 100, axis: 'x' }}>Profile</h4>
 				{/if}
@@ -79,7 +79,7 @@
 		<ul class={listClasses}>
 			<form method="POST" action="/logout" use:enhance>
 				<button type="submit" value="Sign out" class={expanded ? expandedAClasses : AClasses}>
-					<Icon src={ArrowLeftOnRectangle} theme="mini" size="40px" />
+					<Icon src={ArrowLeftOnRectangle} theme="mini" size="24px" />
 					{#if expanded}
 						<h4 class="h4" in:slide={{ delay: 100, axis: 'x' }}>Logout</h4>
 					{/if}
