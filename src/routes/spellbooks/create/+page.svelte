@@ -2,7 +2,7 @@
 	import type { PageData } from './$types';
 	import PageBlock from '$lib/components/PageBlock.svelte';
 	import { capitalizeFirstLetter } from '$lib/utils/string-utils';
-	import { ClassEnum } from '@prisma/client';
+	import { CastingClassEnum } from '$lib/types/casting-class.enum';
 	import { superForm } from 'sveltekit-superforms/client';
 
 	export let data: PageData;
@@ -48,20 +48,20 @@
 			<span>{classes === 1 ? 'Character Class' : 'Character Classes'}</span>
 			<div class="flex flex-col gap-4">
 				<select class="select" bind:value={$form.class1} name="class1">
-					{#each Object.values(ClassEnum) as value}
+					{#each Object.values(CastingClassEnum) as value}
 						<option {value}>{capitalizeFirstLetter(value)}</option>
 					{/each}
 				</select>
 				{#if classes >= 2}
 					<select class="select" bind:value={$form.class2} name="class2">
-						{#each Object.values(ClassEnum) as value}
+						{#each Object.values(CastingClassEnum) as value}
 							<option {value}>{capitalizeFirstLetter(value)}</option>
 						{/each}
 					</select>
 				{/if}
 				{#if classes >= 3}
 					<select class="select" bind:value={$form.class3} name="class3">
-						{#each Object.values(ClassEnum) as value}
+						{#each Object.values(CastingClassEnum) as value}
 							<option {value}>{capitalizeFirstLetter(value)}</option>
 						{/each}
 					</select>
