@@ -4,7 +4,7 @@
 	"private": true,
 	"scripts": {
 		"dev": "vite dev",
-		"wrangler:dev": "npx wrangler pages dev --local -- vite dev",
+		"wrangler:dev": "npx wrangler pages dev --local --port 5173 -- vite dev",
 		"build": "vite build",
 		"preview": "vite preview",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
