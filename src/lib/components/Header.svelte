@@ -9,7 +9,7 @@
 	const drawerStore = getDrawerStore();
 
 	const triggerDrawer = () => {
-		drawerStore.open({ position: 'top', height: 'h-80' });
+		drawerStore.open({ position: 'top', height: 'h-96' });
 	};
 </script>
 
@@ -29,9 +29,9 @@
 	>
 		<Icon src={Bars3} theme="solid" class="h-8 bg-surface-800" />
 	</div>
-	<a href="//ezzy.dog" class="md:flex hidden"
-		><img class="h-8" src={headerLogo} alt="header logo" /></a
-	>
+	<a href="//ezzy.dog" class="md:flex hidden">
+		<img class="h-8" src={headerLogo} alt="header logo" />
+	</a>
 	<div class="flex gap-4 items-center">
 		<LightSwitch />
 		<form class="md:hidden flex" method="POST" action="/logout" use:enhance>
