@@ -25,3 +25,21 @@ export const GET: RequestHandler = async ({ url, params }) => {
 
 	return json(spellbook);
 };
+
+export const DELETE: RequestHandler = async ({ url }) => {
+	const userId = url.searchParams.get('user_id') ?? '';
+	const spellbookId = url.searchParams.get('spellbook_id') ?? '';
+
+	const spellbook = await prisma.spellbook.delete({
+		where: {
+			user_id: userId,
+			id: spellbookId
+		}
+	});
+
+	if (!spellbook) {
+		return json({ message: `Could not find spellbook` }, { status: 404 });
+	}
+
+	return json(spellbook);
+};

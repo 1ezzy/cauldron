@@ -5,6 +5,10 @@
 	import { Icon } from '@steeze-ui/svelte-icon';
 	import { PencilSquare, MinusCircle, CheckCircle } from '@steeze-ui/heroicons';
 	import { invalidateAll } from '$app/navigation';
+	import { getModalStore, type ModalComponent, type ModalSettings } from '@skeletonlabs/skeleton';
+	import DeleteSpellbookModal from '$lib/components/modals/DeleteSpellbookModal.svelte';
+
+	const modalStore = getModalStore();
 
 	export let data;
 
@@ -32,7 +36,8 @@
 	$: spellbookData = data.spellbookItem;
 
 	let userId = data.userId;
-	let selectedSpellbookId = spellbookData.id;
+	let spellbookId = spellbookData.id;
+	let spellbookName = spellbookData.spellbook_name;
 
 	let spellsEditMode = false;
 	let detailsEditMode = false;
@@ -40,9 +45,24 @@
 	$: spellsEditColor = spellsEditMode ? 'text-success-500' : 'text-secondary-500';
 	$: detailsEditColor = detailsEditMode ? 'text-success-500' : 'text-secondary-500';
 
+	const modalComponent: ModalComponent = {
+		ref: DeleteSpellbookModal,
+		props: { userId, spellbookId, spellbookName }
+	};
+
+	const modal: ModalSettings = {
+		type: 'component',
+		component: modalComponent,
+		title: 'Delete Spellbook'
+	};
+
+	const modalDeleteSpellbook = () => {
+		modalStore.trigger(modal);
+	};
+
 	const removeSpell = async (spellId: string) => {
 		await fetch(
-			`/api/spells/remove?user_id=${userId}&spellbook_id=${selectedSpellbookId}&spell_id=${spellId}`,
+			`/api/spells/remove?user_id=${userId}&spellbook_id=${spellbookId}&spell_id=${spellId}`,
 			{
 				method: 'POST'
 			}
@@ -122,7 +142,7 @@
 				<span>Click <a class="text-secondary-500" href="/spells">here</a> to add some</span>
 			{/if}
 		</div>
-		<span class="divider-vertical my-auto h-[90%]" />
+		<span class="divider-vertical my-auto h-[95%]" />
 		<div class="p-8 basis-1/3 flex flex-col">
 			<div class="mb-8 flex items-center">
 				<h3 class="h3 mr-4 text-secondary-500">Details</h3>
@@ -143,6 +163,16 @@
 			<div class="mb-8">
 				<h4 class="h4 mb-2 text-tertiary-500">Created</h4>
 				{new Date(spellbookData?.created_at).toDateString()}
+			</div>
+			<div class="mt-auto">
+				<button
+					class="btn variant-filled-error"
+					on:click={() => {
+						modalDeleteSpellbook();
+					}}
+				>
+					Delete Spellbook
+				</button>
 			</div>
 		</div>
 	</div>

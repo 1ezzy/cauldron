@@ -31,7 +31,7 @@ export const load = (async ({ locals }) => {
 }) satisfies PageServerLoad;
 
 export const actions = {
-	default: async ({ request }) => {
+	default: async ({ request, fetch }) => {
 		const form = await superValidate(request, createSpellbookSchema);
 
 		if (!form.valid) {
@@ -45,20 +45,19 @@ export const actions = {
 			}
 		});
 
-		try {
-			await prisma.spellbook.create({
-				data: {
-					index: stringToIndex(form.data.name),
-					spellbook_name: form.data.name,
-					character_name: form.data.characterName,
-					spellbook_description: form.data.description,
-					class: classes,
-					user_id: get(userStore)
-				}
-			});
-		} catch (error) {
-			console.log(error);
-		}
+		const createRes = await fetch(
+			`/api/spellbooks/create?
+			user_id=${get(userStore)}&
+			index=${stringToIndex(form.data.name)}&
+			spellbook_name=${form.data.name}&
+			character_name=${form.data.characterName}&
+			spellbook_description=${form.data.description}&
+			classes=${JSON.stringify(classes)}`,
+			{
+				method: 'POST'
+			}
+		);
+		createRes.json();
 
 		redirect(303, '/spellbooks');
 	}
