@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { slide } from 'svelte/transition';
 	import { enhance } from '$app/forms';
 	import { Icon } from '@steeze-ui/svelte-icon';
 	import {
@@ -20,7 +21,7 @@
 </script>
 
 <div
-	class="h-[calc(100%-4rem)] m-8 flex flex-col items-start relative"
+	class="h-[calc(100%-4rem)] m-8 flex flex-col items-start relative transition-width ease-out"
 	class:w-56={expanded}
 	class:w-16={!expanded}
 >
@@ -35,9 +36,9 @@
 	<div class="space-y-4">
 		<ul class={listClasses}>
 			<a href="/" class={expanded ? expandedAClasses : AClasses}>
-				<Icon src={Home} theme="mini" size="40px" />
+				<Icon src={Home} theme="mini" size="24px" />
 				{#if expanded}
-					<h4 class="h4">Dashboard</h4>
+					<h4 class="h4" in:slide={{ axis: 'x' }}>Dashboard</h4>
 				{/if}
 			</a>
 		</ul>
@@ -47,7 +48,7 @@
 			<a href="/spellbooks" class={expanded ? expandedAClasses : AClasses}>
 				<Icon src={BookOpen} theme="mini" size="40px" />
 				{#if expanded}
-					<h4 class="h4">Spellbooks</h4>
+					<h4 class="h4" in:slide={{ delay: 50, axis: 'x' }}>Spellbooks</h4>
 				{/if}
 			</a>
 		</ul>
@@ -55,7 +56,7 @@
 			<a href="/spells" class={expanded ? expandedAClasses : AClasses}>
 				<Icon src={Sparkles} theme="mini" size="40px" />
 				{#if expanded}
-					<h4 class="h4">Spells</h4>
+					<h4 class="h4" in:slide={{ delay: 100, axis: 'x' }}>Spells</h4>
 				{/if}
 			</a>
 		</ul>
@@ -71,7 +72,7 @@
 			<a href="/profile" class={expanded ? expandedAClasses : AClasses}>
 				<Icon src={UserCircle} theme="mini" size="40px" />
 				{#if expanded}
-					<h4 class="h4">Profile</h4>
+					<h4 class="h4" in:slide={{ delay: 100, axis: 'x' }}>Profile</h4>
 				{/if}
 			</a>
 		</ul>
@@ -80,7 +81,7 @@
 				<button type="submit" value="Sign out" class={expanded ? expandedAClasses : AClasses}>
 					<Icon src={ArrowLeftOnRectangle} theme="mini" size="40px" />
 					{#if expanded}
-						<h4 class="h4">Log Out</h4>
+						<h4 class="h4" in:slide={{ delay: 100, axis: 'x' }}>Logout</h4>
 					{/if}
 				</button>
 			</form>
