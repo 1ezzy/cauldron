@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { LightSwitch } from '@skeletonlabs/skeleton';
-	import headerLogo from '$lib/assets/header-logo.png';
+	import headerLogo from '$lib/assets/images/header-logo.png';
 </script>
 
 <nav

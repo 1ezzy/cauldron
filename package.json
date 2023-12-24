@@ -4,7 +4,7 @@
 	"private": true,
 	"scripts": {
 		"dev": "vite dev",
-		"wrangler:dev": "npx wrangler pages dev -- vite dev",
+		"wrangler:dev": "npx wrangler pages dev --local --port 5173 -- vite dev",
 		"build": "vite build",
 		"preview": "vite preview",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
@@ -45,6 +45,7 @@
 	"type": "module",
 	"dependencies": {
 		"@lucia-auth/adapter-prisma": "^3.0.0",
+		"@lucia-auth/oauth": "^3.5.0",
 		"@prisma/client": "^5.7.0",
 		"@prisma/extension-accelerate": "^0.6.2",
 		"@steeze-ui/heroicons": "^2.2.3",

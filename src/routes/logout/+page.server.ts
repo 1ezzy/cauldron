@@ -9,6 +9,6 @@ export const actions = {
 
 		await auth.invalidateSession(session.sessionId);
 		locals.auth.setSession(null);
-		redirect(302, 'login');
+		redirect(307, 'login');
 	}
 } satisfies Actions;
