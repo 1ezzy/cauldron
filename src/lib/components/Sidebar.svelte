@@ -21,7 +21,7 @@
 </script>
 
 <div
-	class="h-[calc(100%-4rem)] m-8 flex flex-col items-start relative transition-width ease-out"
+	class="h-[calc(100%-4rem)] m-8 hidden md:flex flex-col items-start relative transition-width ease-out"
 	class:w-56={expanded}
 	class:w-16={!expanded}
 >
