@@ -5,7 +5,7 @@
 	"scripts": {
 		"dev": "vite dev",
 		"wrangler:dev": "npx wrangler pages dev --local --port 5173 -- vite dev",
-		"build": "npm prisma:gen:prod && vite build",
+		"build": "npm run prisma:gen:prod && vite build",
 		"preview": "vite preview",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
