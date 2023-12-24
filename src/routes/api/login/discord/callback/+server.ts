@@ -2,7 +2,6 @@ import { auth, discordAuth } from '$lib/server/lucia';
 import { OAuthRequestError } from '@lucia-auth/oauth';
 
 export const GET = async ({ url, cookies, locals }) => {
-	console.log('start callback');
 	const storedState = cookies.get('discord_oauth_state');
 	const state = url.searchParams.get('state');
 	const code = url.searchParams.get('code');
@@ -14,14 +13,11 @@ export const GET = async ({ url, cookies, locals }) => {
 	}
 
 	try {
-		console.log('start try');
 		const { getExistingUser, discordUser, createUser } = await discordAuth.validateCallback(code);
 
 		const getUser = async () => {
 			const existingUser = await getExistingUser();
 			if (existingUser) return existingUser;
-
-			console.log('ninja');
 
 			const user = await createUser({
 				attributes: {
@@ -31,7 +27,6 @@ export const GET = async ({ url, cookies, locals }) => {
 					updated_at: new Date()
 				}
 			});
-			console.log('user: ', user);
 			return user;
 		};
 
