@@ -1,0 +1,132 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("MONGODB_URL")
+}
+
+model User {
+  id              String      @id @map("_id")
+  username        String      @unique
+  discordUsername String?     @unique
+  role            Role        @default(USER)
+  created_at      DateTime    @default(now())
+  updated_at      DateTime?   @updatedAt
+  auth_key        Key[]
+  auth_session    Session[]
+  spellbooks      Spellbook[]
+
+  @@map("users")
+}
+
+model Session {
+  id             String @id @map("_id")
+  active_expires BigInt
+  idle_expires   BigInt
+  user_id        String
+  user           User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model Key {
+  id              String  @id @map("_id")
+  hashed_password String?
+  user_id         String
+  user            User    @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@map("keys")
+}
+
+model Spellbook {
+  id                    String      @id @default(auto()) @map("_id") @db.ObjectId
+  index                 String      @unique
+  spellbook_name        String      @unique
+  character_name        String
+  spellbook_description String?
+  image_url             String?
+  created_at            DateTime    @default(now())
+  updated_at            DateTime?   @updatedAt
+  user_id               String
+  auth_user             User        @relation(fields: [user_id], references: [id])
+  spell_ids             String[]    @db.ObjectId
+  spells                Spell[]     @relation(fields: [spell_ids], references: [id])
+  class_ids             String[]    @db.ObjectId
+  class                 ClassEnum[]
+
+  @@map("spellbooks")
+}
+
+model Spell {
+  id             String         @id @default(auto()) @map("_id") @db.ObjectId
+  index          String
+  name           String
+  url            String
+  desc           String[]
+  higher_level   String[]
+  range          String
+  components     Components[]
+  material       String?
+  area_of_effect AreaOfEffect?
+  ritual         Boolean
+  duration       String
+  concentration  Boolean
+  casting_time   String
+  level          Int
+  attack_type    String?
+  damage         Json?
+  school         APIReference
+  classes        APIReference[]
+  subclasses     APIReference[]
+  spellbook_ids  String[]       @db.ObjectId
+  spellbooks     Spellbook[]    @relation(fields: [spellbook_ids], references: [id])
+
+  @@map("spells")
+}
+
+type APIReference {
+  index String
+  name  String
+  url   String
+}
+
+type AreaOfEffect {
+  size Int
+  type AOEType
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum ClassEnum {
+  barbarian
+  bard
+  cleric
+  druid
+  fighter
+  monk
+  paladin
+  ranger
+  rogue
+  sorcerer
+  warlock
+  wizard
+}
+
+enum Components {
+  V
+  S
+  M
+}
+
+enum AOEType {
+  sphere
+  cone
+  cylinder
+  line
+  cube
+}
