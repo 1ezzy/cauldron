@@ -5,10 +5,14 @@
 	import Header from '$lib/components/Header.svelte';
 	import Sidebar from '$lib/components/Sidebar.svelte';
 	import { capitalizeFirstLetter } from '$lib/utils/string-utils';
-	import { AppShell, Modal, Toast, initializeStores } from '@skeletonlabs/skeleton';
+	import { AppShell, Modal, Toast, initializeStores, storePopup } from '@skeletonlabs/skeleton';
 	import HeaderDrawer from '$lib/components/HeaderDrawer.svelte';
 
+	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
+
 	initializeStores();
+
+	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 
 	$: pageTitle = convertUrlToPageTitle($page.url.pathname);
 	const convertUrlToPageTitle = (url: string): string => {

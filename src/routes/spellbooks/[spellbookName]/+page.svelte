@@ -5,7 +5,13 @@
 	import { Icon } from '@steeze-ui/svelte-icon';
 	import { PencilSquare, MinusCircle, CheckCircle } from '@steeze-ui/heroicons';
 	import { invalidateAll } from '$app/navigation';
-	import { getModalStore, type ModalComponent, type ModalSettings } from '@skeletonlabs/skeleton';
+	import {
+		getModalStore,
+		popup,
+		type ModalComponent,
+		type ModalSettings,
+		type PopupSettings
+	} from '@skeletonlabs/skeleton';
 	import DeleteSpellbookModal from '$lib/components/modals/DeleteSpellbookModal.svelte';
 
 	const modalStore = getModalStore();
@@ -54,6 +60,12 @@
 		type: 'component',
 		component: modalComponent,
 		title: 'Delete Spellbook'
+	};
+
+	const popupHover: PopupSettings = {
+		event: 'hover',
+		target: 'popupHover',
+		placement: 'right'
 	};
 
 	const modalDeleteSpellbook = () => {
@@ -115,7 +127,7 @@
 								<h4 class="h4 text-tertiary-500">{formatSpellLevel(level[0].level)}s</h4>
 							</header>
 							<section class="p-4 flex flex-col gap-2">
-								{#each level as spell}
+								{#each level as spell (spell.id)}
 									<div class="flex gap-2 items-center">
 										{#if spellsEditMode}
 											<button
@@ -130,7 +142,26 @@
 													class="text-error-500 mr-2"
 												/>
 											</button>{/if}
-										<a href={`/spells/${spell.index}`}>{spell.name}</a>
+										<a
+											href={`/spells/${spell.index}`}
+											class="[&>*]:pointer-events-none"
+											use:popup={{ ...popupHover, target: `popupElement-${spell.id}` }}
+										>
+											{spell.name}
+										</a>
+										<div
+											class="card dark:variant-filled-surface p-4"
+											data-popup={`popupElement-${spell.id}`}
+										>
+											<header class="card-header text-primary-500 font-bold">{spell.name}</header>
+											<section class="p-4">
+												<p class="text-secondary-500">Duration: {spell.duration}</p>
+												<p class="mb-2 text-secondary-500">Range: {spell.range}</p>
+												{#each spell.desc as part}
+													<p class="mb-2">{part}</p>
+												{/each}
+											</section>
+										</div>
 									</div>
 								{/each}
 							</section>
