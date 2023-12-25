@@ -19,7 +19,8 @@
 
 <PageBlock>
 	<h1 class="h1 mb-8 text-primary-500">Spellbooks</h1>
-	<a class="btn variant-filled-primary" href="/spellbooks/create">Create a Spellbook</a>
+	<a class="btn variant-filled-primary md:mb-0 mb-8" href="/spellbooks/create">Create a Spellbook</a
+	>
 	{#if spellbookData.length > 0}
 		<div class={`my-auto grid ${gridSizes[Math.min(6, spellbookData.length)]} gap-8`}>
 			{#each spellbookData as spellbook}
