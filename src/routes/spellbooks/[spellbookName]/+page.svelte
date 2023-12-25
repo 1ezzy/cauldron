@@ -90,34 +90,27 @@
 		{spellbookData?.character_name} the
 		{spellbookData.class.map((word) => capitalizeFirstLetter(word)).join('/')}
 	</h3>
-	<div class="w-full flex flex-1">
+	<div class="w-full flex flex-1 md:flex-row flex-col">
 		<div class="p-8 flex flex-col basis-2/3">
-			<div class="mb-8 flex items-center">
-				<h3 class="h3 mr-2 text-secondary-500">Your Spells</h3>
-				{#if spellData.length > 0}
-					<button
-						on:click={(event) => {
-							spellsEditMode = !spellsEditMode;
-						}}
-					>
-						<Icon
-							src={!spellsEditMode ? PencilSquare : CheckCircle}
-							size="16px"
-							theme="mini"
-							class="{spellsEditColor} mt-1"
-						/>
-					</button>
-				{/if}
-				<a class="btn variant-filled-secondary ml-auto" href="/spells">Add More Spells</a>
-				<!-- {:else}
-					<button
-						class="btn variant-filled-secondary ml-auto"
-						on:click={(event) => {
-							spellsEditMode = !spellsEditMode;
-						}}
-					>
-						Finish Editing
-					</button> -->
+			<div class="mb-8 flex md:flex-row flex-col md:items-center justify-center">
+				<div class="flex items-center md:mb-0 mb-4">
+					<h3 class="h3 mr-2 text-secondary-500">Your Spells</h3>
+					{#if spellData.length > 0}
+						<button
+							on:click={(event) => {
+								spellsEditMode = !spellsEditMode;
+							}}
+						>
+							<Icon
+								src={!spellsEditMode ? PencilSquare : CheckCircle}
+								size="16px"
+								theme="mini"
+								class="{spellsEditColor} mt-1"
+							/>
+						</button>
+					{/if}
+				</div>
+				<a class="btn variant-filled-secondary md:ml-auto w-fit" href="/spells">Add More Spells</a>
 			</div>
 			{#if spellData.length > 0}
 				<div class="flex flex-col gap-4">
@@ -173,7 +166,8 @@
 				<span>Click <a class="text-secondary-500" href="/spells">here</a> to add some</span>
 			{/if}
 		</div>
-		<span class="divider-vertical my-auto h-[95%]" />
+		<span class="divider-vertical my-auto h-[95%] md:block hidden" />
+		<hr class="md:hidden block" />
 		<div class="p-8 basis-1/3 flex flex-col">
 			<div class="mb-8 flex items-center">
 				<h3 class="h3 mr-4 text-secondary-500">Details</h3>
