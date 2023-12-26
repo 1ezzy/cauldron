@@ -3,7 +3,6 @@
 	import type { Spellbook } from '@prisma/client';
 
 	export let spellbook: Spellbook;
-	console.log('spellbook: ', spellbook);
 </script>
 
 <div
