@@ -21,6 +21,8 @@ export const POST: RequestHandler = async ({ url }) => {
 			player_name: playerName,
 			description: description,
 			level: parseInt(level)
+			// class_ids:
+			// race_ids:
 		}
 	});
 

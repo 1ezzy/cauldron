@@ -27,8 +27,6 @@
 			{/each}
 		</div>
 	{:else}
-		<button class="btn variant-filled-primary"
-			><a href="/spellbooks/create">Create a Spellbook</a></button
-		>
+		<span class="my-auto">No spellbooks to display</span>
 	{/if}
 </PageBlock>

@@ -10,7 +10,8 @@
 		UserCircle,
 		ArrowLeftOnRectangle,
 		ChevronDoubleLeft,
-		ChevronDoubleRight
+		ChevronDoubleRight,
+		UserGroup
 	} from '@steeze-ui/heroicons';
 
 	const listClasses = 'rounded-full bg-primary-500';
@@ -57,6 +58,16 @@
 				<Icon src={Sparkles} theme="mini" size="24px" />
 				{#if expanded}
 					<h4 class="h4" in:slide={{ delay: 100, axis: 'x' }}>Spells</h4>
+				{/if}
+			</a>
+		</ul>
+	</div>
+	<div class="mt-10 space-y-4">
+		<ul class={listClasses}>
+			<a href="/characters" class={expanded ? expandedAClasses : AClasses}>
+				<Icon src={UserGroup} theme="mini" size="24px" />
+				{#if expanded}
+					<h4 class="h4" in:slide={{ delay: 150, axis: 'x' }}>Characters</h4>
 				{/if}
 			</a>
 		</ul>
