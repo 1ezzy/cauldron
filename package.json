@@ -12,7 +12,9 @@
 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
 		"format": "prettier --plugin-search-dir . --write .",
 		"prisma:gen:dev": "npx prisma generate --schema ./prisma/dev.schema.prisma",
-		"prisma:gen:prod": "npx prisma generate --no-engine --schema ./prisma/prod.schema.prisma"
+		"prisma:gen:prod": "npx prisma generate --no-engine --schema ./prisma/prod.schema.prisma",
+		"prisma:push": "npx prisma db push --schema ./prisma/prod.schema.prisma",
+		"prisma:studio": "npx prisma studio --schema ./prisma/prod.schema.prisma"
 	},
 	"devDependencies": {
 		"@floating-ui/dom": "^1.5.1",

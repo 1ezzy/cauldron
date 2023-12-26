@@ -18,6 +18,7 @@ model User {
   auth_key        Key[]
   auth_session    Session[]
   spellbooks      Spellbook[]
+  characters      Character[]
 
   @@map("users")
 }
@@ -42,20 +43,23 @@ model Key {
 }
 
 model Spellbook {
-  id                    String      @id @default(auto()) @map("_id") @db.ObjectId
-  index                 String      @unique
-  spellbook_name        String      @unique
+  id                    String     @id @default(auto()) @map("_id") @db.ObjectId
+  spellbook_name        String     @unique
   character_name        String
   spellbook_description String?
   image_url             String?
-  created_at            DateTime    @default(now())
-  updated_at            DateTime?   @updatedAt
+  created_at            DateTime   @default(now())
+  updated_at            DateTime?  @updatedAt
   user_id               String
-  auth_user             User        @relation(fields: [user_id], references: [id])
-  spell_ids             String[]    @db.ObjectId
-  spells                Spell[]     @relation(fields: [spell_ids], references: [id])
-  class_ids             String[]    @db.ObjectId
-  class                 ClassEnum[]
+  auth_user             User       @relation(fields: [user_id], references: [id])
+  character_id          String?    @db.ObjectId
+  character             Character? @relation(fields: [character_id], references: [id])
+  spell_ids             String[]   @db.ObjectId
+  spells                Spell[]    @relation(fields: [spell_ids], references: [id])
+  class_ids             String[]   @db.ObjectId
+  classes               Class[]    @relation(fields: [class_ids], references: [id])
+  race_ids              String[]   @db.ObjectId
+  races                 Race[]     @relation(fields: [race_ids], references: [id])
 
   @@map("spellbooks")
 }
@@ -87,10 +91,164 @@ model Spell {
   @@map("spells")
 }
 
+model Class {
+  id                         String              @id @default(auto()) @map("_id") @db.ObjectId
+  index                      String              @unique
+  name                       String              @unique
+  url                        String
+  hit_die                    Int
+  class_levels               String
+  multi_classing             Multiclassing?
+  spells                     String?
+  starting_equipment         StartingEquipment[]
+  starting_equipment_options Choice[]
+  proficiency_ids            String[]            @db.ObjectId
+  proficiencies              Proficiency[]       @relation(fields: [proficiency_ids], references: [id])
+  proficiency_choices        Choice[]
+  saving_throws              APIReference[]
+  subclasses                 APIReference[]
+  spellbook_ids              String[]            @db.ObjectId
+  spellbooks                 Spellbook[]         @relation(fields: [spellbook_ids], references: [id])
+  character_ids              String[]            @db.ObjectId
+  characters                 Character[]         @relation(fields: [character_ids], references: [id])
+
+  @@map("classes")
+}
+
+model Race {
+  id                           String         @id @default(auto()) @map("_id") @db.ObjectId
+  index                        String         @unique
+  name                         String         @unique
+  url                          String
+  speed                        Int
+  ability_bonuses              AbilityBonus[]
+  alignment                    String
+  age                          String
+  size                         String
+  size_description             String
+  starting_proficiencies       APIReference[]
+  starting_proficiency_options Choice?
+  languages                    APIReference[]
+  language_desc                String
+  traits                       APIReference[]
+  subraces                     APIReference[]
+  spellbook_ids                String[]       @db.ObjectId
+  spellbooks                   Spellbook[]    @relation(fields: [spellbook_ids], references: [id])
+  character_ids                String[]       @db.ObjectId
+  characters                   Character[]    @relation(fields: [character_ids], references: [id])
+
+  @@map("races")
+}
+
+model Character {
+  id              String                  @id @default(auto()) @map("_id") @db.ObjectId
+  spellbooks      Spellbook[]
+  character_name  String
+  player_name     String
+  description     String?
+  backstory       String?
+  level           Int
+  experience      Int?
+  next_level      Int?
+  age             Int?
+  Height          String?
+  weight          Int?
+  size            String?
+  gender          String?
+  eye_color       String?
+  hair_color      String?
+  skin_color      String?
+  scores_original CharacterAbilityScore[]
+  scores_current  CharacterAbilityScore[]
+  skills          Skill[]
+  armor_class     Int?
+  death_saves     DeathSave?
+  language_ids    String[]                @db.ObjectId
+  languages       Language[]              @relation(fields: [language_ids], references: [id])
+  proficiency_ids String[]                @db.ObjectId
+  proficiencies   Proficiency[]           @relation(fields: [proficiency_ids], references: [id])
+  items           String[]
+  coins           CoinType?
+  image_url       String?
+  created_at      DateTime                @default(now())
+  updated_at      DateTime?               @updatedAt
+  user_id         String
+  auth_user       User                    @relation(fields: [user_id], references: [id])
+  class_ids       String[]                @db.ObjectId
+  class           Class[]                 @relation(fields: [class_ids], references: [id])
+  race_ids        String[]                @db.ObjectId
+  race            Race[]                  @relation(fields: [race_ids], references: [id])
+
+  @@unique([character_name, user_id], name: "user_character")
+  @@map("characters")
+}
+
+model AbilityScore {
+  id        String         @id @default(auto()) @map("_id") @db.ObjectId
+  index     String
+  name      String
+  url       String
+  full_name String
+  desc      String[]
+  skills    APIReference[]
+
+  @@map("ability_scores")
+}
+
+model Skill {
+  id            String       @id @default(auto()) @map("_id") @db.ObjectId
+  index         String
+  name          String
+  url           String
+  desc          String?
+  ability_score APIReference
+  Character     Character?   @relation(fields: [characterId], references: [id])
+  characterId   String?      @db.ObjectId
+
+  @@map("skills")
+}
+
+model Language {
+  id               String      @id @default(auto()) @map("_id") @db.ObjectId
+  index            String
+  name             String
+  url              String
+  type             String
+  typical_speakers String[]
+  script           String
+  character_ids    String[]    @db.ObjectId
+  characters       Character[] @relation(fields: [character_ids], references: [id])
+
+  @@map("languages")
+}
+
+model Proficiency {
+  id            String       @id @default(auto()) @map("_id") @db.ObjectId
+  index         String
+  name          String
+  url           String
+  type          String
+  race_ids      String[]     @db.ObjectId
+  reference     APIReference
+  class_ids     String[]     @db.ObjectId
+  classes       Class[]      @relation(fields: [class_ids], references: [id])
+  character_ids String[]     @db.ObjectId
+  characters    Character[]  @relation(fields: [character_ids], references: [id])
+
+  @@map("proficiencies")
+}
+
 type APIReference {
   index String
   name  String
   url   String
+}
+
+type Choice {
+  desc   String?
+  choose Int?
+  type   String?
+  from   Json?
 }
 
 type AreaOfEffect {
@@ -98,24 +256,66 @@ type AreaOfEffect {
   type AOEType
 }
 
+type StartingEquipment {
+  quantity  Int
+  equipment APIReference
+}
+
+type Prerequisite {
+  ability_score APIReference?
+  minimum_score Int?
+}
+
+type Info {
+  name        String
+  description String[]
+}
+
+type Spellcasting {
+  level                Int
+  info                 Info[]
+  spellcasting_ability APIReference[]
+  spells               String
+}
+
+type Multiclassing {
+  prerequisites        Prerequisite[]
+  prerequisite_options Json?
+  proficiencies        APIReference[]
+  proficiency_choices  Choice[]
+}
+
+type AbilityScoreType {
+  name  String
+  index String
+}
+
+type CharacterAbilityScore {
+  type  AbilityScoreType
+  value Int
+}
+
+type AbilityBonus {
+  bonus         Int
+  ability_score APIReference
+}
+
+type DeathSave {
+  successes Int
+  failures  Int
+}
+
+type CoinType {
+  copper_pieces   Int
+  silver_pieces   Int
+  electrum_pieces Int
+  gold_pieces     Int
+  platinum_pieces Int
+}
+
 enum Role {
   USER
   ADMIN
-}
-
-enum ClassEnum {
-  barbarian
-  bard
-  cleric
-  druid
-  fighter
-  monk
-  paladin
-  ranger
-  rogue
-  sorcerer
-  warlock
-  wizard
 }
 
 enum Components {

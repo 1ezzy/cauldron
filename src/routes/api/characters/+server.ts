@@ -3,18 +3,16 @@ import { json, type RequestHandler } from '@sveltejs/kit';
 
 export const GET: RequestHandler = async ({ url }) => {
 	const userId = url.searchParams.get('user_id') ?? '';
-	const spellbooks = await prisma.spellbook.findMany({
+
+	const characters = await prisma.character.findMany({
 		where: {
 			user_id: userId
-		},
-		include: {
-			classes: true
 		}
 	});
 
-	if (!spellbooks) {
-		return json({ message: `No spellbooks found` }, { status: 404 });
+	if (!characters) {
+		return json({ message: `No characters found` }, { status: 404 });
 	}
 
-	return json(spellbooks);
+	return json(characters);
 };

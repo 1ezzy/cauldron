@@ -4,8 +4,8 @@ export const theme: CustomThemeConfig = {
 	name: 'theme',
 	properties: {
 		/* =~= Theme Properties =~= */
-		'--theme-font-family-base': 'system-ui',
-		'--theme-font-family-heading': 'system-ui',
+		'--theme-font-family-base': 'DM Sans',
+		'--theme-font-family-heading': 'DM Sans',
 		'--theme-font-color-base': '0 0 0',
 		'--theme-font-color-dark': '233 233 233',
 		'--theme-rounded-base': '16px',

@@ -28,9 +28,6 @@
 		const selectedSpellbookName = spellbookData.find(
 			(index) => index.id === selectedSpellbookId
 		).spellbook_name;
-		const selectedSpellbookIndex = spellbookData.find(
-			(index) => index.id === selectedSpellbookId
-		).index;
 
 		modalStore.close();
 
@@ -45,7 +42,7 @@
 				message: `Spell successfully added to ${selectedSpellbookName}`,
 				action: {
 					label: 'View spellbook',
-					response: () => goto(`/spellbooks/${selectedSpellbookIndex}`)
+					response: () => goto(`/spellbooks/${selectedSpellbookId}`)
 				},
 				background: 'variant-filled-success'
 			};
