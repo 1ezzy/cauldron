@@ -92,7 +92,7 @@ model Spell {
 
 model Class {
   id                         String              @id @default(auto()) @map("_id") @db.ObjectId
-  index                      String
+  index                      String              @unique
   name                       String              @unique
   url                        String
   hit_die                    Int
@@ -116,8 +116,8 @@ model Class {
 
 model Race {
   id                           String         @id @default(auto()) @map("_id") @db.ObjectId
-  index                        String
-  name                         String
+  index                        String         @unique
+  name                         String         @unique
   url                          String
   speed                        Int
   ability_bonuses              AbilityBonus[]
