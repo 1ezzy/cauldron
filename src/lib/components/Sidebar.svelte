@@ -62,7 +62,7 @@
 			</a>
 		</ul>
 	</div>
-	<div class="mt-10 space-y-4">
+	<!-- <div class="mt-10 space-y-4">
 		<ul class={listClasses}>
 			<a href="/characters" class={expanded ? expandedAClasses : AClasses}>
 				<Icon src={UserGroup} theme="mini" size="24px" />
@@ -71,7 +71,7 @@
 				{/if}
 			</a>
 		</ul>
-	</div>
+	</div> -->
 	<div class="mt-auto space-y-4">
 		<!-- <ul class={listClasses}>
 			<a href="/settings" class="w-56 h-14 px-4 flex items-center justify-between">
