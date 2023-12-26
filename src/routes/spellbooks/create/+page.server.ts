@@ -9,9 +9,9 @@ import { superValidate } from 'sveltekit-superforms/server';
 const userStore = writable('');
 
 const createSpellbookSchema = z.object({
-	name: z.string(),
-	characterName: z.string(),
-	description: z.string(),
+	name: z.string().max(50),
+	characterName: z.string().max(50),
+	description: z.string().max(500),
 	class1: z.nativeEnum(CastingClassEnum),
 	class2: z.optional(z.nativeEnum(CastingClassEnum)),
 	class3: z.optional(z.nativeEnum(CastingClassEnum))
