@@ -39,7 +39,6 @@ export const actions = {
 		const createRes = await fetch(
 			`/api/spellbooks/create?
 			user_id=${get(userStore)}&
-			index=${stringToIndex(form.data.characterName)}&
 			character_name=${form.data.characterName}&
 			player_name=${form.data.playerName}&
 			description=${form.data.description}`,
