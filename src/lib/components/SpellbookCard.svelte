@@ -23,7 +23,7 @@
 	</section>
 	<footer class="card-footer mt-auto">
 		<button class="btn variant-filled-tertiary">
-			<a href="/spellbooks/{spellbook.index}">Open Spellbook</a>
+			<a href="/spellbooks/{spellbook.id}">Open Spellbook</a>
 		</button>
 	</footer>
 </div>

@@ -3,13 +3,13 @@ import { json, type RequestHandler } from '@sveltejs/kit';
 
 export const GET: RequestHandler = async ({ url, params }) => {
 	const userId = url.searchParams.get('user_id') ?? '';
-	const characterName = params.characterName as string;
+	const characterId = params.characterId as string;
 
 	const character = await prisma.character.findUnique({
 		where: {
 			user_character: {
 				user_id: userId,
-				character_name: characterName
+				id: characterId
 			}
 		}
 	});

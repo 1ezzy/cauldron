@@ -7,11 +7,11 @@ export const load = (async ({ fetch, locals, params }) => {
 
 	const userId = session.user.userId;
 
-	const spellbookRes = await fetch(
-		`/api/spellbooks/${params.spellbookName}?user_id=${session.user.userId}`
+	const characterRes = await fetch(
+		`/api/characters/${params.characterId}?user_id=${session.user.userId}`
 	);
 
-	const spellbookItem = await spellbookRes.json();
+	const characterItem = await characterRes.json();
 
-	return { spellbookItem, userId };
+	return { characterItem, userId };
 }) satisfies PageServerLoad;
