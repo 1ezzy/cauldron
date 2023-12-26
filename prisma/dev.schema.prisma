@@ -43,7 +43,6 @@ model Key {
 
 model Spellbook {
   id                    String     @id @default(auto()) @map("_id") @db.ObjectId
-  index                 String     @unique
   spellbook_name        String     @unique
   character_name        String
   spellbook_description String?
@@ -142,7 +141,6 @@ model Race {
 
 model Character {
   id              String                  @id @default(auto()) @map("_id") @db.ObjectId
-  index           String                  @unique
   spellbooks      Spellbook[]
   character_name  String
   player_name     String
