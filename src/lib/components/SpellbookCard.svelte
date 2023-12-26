@@ -3,6 +3,7 @@
 	import type { Spellbook } from '@prisma/client';
 
 	export let spellbook: Spellbook;
+	console.log('spellbook: ', spellbook);
 </script>
 
 <div
@@ -11,9 +12,10 @@
 	<header class="card-header w-72 md:w-60 mb-2 text-xl text-center">
 		<p class="text-xl font-bold truncate">{spellbook.spellbook_name}</p>
 		<p class="text-lg truncate">
-			{spellbook.character_name} the {spellbook.class
-				.map((word) => capitalizeFirstLetter(word))
-				.join('/')}
+			{spellbook.character_name}
+		</p>
+		<p class="text-lg truncate">
+			{spellbook.classes.map((word) => capitalizeFirstLetter(word.name)).join('/')}
 		</p>
 	</header>
 	<hr class="w-full !border-t-2 my-1" />
@@ -33,6 +35,6 @@
 		display: -webkit-box;
 		overflow: hidden;
 		-webkit-box-orient: vertical;
-		-webkit-line-clamp: 7;
+		-webkit-line-clamp: 6;
 	}
 </style>

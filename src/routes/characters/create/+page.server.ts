@@ -1,5 +1,4 @@
 import { get, writable } from 'svelte/store';
-import { CastingClassEnum } from '$lib/types/casting-class.enum';
 import { redirect, fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { stringToIndex } from '$lib/utils/string-utils';
@@ -9,13 +8,13 @@ import { superValidate } from 'sveltekit-superforms/server';
 
 const userStore = writable('');
 
-const createSpellbookSchema = z.object({
-	name: z.string(),
+const createCharacterSchema = z.object({
 	characterName: z.string(),
-	description: z.string(),
-	class1: z.nativeEnum(CastingClassEnum),
-	class2: z.optional(z.nativeEnum(CastingClassEnum)),
-	class3: z.optional(z.nativeEnum(CastingClassEnum))
+	playerName: z.string(),
+	description: z.string()
+	// class1: z.nativeEnum(CastingClassEnum),
+	// class2: z.optional(z.nativeEnum(CastingClassEnum)),
+	// class3: z.optional(z.nativeEnum(CastingClassEnum))
 });
 
 export const load = (async ({ locals }) => {
@@ -24,40 +23,32 @@ export const load = (async ({ locals }) => {
 
 	userStore.set(session.user.userId);
 
-	const form = await superValidate(createSpellbookSchema);
+	const form = await superValidate(createCharacterSchema);
 
 	return { form };
 }) satisfies PageServerLoad;
 
 export const actions = {
 	default: async ({ request, fetch }) => {
-		const form = await superValidate(request, createSpellbookSchema);
+		const form = await superValidate(request, createCharacterSchema);
 
 		if (!form.valid) {
 			return fail(400, { form });
 		}
 
-		const classes: Array<CastingClassEnum> = [];
-		[form.data.class1, form.data.class2, form.data.class3].forEach((item) => {
-			if (item !== undefined) {
-				classes.push(item);
-			}
-		});
-
 		const createRes = await fetch(
 			`/api/spellbooks/create?
 			user_id=${get(userStore)}&
-			index=${stringToIndex(form.data.name)}&
-			spellbook_name=${form.data.name}&
+			index=${stringToIndex(form.data.characterName)}&
 			character_name=${form.data.characterName}&
-			spellbook_description=${form.data.description}&
-			classes=${JSON.stringify(classes)}`,
+			player_name=${form.data.playerName}&
+			description=${form.data.description}`,
 			{
 				method: 'POST'
 			}
 		);
 		createRes.json();
 
-		redirect(303, '/spellbooks');
+		redirect(303, '/characters');
 	}
 } satisfies Actions;

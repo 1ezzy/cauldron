@@ -94,7 +94,7 @@ model Spell {
 model Class {
   id                         String              @id @default(auto()) @map("_id") @db.ObjectId
   index                      String
-  name                       String
+  name                       String              @unique
   url                        String
   hit_die                    Int
   class_levels               String
@@ -169,7 +169,7 @@ model Character {
   proficiency_ids String[]                @db.ObjectId
   proficiencies   Proficiency[]           @relation(fields: [proficiency_ids], references: [id])
   items           String[]
-  coins           CoinType
+  coins           CoinType?
   image_url       String?
   created_at      DateTime                @default(now())
   updated_at      DateTime?               @updatedAt
@@ -180,6 +180,7 @@ model Character {
   race_ids        String[]                @db.ObjectId
   race            Race[]                  @relation(fields: [race_ids], references: [id])
 
+  @@unique([character_name, user_id], name: "user_character")
   @@map("characters")
 }
 
@@ -200,7 +201,7 @@ model Skill {
   index         String
   name          String
   url           String
-  desc          String
+  desc          String?
   ability_score APIReference
   Character     Character?   @relation(fields: [characterId], references: [id])
   characterId   String?      @db.ObjectId
@@ -245,10 +246,10 @@ type APIReference {
 }
 
 type Choice {
-  desc   String
-  choose Int
-  type   String
-  from   Json
+  desc   String?
+  choose Int?
+  type   String?
+  from   Json?
 }
 
 type AreaOfEffect {
@@ -261,16 +262,9 @@ type StartingEquipment {
   equipment APIReference
 }
 
-type ProficiencyType {
-  index   String
-  type    String
-  name    String
-  classes APIReference[]
-}
-
 type Prerequisite {
-  ability_score APIReference
-  minimum_score Int
+  ability_score APIReference?
+  minimum_score Int?
 }
 
 type Info {
@@ -287,8 +281,8 @@ type Spellcasting {
 
 type Multiclassing {
   prerequisites        Prerequisite[]
-  prerequisite_options Choice[]
-  proficiencies        ProficiencyType[]
+  prerequisite_options Json?
+  proficiencies        APIReference[]
   proficiency_choices  Choice[]
 }
 

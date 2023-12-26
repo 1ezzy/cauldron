@@ -6,6 +6,9 @@ export const GET: RequestHandler = async ({ url }) => {
 	const spellbooks = await prisma.spellbook.findMany({
 		where: {
 			user_id: userId
+		},
+		include: {
+			classes: true
 		}
 	});
 

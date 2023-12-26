@@ -88,7 +88,7 @@
 	<h1 class="h1 mb-4 text-primary-500 text-center">{spellbookData?.spellbook_name}</h1>
 	<h3 class="h3 mb-8 text-tertiary-500 text-center">
 		{spellbookData?.character_name} the
-		{spellbookData.class.map((word) => capitalizeFirstLetter(word)).join('/')}
+		{spellbookData.classes.map((word) => capitalizeFirstLetter(word.name)).join('/')}
 	</h3>
 	<div class="w-full flex flex-1 md:flex-row flex-col">
 		<div class="p-8 flex flex-col basis-2/3">

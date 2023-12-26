@@ -15,7 +15,8 @@ export const GET: RequestHandler = async ({ url, params }) => {
 				orderBy: {
 					level: 'asc'
 				}
-			}
+			},
+			classes: true
 		}
 	});
 
