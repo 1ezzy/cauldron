@@ -7,10 +7,12 @@ export const GET: RequestHandler = async ({ url, params }) => {
 
 	const character = await prisma.character.findUnique({
 		where: {
-			user_character: {
-				user_id: userId,
-				id: characterId
-			}
+			user_id: userId,
+			id: characterId
+		},
+		include: {
+			classes: true,
+			race: true
 		}
 	});
 
