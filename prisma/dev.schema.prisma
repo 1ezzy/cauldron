@@ -133,8 +133,7 @@ model Race {
   subraces                     APIReference[]
   spellbook_ids                String[]       @db.ObjectId
   spellbooks                   Spellbook[]    @relation(fields: [spellbook_ids], references: [id])
-  character_ids                String[]       @db.ObjectId
-  characters                   Character[]    @relation(fields: [character_ids], references: [id])
+  characters                   Character[]
 
   @@map("races")
 }
@@ -174,9 +173,9 @@ model Character {
   user_id         String
   auth_user       User                    @relation(fields: [user_id], references: [id])
   class_ids       String[]                @db.ObjectId
-  class           Class[]                 @relation(fields: [class_ids], references: [id])
-  race_ids        String[]                @db.ObjectId
-  race            Race[]                  @relation(fields: [race_ids], references: [id])
+  classes         Class[]                 @relation(fields: [class_ids], references: [id])
+  race_id         String                  @db.ObjectId
+  race            Race                    @relation(fields: [race_id], references: [id])
 
   @@unique([character_name, user_id], name: "user_character")
   @@map("characters")

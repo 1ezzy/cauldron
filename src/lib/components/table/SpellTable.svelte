@@ -12,8 +12,8 @@
 	import type { ColumnDef, TableOptions } from '@tanstack/table-core/src/types';
 	import type { APIReference, Spell } from '@prisma/client';
 	import { capitalizeFirstLetter } from '$lib/utils/string-utils';
-	import { CastingClassEnum } from '$lib/types/casting-class.enum';
-	import { SpellSchoolEnum } from '$lib/types/spell-school.enum';
+	import { CastingClassType } from '$lib/types/casting-class.type';
+	import { SpellSchoolType } from '$lib/types/spell-school.type';
 	import { Icon } from '@steeze-ui/svelte-icon';
 	import { ArrowSmallLeft, ArrowSmallRight } from '@steeze-ui/heroicons';
 	import SpellTableAddCell from './SpellTableAddCell.svelte';
@@ -126,7 +126,7 @@
 			<span>Class</span>
 			<select class="select mt-1" on:input={(event) => handleSelectFilter(event, 3)}>
 				<option value="any">Any</option>
-				{#each Object.values(CastingClassEnum) as value}
+				{#each Object.values(CastingClassType) as value}
 					<option {value}>{capitalizeFirstLetter(value)}</option>
 				{/each}
 			</select>
@@ -135,7 +135,7 @@
 			<span>School</span>
 			<select class="select mt-1" on:input={(event) => handleSelectFilter(event, 6)}>
 				<option value="any">Any</option>
-				{#each Object.values(SpellSchoolEnum) as value}
+				{#each Object.values(SpellSchoolType) as value}
 					<option {value}>{capitalizeFirstLetter(value)}</option>
 				{/each}
 			</select>

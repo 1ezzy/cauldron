@@ -7,6 +7,10 @@ export const GET: RequestHandler = async ({ url }) => {
 	const characters = await prisma.character.findMany({
 		where: {
 			user_id: userId
+		},
+		include: {
+			classes: true,
+			race: true
 		}
 	});
 

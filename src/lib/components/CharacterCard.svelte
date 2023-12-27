@@ -14,7 +14,7 @@
 			{character.classes.map((word) => capitalizeFirstLetter(word.name)).join('/')}
 		</p>
 		<p class="text-lg truncate">
-			{character.races.map((word) => capitalizeFirstLetter(word.name)).join('/')}
+			{character.race.name}
 		</p>
 	</header>
 	<hr class="w-full !border-t-2 my-1" />
@@ -23,7 +23,7 @@
 	</section>
 	<footer class="card-footer mt-auto">
 		<button class="btn variant-filled-tertiary">
-			<a href="/characters/{character.index}">Open Character</a>
+			<a href="/characters/{character.id}">Open Character</a>
 		</button>
 	</footer>
 </div>
