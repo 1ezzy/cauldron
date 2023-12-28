@@ -84,6 +84,9 @@
 	};
 </script>
 
+<svelte:head>
+	<title>Cauldron | {spellbookData.spellbook_name}</title>
+</svelte:head>
 <PageBlock>
 	<h1 class="h1 mb-4 text-primary-500 text-center">{spellbookData?.spellbook_name}</h1>
 	<h3 class="h3 mb-8 text-tertiary-500 text-center">

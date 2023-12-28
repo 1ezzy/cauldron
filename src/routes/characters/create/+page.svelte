@@ -10,6 +10,9 @@
 	const { form } = superForm(data.form);
 </script>
 
+<svelte:head>
+	<title>Cauldron | Create a Character</title>
+</svelte:head>
 <PageBlock>
 	<h1 class="h1 mb-8 text-primary-500">Create a Character</h1>
 	<form class="flex flex-col flex-1 gap-6" method="POST">

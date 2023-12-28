@@ -2,6 +2,9 @@
 	import { enhance } from '$app/forms';
 </script>
 
+<svelte:head>
+	<title>Cauldron | Signup</title>
+</svelte:head>
 <div class="container h-full mx-auto p-10 flex flex-col justify-center items-center">
 	<h1 class="h1 mb-8 text-primary-500">Sign up</h1>
 	<form method="POST" class="flex flex-col gap-4" use:enhance>

@@ -30,6 +30,9 @@
 	};
 </script>
 
+<svelte:head>
+	<title>Cauldron | {spellData.name}</title>
+</svelte:head>
 <PageBlock styles="w-fit">
 	<h1 class="h1 mb-4 text-primary-500">{spellData.name}</h1>
 	<div class="w-full flex items-start">

@@ -5,6 +5,10 @@
 	const username = data.username;
 </script>
 
+<svelte:head>
+	<title>{'Cauldron | Dashboard'}</title>
+</svelte:head>
+
 <PageBlock>
 	<h1 class="h1 mb-8 text-primary-500">Dashboard</h1>
 	<section class="w-full flex-1 flex flex-col items-center">
