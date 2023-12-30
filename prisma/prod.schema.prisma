@@ -178,7 +178,7 @@ model Character {
   race_id         String                  @db.ObjectId
   race            Race                    @relation(fields: [race_id], references: [id])
 
-  @@unique([character_name, user_id], name: "user_character")
+  @@unique([id, user_id], name: "user_character")
   @@map("characters")
 }
 
@@ -199,7 +199,7 @@ model Skill {
   index         String
   name          String
   url           String
-  desc          String?
+  desc          String[]
   ability_score APIReference
   Character     Character?   @relation(fields: [characterId], references: [id])
   characterId   String?      @db.ObjectId
@@ -284,13 +284,8 @@ type Multiclassing {
   proficiency_choices  Choice[]
 }
 
-type AbilityScoreType {
-  name  String
-  index String
-}
-
 type CharacterAbilityScore {
-  type  AbilityScoreType
+  type  String
   value Int
 }
 
