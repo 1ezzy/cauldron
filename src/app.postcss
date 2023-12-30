@@ -7,7 +7,6 @@
 
 * {
 	@apply box-border;
-	@apply border-none;
 }
 
 html,
@@ -26,4 +25,21 @@ canvas,
 svg {
 	display: block;
 	max-width: 100%;
+}
+
+.stepper {
+	display: flex;
+	flex-direction: column;
+}
+
+.step,
+.stepper-content {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+}
+
+.stepper,
+.stepper-content {
+	width: 100%;
 }

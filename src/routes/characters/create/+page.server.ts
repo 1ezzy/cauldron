@@ -14,6 +14,7 @@ const createCharacterSchema = z.object({
 	playerName: z.string().max(50),
 	description: z.string().max(200),
 	level: z.number().lte(20).default(1),
+	experience: z.number().gte(0).default(0),
 	classes: z.array(z.enum(ClassType)),
 	race: z.enum(RaceType).default(RaceType[0])
 });
@@ -52,6 +53,7 @@ export const actions = {
 			player_name=${form.data.playerName}&
 			description=${form.data.description}&
 			level=${form.data.level}&
+			experience=${form.data.experience}&
 			classes=${classesMapped}&
 			race=${form.data.race}`,
 			{
@@ -59,7 +61,5 @@ export const actions = {
 			}
 		);
 		createRes.json();
-
-		redirect(303, '/characters');
 	}
 } satisfies Actions;

@@ -1,7 +1,6 @@
 <script lang="ts">
 	import PageBlock from '$lib/components/PageBlock.svelte';
 	import { capitalizeFirstLetter, formatSpellLevel } from '$lib/utils/string-utils.js';
-	import type { Spellbook } from '@prisma/client';
 	import { Icon } from '@steeze-ui/svelte-icon';
 	import { PencilSquare, MinusCircle, CheckCircle } from '@steeze-ui/heroicons';
 	import { invalidateAll } from '$app/navigation';
@@ -13,12 +12,13 @@
 		type PopupSettings
 	} from '@skeletonlabs/skeleton';
 	import DeleteSpellbookModal from '$lib/components/modals/DeleteSpellbookModal.svelte';
+	import type { SpellbookWithClasses } from '$lib/types/spellbook-with-classes.type.js';
 
 	const modalStore = getModalStore();
 
 	export let data;
 
-	let spellbookData: Spellbook = data.spellbookItem;
+	let spellbookData: SpellbookWithClasses = data.spellbookItem;
 	let spellData = data.spellbookItem.spells;
 
 	$: groupByLevel = (spells: any) => {
