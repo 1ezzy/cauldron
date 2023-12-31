@@ -10,7 +10,7 @@
 	import { invalidateAll } from '$app/navigation';
 
 	export let data: PageData;
-	const { form } = superForm(data.form);
+	const { form, enhance } = superForm(data.form);
 
 	type StatType = {
 		score: string;
@@ -33,6 +33,10 @@
 			statValues.push({ score: score, rolls: scoresSorted, value: finalScore });
 		});
 
+		$form.scoresOriginal = AbilityScoreType.map((score, i) => {
+			return { type: score, value: statValues[i].value };
+		});
+
 		invalidateAll();
 	};
 </script>
@@ -42,7 +46,7 @@
 </svelte:head>
 <PageBlock>
 	<h1 class="h1 mb-8 text-primary-500">Create a Character</h1>
-	<form method="POST" class="w-full h-full flex">
+	<form method="POST" class="w-full h-full flex" use:enhance>
 		<Stepper buttonCompleteType="submit">
 			<Step
 				regionContent="md:!mb-0 !mb-8 flex md:flex-row flex-col md:gap-16 gap-0"

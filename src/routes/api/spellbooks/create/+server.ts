@@ -6,7 +6,7 @@ export const POST: RequestHandler = async ({ url }) => {
 	const spellbookName = url.searchParams.get('spellbook_name') ?? '';
 	const spellbookDescription = url.searchParams.get('spellbook_description') ?? '';
 	const characterName = url.searchParams.get('character_name') ?? '';
-	const classes = JSON.parse(url.searchParams.get('classes')) ?? '';
+	const classes = JSON.parse(url.searchParams.get('classes') ?? '') ?? '';
 
 	if (!userId) {
 		return json({ message: `Could not create spellbook` }, { status: 404 });
