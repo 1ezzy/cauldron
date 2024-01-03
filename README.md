@@ -1,2 +1,2 @@
 # cauldron
-an open-source platform where you can search, save, and access SRD 5e spells in one place
+an open-source platform where you can search, save, and access 5e SRD spells in one place
