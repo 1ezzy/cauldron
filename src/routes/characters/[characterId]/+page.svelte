@@ -49,10 +49,19 @@
 </svelte:head>
 <PageBlock>
 	<h1 class="h1 mb-4 text-primary-500 text-center">{characterName}</h1>
+
 	<h3 class="h3 mb-8 text-tertiary-500 text-center">
 		{characterData.classes.map((word) => capitalizeFirstLetter(word.name)).join('/')} |
 		{characterData.race.name}
 	</h3>
+	<button
+		class="btn variant-filled-error mb-4"
+		on:click={() => {
+			modalDeleteCharacter();
+		}}
+	>
+		Delete Character
+	</button>
 	<div class="w-full">
 		<TabGroup>
 			<Tab bind:group={tabSet} name="tab1" value={0}>Main Details</Tab>

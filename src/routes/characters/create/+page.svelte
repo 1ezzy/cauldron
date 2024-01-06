@@ -7,10 +7,6 @@
 	import { RaceType } from '$lib/types/race.type';
 	import { Stepper, Step } from '@skeletonlabs/skeleton';
 	import { AbilityScoreType } from '$lib/types/ability-score.type';
-	import { invalidateAll } from '$app/navigation';
-
-	export let data: PageData;
-	const { form, enhance } = superForm(data.form);
 
 	type StatType = {
 		score: string;
@@ -18,9 +14,18 @@
 		value: number;
 	};
 
+	export let data: PageData;
+	const { form, enhance } = superForm(data.form, {
+		dataType: 'json'
+	});
+
+	$: manualStats = false;
+
 	let statValues: StatType[];
 	$: statValues = [];
 	$: generateStats = async () => {
+		manualStats = false;
+
 		statValues = [];
 		AbilityScoreType.forEach((score) => {
 			let numbers = [];
@@ -36,8 +41,6 @@
 		$form.scoresOriginal = AbilityScoreType.map((score, i) => {
 			return { type: score, value: statValues[i].value };
 		});
-
-		invalidateAll();
 	};
 </script>
 
@@ -90,7 +93,7 @@
 						<span>Level</span>
 						<input
 							class="input"
-							type="number"
+							type="text"
 							name="level"
 							bind:value={$form.level}
 							placeholder="Enter your character level"
@@ -100,7 +103,7 @@
 						<span>Experience</span>
 						<input
 							class="input"
-							type="number"
+							type="text"
 							name="experience"
 							bind:value={$form.experience}
 							placeholder="Enter your experience level"
@@ -139,15 +142,24 @@
 			>
 				<svelte:fragment slot="header">Character Stats</svelte:fragment>
 				<div class="w-full flex flex-col items-start gap-4">
-					<button
-						class="mb-2 btn variant-filled-primary w-fit"
-						on:click|preventDefault={() => generateStats()}>Roll Stats</button
-					>
+					<div class="flex flex-row items-center gap-4">
+						<button
+							class="mb-2 btn variant-filled-primary w-fit"
+							on:click|preventDefault={() => generateStats()}>Roll Stats</button
+						>
+						<span>or</span>
+						<button
+							class="mb-2 btn variant-filled-primary w-fit"
+							on:click|preventDefault={() => (manualStats = !manualStats)}
+						>
+							Manually Enter Stats
+						</button>
+					</div>
 					<div class="w-full flex justify-between">
 						{#each AbilityScoreType as score, i}
 							<div class="px-4 flex flex-col items-center">
 								<span>{score}</span>
-								{#key i}
+								{#if !manualStats}
 									<h2 class="h2 text-primary-500">{statValues[i]?.value ?? '?'}</h2>
 									<div class="flex gap-1">
 										{#if statValues[i]?.rolls}
@@ -156,7 +168,13 @@
 											{/each}
 										{/if}
 									</div>
-								{/key}
+								{:else}
+									<input
+										class="input w-16 text-center text-primary-500"
+										type="text"
+										name={`statValue-${i}`}
+									/>
+								{/if}
 							</div>
 						{/each}
 					</div>
