@@ -136,18 +136,20 @@
 				</div>
 			</Step>
 			<Step
-				regionContent="w-full md:!mb-0 !mb-8 flex md:flex-row flex-col md:gap-16 gap-0"
+				regionContent="w-full md:!mb-0 !mb-8 flex flex-col md:gap-16 gap-0"
 				regionHeader="mb-4"
 				regionNavigation="!mt-auto"
 			>
 				<svelte:fragment slot="header">Character Stats</svelte:fragment>
 				<div class="w-full flex flex-col items-start gap-4">
-					<div class="flex flex-row items-center gap-4">
-						<button
-							class="mb-2 btn variant-filled-primary w-fit"
-							on:click|preventDefault={() => generateStats()}>Roll Stats</button
-						>
-						<span>or</span>
+					<div class="flex md:flex-row flex-col md:items-center items-start gap-4">
+						<div class="flex flex-row items-center gap-4 mb-2">
+							<button
+								class="btn variant-filled-primary w-fit"
+								on:click|preventDefault={() => generateStats()}>Roll Stats</button
+							>
+							<span>or</span>
+						</div>
 						<button
 							class="mb-2 btn variant-filled-primary w-fit"
 							on:click|preventDefault={() => (manualStats = !manualStats)}
@@ -155,9 +157,9 @@
 							Manually Enter Stats
 						</button>
 					</div>
-					<div class="w-full flex justify-between">
+					<div class="w-full grid md:grid-cols-6 grid-cols-3 gap-4 justify-items-center">
 						{#each AbilityScoreType as score, i}
-							<div class="px-4 flex flex-col items-center">
+							<div class="flex flex-col items-center w-fit">
 								<span>{score}</span>
 								{#if !manualStats}
 									<h2 class="h2 text-primary-500">{statValues[i]?.value ?? '?'}</h2>
@@ -179,6 +181,7 @@
 						{/each}
 					</div>
 				</div>
+				<div class="w-full flex flex-col items-start gap-4" />
 			</Step>
 		</Stepper>
 	</form>

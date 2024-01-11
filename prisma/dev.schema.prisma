@@ -140,56 +140,61 @@ model Race {
 }
 
 model Character {
-  id              String                  @id @default(auto()) @map("_id") @db.ObjectId
-  spellbooks      Spellbook[]
-  character_name  String
-  player_name     String
-  description     String?
-  backstory       String?
-  level           Int
-  experience      Int?
-  next_level      Int?
-  age             Int?
-  Height          String?
-  weight          Int?
-  size            String?
-  gender          String?
-  eye_color       String?
-  hair_color      String?
-  skin_color      String?
-  scores_original CharacterAbilityScore[]
-  scores_current  CharacterAbilityScore[]
-  skills          Skill[]
-  armor_class     Int?
-  death_saves     DeathSave?
-  language_ids    String[]                @db.ObjectId
-  languages       Language[]              @relation(fields: [language_ids], references: [id])
-  proficiency_ids String[]                @db.ObjectId
-  proficiencies   Proficiency[]           @relation(fields: [proficiency_ids], references: [id])
-  items           String[]
-  coins           CoinType?
-  image_url       String?
-  created_at      DateTime                @default(now())
-  updated_at      DateTime?               @updatedAt
-  user_id         String
-  auth_user       User                    @relation(fields: [user_id], references: [id])
-  class_ids       String[]                @db.ObjectId
-  classes         Class[]                 @relation(fields: [class_ids], references: [id])
-  race_id         String                  @db.ObjectId
-  race            Race                    @relation(fields: [race_id], references: [id])
+  id               String                  @id @default(auto()) @map("_id") @db.ObjectId
+  spellbooks       Spellbook[]
+  character_name   String
+  player_name      String
+  description      String?
+  backstory        String?
+  level            Int
+  experience       Int?
+  next_level       Int?
+  age              Int?
+  Height           String?
+  weight           Int?
+  size             String?
+  gender           String?
+  eye_color        String?
+  hair_color       String?
+  skin_color       String?
+  scores_original  CharacterAbilityScore[]
+  scores_current   CharacterAbilityScore[]
+  saving_throw_ids String[]                @db.ObjectId
+  saving_throws    AbilityScore[]          @relation(fields: [saving_throw_ids], references: [id])
+  skill_ids        String[]                @db.ObjectId
+  skills           Skill[]                 @relation(fields: [skill_ids], references: [id])
+  armor_class      Int?
+  death_saves      DeathSave?
+  language_ids     String[]                @db.ObjectId
+  languages        Language[]              @relation(fields: [language_ids], references: [id])
+  proficiency_ids  String[]                @db.ObjectId
+  proficiencies    Proficiency[]           @relation(fields: [proficiency_ids], references: [id])
+  items            String[]
+  coins            CoinType?
+  image_url        String?
+  created_at       DateTime                @default(now())
+  updated_at       DateTime?               @updatedAt
+  user_id          String
+  auth_user        User                    @relation(fields: [user_id], references: [id])
+  class_ids        String[]                @db.ObjectId
+  classes          Class[]                 @relation(fields: [class_ids], references: [id])
+  race_id          String                  @db.ObjectId
+  race             Race                    @relation(fields: [race_id], references: [id])
 
   @@unique([id, user_id], name: "user_character")
   @@map("characters")
 }
 
 model AbilityScore {
-  id        String         @id @default(auto()) @map("_id") @db.ObjectId
-  index     String
-  name      String
-  url       String
-  full_name String
-  desc      String[]
-  skills    APIReference[]
+  id            String         @id @default(auto()) @map("_id") @db.ObjectId
+  index         String
+  name          String
+  url           String
+  full_name     String
+  desc          String[]
+  skills        APIReference[]
+  character     Character[]    @relation(fields: [character_ids], references: [id])
+  character_ids String[]       @db.ObjectId
 
   @@map("ability_scores")
 }
@@ -201,8 +206,8 @@ model Skill {
   url           String
   desc          String[]
   ability_score APIReference
-  Character     Character?   @relation(fields: [characterId], references: [id])
-  characterId   String?      @db.ObjectId
+  characters    Character[]  @relation(fields: [character_ids], references: [id])
+  character_ids String[]     @db.ObjectId
 
   @@map("skills")
 }
