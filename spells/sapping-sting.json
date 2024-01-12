@@ -1,0 +1,54 @@
+{
+	"index": "sapping-sting",
+	"name": "Sapping Sting",
+	"desc": [
+		"You sap the vitality of one creature you can see in range. The target must succeed on a Constitution saving throw or take 1d4 necrotic damage and fall prone."
+	],
+	"higher_level": [
+		"This spell's damage increases by 1d4 when you reach 5th level (2d4), 11th level (3d4), and 17th level (4d4)."
+	],
+	"range": "30 feet",
+	"components": ["V", "S"],
+	"ritual": false,
+	"duration": "Instantaneous",
+	"concentration": false,
+	"casting_time": "1 action",
+	"level": 0,
+	"attack_type": "ranged",
+	"dc": {
+		"dc_type": {
+			"index": "con",
+			"name": "CON",
+			"url": "/api/ability-scores/con"
+		},
+		"dc_success": "other",
+		"desc": "The target must succeed on a Constitution saving throw or take 1d4 necrotic damage and fall prone."
+	},
+	"damage": {
+		"damage_type": {
+			"index": "necrotic",
+			"name": "Necrotic",
+			"url": "/api/damage-types/necrotic"
+		},
+		"damage_at_character_level": {
+			"1": "1d4",
+			"5": "2d4",
+			"11": "3d4",
+			"17": "4d4"
+		}
+	},
+	"school": {
+		"index": "necromancy",
+		"name": "Necromancy",
+		"url": "/api/magic-schools/necromancy"
+	},
+	"classes": [
+		{
+			"index": "wizard",
+			"name": "Wizard",
+			"url": "/api/classes/wizard"
+		}
+	],
+	"subclasses": [],
+	"url": "/api/spells/sapping-sting"
+}
