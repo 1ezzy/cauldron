@@ -81,6 +81,7 @@ model Spell {
   level          Int
   attack_type    String?
   damage         Json?
+  dc             Json?
   school         APIReference
   classes        APIReference[]
   subclasses     APIReference[]
