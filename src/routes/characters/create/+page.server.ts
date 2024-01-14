@@ -62,7 +62,8 @@ export const actions = {
 				classes: { connect: classesMapped },
 				race: { connect: { index: form.data.race } },
 				auth_user: { connect: { id: get(userStore) } },
-				scores_original: form.data.scoresOriginal
+				scores_original: form.data.scoresOriginal,
+				scores_current: form.data.scoresOriginal
 			},
 			include: {
 				classes: true,

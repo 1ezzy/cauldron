@@ -62,18 +62,20 @@
 	>
 		Delete Character
 	</button>
-	<div class="w-full">
-		<TabGroup>
-			<Tab bind:group={tabSet} name="tab1" value={0}>Main Details</Tab>
+	<div class="w-full flex-1">
+		<TabGroup class="h-full flex flex-col text-tertiary-500" regionPanel="flex flex-1">
+			<Tab bind:group={tabSet} name="tabMain" value={0}>Main Details</Tab>
 			<Tab bind:group={tabSet} name="tabInventory" value={1}>Inventory</Tab>
 			<Tab bind:group={tabSet} name="tabSpells" value={2}>Spells</Tab>
 			<svelte:fragment slot="panel">
 				{#if tabSet === 0}
-					<div class="p-4 w-full flex flex-col">
-						<div class="flex justify-between">
-							{#each AbilityScoreType as score}
-								<div class="flex flex-col">
-									<span>{score}</span>
+					<div class="w-fit flex flex-col text-center">
+						<h2 class="h2 text-primary-500">Ability<br />Scores</h2>
+						<div class="p-4 w-fit flex flex-1 flex-col justify-between items-center">
+							{#each characterData.scores_original as score}
+								<div class="flex flex-col items-center">
+									<h2 class="h2 text-secondary-500">{score.type}</h2>
+									<h3 class="h3">{score.value}</h3>
 								</div>
 							{/each}
 						</div>

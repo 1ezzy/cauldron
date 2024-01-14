@@ -65,7 +65,7 @@ model Spellbook {
 }
 
 model Spell {
-  id             String          @id @default(auto()) @map("_id") @db.ObjectId
+  id             String           @id @default(auto()) @map("_id") @db.ObjectId
   index          String
   name           String
   url            String
@@ -82,12 +82,12 @@ model Spell {
   level          Int
   attack_type    String?
   damage         Json?
-  dc             DifficultyClass
+  dc             DifficultyClass?
   school         APIReference
   classes        APIReference[]
   subclasses     APIReference[]
-  spellbook_ids  String[]        @db.ObjectId
-  spellbooks     Spellbook[]     @relation(fields: [spellbook_ids], references: [id])
+  spellbook_ids  String[]         @db.ObjectId
+  spellbooks     Spellbook[]      @relation(fields: [spellbook_ids], references: [id])
 
   @@map("spells")
 }
@@ -252,7 +252,7 @@ type APIReference {
 type DifficultyClass {
   dc_success String
   dc_type    APIReference
-  desc       String
+  desc       String?
 }
 
 type Choice {

@@ -57,7 +57,7 @@
 				regionNavigation="!mt-auto"
 			>
 				<svelte:fragment slot="header">Character Info</svelte:fragment>
-				<div class="flex flex-col gap-4">
+				<div class="flex flex-col gap-4 basis-1/2">
 					<label class="label">
 						<span>Character Name</span>
 						<input
@@ -88,7 +88,7 @@
 						/>
 					</label>
 				</div>
-				<div class="!mt-0 flex flex-col gap-4">
+				<div class="!mt-0 flex flex-col gap-4 basis-1/2">
 					<label class="label">
 						<span>Level</span>
 						<input

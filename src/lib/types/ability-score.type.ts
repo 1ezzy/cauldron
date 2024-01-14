@@ -1,1 +1,1 @@
-export const AbilityScoreType = ['WIS', 'CHA', 'INT', 'STR', 'DEX', 'CON'] as const;
+export const AbilityScoreType = ['STR', 'DEX', 'CON', 'INT', 'WIS', 'CHA'] as const;
