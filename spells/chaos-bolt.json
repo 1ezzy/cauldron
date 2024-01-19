@@ -1,0 +1,55 @@
+{
+	"index": "chaos-bolt",
+	"name": "Chaos Bolt",
+	"desc": [
+		"You hurl an undulating, warbling mass of chaotic energy at one creature in range. Make a ranged spell attack against the target. On a hit, the target takes 2d8 + 1d6 damage. Choose one of the d8s. The number rolled on that die determines the attack's damage type, as shown below.",
+		"1d8 - Acid",
+		"2d8 - Cold",
+		"3d8 - Fire",
+		"4d8 - Force",
+		"5d8 - Lightning",
+		"6d8 - Poison",
+		"7d8 - Psychic",
+		"8d8 - Thunder",
+		"If you roll the same number on both d8s, the chaotic energy leaps from the target to a different creature of your choice within 30 feet of it. Make a new attack roll against the new target, and make a new damage roll, which could cause the chaotic energy to leap again.",
+		"A creature can be targeted only once by each casting of this spell."
+	],
+	"higher_level": [
+		"When you cast this spell using a spell slot of 2nd level or higher, each target takes 1d6 extra damage of the type rolled for each slot level above 1st."
+	],
+	"range": "120 feet",
+	"components": ["V", "S"],
+	"ritual": false,
+	"duration": "Instantaneous",
+	"concentration": false,
+	"casting_time": "1 action",
+	"level": 1,
+	"attack_type": "ranged",
+	"damage": {
+		"damage_at_slot_level": {
+			"1": "2d8 + 1d6",
+			"2": "2d8 + 2d6",
+			"3": "2d8 + 3d6",
+			"4": "2d8 + 4d6",
+			"5": "2d8 + 5d6",
+			"6": "2d8 + 6d6",
+			"7": "2d8 + 7d6",
+			"8": "2d8 + 8d6",
+			"9": "2d8 + 9d6"
+		}
+	},
+	"school": {
+		"index": "evocation",
+		"name": "Evocation",
+		"url": "/api/magic-schools/evocation"
+	},
+	"classes": [
+		{
+			"index": "sorcerer",
+			"name": "Sorcerer",
+			"url": "/api/classes/sorcerer"
+		}
+	],
+	"subclasses": [],
+	"url": "/api/spells/chaos-bolt"
+}

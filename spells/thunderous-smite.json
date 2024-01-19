@@ -1,0 +1,49 @@
+{
+	"index": "thunderous-smite",
+	"name": "Thunderous Smite",
+	"desc": [
+		"The first time you hit with a melee weapon attack during this spell’s duration, your weapon rings with thunder that is audible within 300 feet of you, and the attack deals an extra 2d6 thunder damage to the target. Additionally, if the target is a creature, it must succeed on a Strength saving throw or be pushed 10 feet away from you and knocked prone."
+	],
+	"higher_level": [""],
+	"range": "Self",
+	"components": ["V"],
+	"ritual": false,
+	"duration": "Instantaneous",
+	"concentration": true,
+	"casting_time": "1 action",
+	"level": 1,
+	"attack_type": "melee",
+	"dc": {
+		"dc_type": {
+			"index": "con",
+			"name": "CON",
+			"url": "/api/ability-scores/con"
+		},
+		"dc_success": "other",
+		"desc": "Additionally, if the target is a creature, it must succeed on a Strength saving throw or be pushed 10 feet away from you and knocked prone."
+	},
+	"damage": {
+		"damage_type": {
+			"index": "poison",
+			"name": "Poison",
+			"url": "/api/damage-types/poison"
+		},
+		"damage_at_slot_level": {
+			"1": "2d6"
+		}
+	},
+	"school": {
+		"index": "evocation",
+		"name": "Evocation",
+		"url": "/api/magic-schools/evocation"
+	},
+	"classes": [
+		{
+			"index": "paladin",
+			"name": "Paladin",
+			"url": "/api/classes/paladin"
+		}
+	],
+	"subclasses": [],
+	"url": "/api/spells/thunderous-smite"
+}
