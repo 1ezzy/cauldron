@@ -1,0 +1,39 @@
+{
+	"index": "healing-elixir-ua",
+	"name": "Healing Elixir (UA)",
+	"desc": [
+		"You create a healing elixir in a simple vial that appears in your hand. The elixir retains its potency for the duration or until it’s consumed, at which point the vial vanishes.",
+		"As an action, a creature can drink the elixir or administer it to another creature. The drinker regains 2d4 + 2 hit points."
+	],
+	"higher_level": [""],
+	"range": "",
+	"components": [""],
+	"ritual": false,
+	"duration": "Instantaneous",
+	"concentration": false,
+	"casting_time": "1 action",
+	"level": 1,
+	"attack_type": "ranged",
+	"heal_at_slot_level": {
+		"1": "2d4 + 2"
+	},
+	"school": {
+		"index": "conjuration",
+		"name": "Conjuration",
+		"url": "/api/magic-schools/conjuration"
+	},
+	"classes": [
+		{
+			"index": "warlock",
+			"name": "Warlock",
+			"url": "/api/classes/warlock"
+		},
+		{
+			"index": "wizard",
+			"name": "Wizard",
+			"url": "/api/classes/wizard"
+		}
+	],
+	"subclasses": [],
+	"url": "/api/spells/healing-elixir-ua"
+}

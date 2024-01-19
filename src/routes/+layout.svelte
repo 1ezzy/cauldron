@@ -14,23 +14,23 @@
 
 	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 
-	$: pageTitle = convertUrlToPageTitle($page.url.pathname);
-	const convertUrlToPageTitle = (url: string): string => {
-		const parsedUrl = url.split('/');
-		const unformattedPageName = parsedUrl[parsedUrl.length - 1].split('-');
-		const formattedPageName = unformattedPageName.map((word) => {
-			return capitalizeFirstLetter(word);
-		});
-		const pageName = formattedPageName.join(' ');
-		return pageName === '' ? 'Cauldron | Dashboard' : `Cauldron | ${pageName}`;
-	};
+	// $: pageTitle = convertUrlToPageTitle($page.url.pathname);
+	// const convertUrlToPageTitle = (url: string): string => {
+	// 	const parsedUrl = url.split('/');
+	// 	const unformattedPageName = parsedUrl[parsedUrl.length - 1].split('-');
+	// 	const formattedPageName = unformattedPageName.map((word) => {
+	// 		return capitalizeFirstLetter(word);
+	// 	});
+	// 	const pageName = formattedPageName.join(' ');
+	// 	return pageName === '' ? 'Cauldron | Dashboard' : `Cauldron | ${pageName}`;
+	// };
 
 	export let data;
 	$: isActive = data.user;
 </script>
 
 <svelte:head>
-	<title>{pageTitle}</title>
+	<title>Cauldron</title>
 </svelte:head>
 <Modal />
 <HeaderDrawer />

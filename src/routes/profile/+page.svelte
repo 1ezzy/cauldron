@@ -5,6 +5,9 @@
 	const profileData = data.profileItem;
 </script>
 
+<svelte:head>
+	<title>Cauldron | Profile</title>
+</svelte:head>
 <PageBlock>
 	<h1 class="h1 mb-8 text-primary-500">Profile</h1>
 	<div class="flex flex-col items-center gap-10">

@@ -1,5 +1,5 @@
 import { get, writable } from 'svelte/store';
-import { CastingClassEnum } from '$lib/types/casting-class.enum';
+import { CastingClassType } from '$lib/types/casting-class.type';
 import { redirect, fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 
@@ -9,12 +9,16 @@ import { superValidate } from 'sveltekit-superforms/server';
 const userStore = writable('');
 
 const createSpellbookSchema = z.object({
-	name: z.string().max(50),
-	characterName: z.string().max(50),
-	description: z.string().max(500),
-	class1: z.nativeEnum(CastingClassEnum),
-	class2: z.optional(z.nativeEnum(CastingClassEnum)),
-	class3: z.optional(z.nativeEnum(CastingClassEnum))
+	name: z
+		.string({ required_error: 'Name is required' })
+		.min(1)
+		.max(50, { message: 'Must be less than 50 characters' }),
+	characterName: z
+		.string({ required_error: 'Character name is required' })
+		.min(1)
+		.max(50, { message: 'Must be less than 50 characters' }),
+	description: z.string().max(500, { message: 'Must be less than 500 characters' }),
+	classes: z.array(z.enum(CastingClassType)).nonempty({ message: 'Select at least one class' })
 });
 
 export const load = (async ({ locals }) => {
@@ -36,18 +40,13 @@ export const actions = {
 			return fail(400, { form });
 		}
 
-		const classes: Array<CastingClassEnum> = [];
-		[form.data.class1, form.data.class2, form.data.class3].forEach((item) => {
-			if (item !== undefined) {
-				classes.push(item);
-			}
-		});
-
-		const classesMapped = classes.map((className) => {
-			return { index: className };
-		});
-
-		console.log(JSON.stringify(classesMapped));
+		const classesMapped = JSON.stringify(
+			form.data.classes
+				.filter((className) => className !== undefined)
+				.map((className) => {
+					return { index: className };
+				})
+		);
 
 		const createRes = await fetch(
 			`/api/spellbooks/create?
@@ -55,7 +54,7 @@ export const actions = {
 			spellbook_name=${form.data.name}&
 			character_name=${form.data.characterName}&
 			spellbook_description=${form.data.description}&
-			classes=${JSON.stringify(classesMapped)}`,
+			classes=${classesMapped}`,
 			{
 				method: 'POST'
 			}

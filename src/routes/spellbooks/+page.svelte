@@ -17,6 +17,9 @@
 	};
 </script>
 
+<svelte:head>
+	<title>Cauldron | Spellbooks</title>
+</svelte:head>
 <PageBlock>
 	<h1 class="h1 mb-8 text-primary-500">Spellbooks</h1>
 	<a class="btn variant-filled-primary mb-8" href="/spellbooks/create">Create a Spellbook</a>

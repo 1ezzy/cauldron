@@ -1,0 +1,55 @@
+{
+	"index": "",
+	"name": "",
+	"desc": [""],
+	"higher_level": [""],
+	"range": "",
+	"components": [""],
+	"ritual": false,
+	"duration": "Instantaneous",
+	"concentration": false,
+	"casting_time": "1 action",
+	"level": 1,
+	"attack_type": "ranged",
+	"dc": {
+		"dc_type": {
+			"index": "con",
+			"name": "CON",
+			"url": "/api/ability-scores/con"
+		},
+		"dc_success": "other",
+		"desc": ""
+	},
+	"damage": {
+		"damage_type": {
+			"index": "poison",
+			"name": "Poison",
+			"url": "/api/damage-types/poison"
+		},
+		"damage_at_slot_level": {
+			"2": "3d8"
+		},
+		"damage_at_character_level": {
+			"1": "4d8"
+		}
+	},
+	"school": {
+		"index": "necromancy",
+		"name": "Necromancy",
+		"url": "/api/magic-schools/necromancy"
+	},
+	"classes": [
+		{
+			"index": "sorcerer",
+			"name": "Sorcerer",
+			"url": "/api/classes/sorcerer"
+		},
+		{
+			"index": "wizard",
+			"name": "Wizard",
+			"url": "/api/classes/wizard"
+		}
+	],
+	"subclasses": [],
+	"url": "/api/spells/ray-of-sickness"
+}

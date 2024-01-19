@@ -65,7 +65,7 @@ model Spellbook {
 }
 
 model Spell {
-  id             String         @id @default(auto()) @map("_id") @db.ObjectId
+  id             String           @id @default(auto()) @map("_id") @db.ObjectId
   index          String
   name           String
   url            String
@@ -82,12 +82,12 @@ model Spell {
   level          Int
   attack_type    String?
   damage         Json?
-  dc             Json?
+  dc             DifficultyClass?
   school         APIReference
   classes        APIReference[]
   subclasses     APIReference[]
-  spellbook_ids  String[]       @db.ObjectId
-  spellbooks     Spellbook[]    @relation(fields: [spellbook_ids], references: [id])
+  spellbook_ids  String[]         @db.ObjectId
+  spellbooks     Spellbook[]      @relation(fields: [spellbook_ids], references: [id])
 
   @@map("spells")
 }
@@ -135,63 +135,67 @@ model Race {
   subraces                     APIReference[]
   spellbook_ids                String[]       @db.ObjectId
   spellbooks                   Spellbook[]    @relation(fields: [spellbook_ids], references: [id])
-  character_ids                String[]       @db.ObjectId
-  characters                   Character[]    @relation(fields: [character_ids], references: [id])
+  characters                   Character[]
 
   @@map("races")
 }
 
 model Character {
-  id              String                  @id @default(auto()) @map("_id") @db.ObjectId
-  spellbooks      Spellbook[]
-  character_name  String
-  player_name     String
-  description     String?
-  backstory       String?
-  level           Int
-  experience      Int?
-  next_level      Int?
-  age             Int?
-  Height          String?
-  weight          Int?
-  size            String?
-  gender          String?
-  eye_color       String?
-  hair_color      String?
-  skin_color      String?
-  scores_original CharacterAbilityScore[]
-  scores_current  CharacterAbilityScore[]
-  skills          Skill[]
-  armor_class     Int?
-  death_saves     DeathSave?
-  language_ids    String[]                @db.ObjectId
-  languages       Language[]              @relation(fields: [language_ids], references: [id])
-  proficiency_ids String[]                @db.ObjectId
-  proficiencies   Proficiency[]           @relation(fields: [proficiency_ids], references: [id])
-  items           String[]
-  coins           CoinType?
-  image_url       String?
-  created_at      DateTime                @default(now())
-  updated_at      DateTime?               @updatedAt
-  user_id         String
-  auth_user       User                    @relation(fields: [user_id], references: [id])
-  class_ids       String[]                @db.ObjectId
-  class           Class[]                 @relation(fields: [class_ids], references: [id])
-  race_ids        String[]                @db.ObjectId
-  race            Race[]                  @relation(fields: [race_ids], references: [id])
+  id               String                  @id @default(auto()) @map("_id") @db.ObjectId
+  spellbooks       Spellbook[]
+  character_name   String
+  player_name      String
+  description      String?
+  backstory        String?
+  level            Int
+  experience       Int?
+  next_level       Int?
+  age              Int?
+  Height           String?
+  weight           Int?
+  size             String?
+  gender           String?
+  eye_color        String?
+  hair_color       String?
+  skin_color       String?
+  scores_original  CharacterAbilityScore[]
+  scores_current   CharacterAbilityScore[]
+  saving_throw_ids String[]                @db.ObjectId
+  saving_throws    AbilityScore[]          @relation(fields: [saving_throw_ids], references: [id])
+  skill_ids        String[]                @db.ObjectId
+  skills           Skill[]                 @relation(fields: [skill_ids], references: [id])
+  armor_class      Int?
+  death_saves      DeathSave?
+  language_ids     String[]                @db.ObjectId
+  languages        Language[]              @relation(fields: [language_ids], references: [id])
+  proficiency_ids  String[]                @db.ObjectId
+  proficiencies    Proficiency[]           @relation(fields: [proficiency_ids], references: [id])
+  items            String[]
+  coins            CoinType?
+  image_url        String?
+  created_at       DateTime                @default(now())
+  updated_at       DateTime?               @updatedAt
+  user_id          String
+  auth_user        User                    @relation(fields: [user_id], references: [id])
+  class_ids        String[]                @db.ObjectId
+  classes          Class[]                 @relation(fields: [class_ids], references: [id])
+  race_id          String                  @db.ObjectId
+  race             Race                    @relation(fields: [race_id], references: [id])
 
-  @@unique([character_name, user_id], name: "user_character")
+  @@unique([id, user_id], name: "user_character")
   @@map("characters")
 }
 
 model AbilityScore {
-  id        String         @id @default(auto()) @map("_id") @db.ObjectId
-  index     String
-  name      String
-  url       String
-  full_name String
-  desc      String[]
-  skills    APIReference[]
+  id            String         @id @default(auto()) @map("_id") @db.ObjectId
+  index         String
+  name          String
+  url           String
+  full_name     String
+  desc          String[]
+  skills        APIReference[]
+  character     Character[]    @relation(fields: [character_ids], references: [id])
+  character_ids String[]       @db.ObjectId
 
   @@map("ability_scores")
 }
@@ -201,10 +205,10 @@ model Skill {
   index         String
   name          String
   url           String
-  desc          String?
+  desc          String[]
   ability_score APIReference
-  Character     Character?   @relation(fields: [characterId], references: [id])
-  characterId   String?      @db.ObjectId
+  characters    Character[]  @relation(fields: [character_ids], references: [id])
+  character_ids String[]     @db.ObjectId
 
   @@map("skills")
 }
@@ -243,6 +247,12 @@ type APIReference {
   index String
   name  String
   url   String
+}
+
+type DifficultyClass {
+  dc_success String
+  dc_type    APIReference
+  desc       String?
 }
 
 type Choice {
@@ -286,13 +296,8 @@ type Multiclassing {
   proficiency_choices  Choice[]
 }
 
-type AbilityScoreType {
-  name  String
-  index String
-}
-
 type CharacterAbilityScore {
-  type  AbilityScoreType
+  type  String
   value Int
 }
 

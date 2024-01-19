@@ -5,12 +5,16 @@
 	const username = data.username;
 </script>
 
+<svelte:head>
+	<title>{'Cauldron | Dashboard'}</title>
+</svelte:head>
+
 <PageBlock>
 	<h1 class="h1 mb-8 text-primary-500">Dashboard</h1>
-	<section class="w-full flex flex-col items-center">
+	<section class="w-full flex-1 flex flex-col items-center">
 		<h3 class="h3 mb-2">Hey there, {username}!</h3>
-		<p>
-			Click <a class="text-secondary-500" href="/spellbooks/create">here</a> to create a new spellbook
-		</p>
+		<div class="my-auto">
+			<p>More content coming soon...</p>
+		</div>
 	</section>
 </PageBlock>
