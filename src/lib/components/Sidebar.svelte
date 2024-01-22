@@ -11,7 +11,8 @@
 		ArrowLeftOnRectangle,
 		ChevronDoubleLeft,
 		ChevronDoubleRight,
-		UserGroup
+		UserGroup,
+		Users
 	} from '@steeze-ui/heroicons';
 
 	const listClasses = 'rounded-full bg-primary-500';
@@ -79,6 +80,14 @@
 				<h4 class="h4">Settings</h4>
 			</a>
 		</ul> -->
+		<ul class={listClasses}>
+			<a href="/friends" class={expanded ? expandedAClasses : AClasses}>
+				<Icon src={Users} theme="mini" size="24px" />
+				{#if expanded}
+					<h4 class="h4" in:slide={{ delay: 100, axis: 'x' }}>Friends</h4>
+				{/if}
+			</a>
+		</ul>
 		<ul class={listClasses}>
 			<a href="/profile" class={expanded ? expandedAClasses : AClasses}>
 				<Icon src={UserCircle} theme="mini" size="24px" />

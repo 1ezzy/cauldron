@@ -18,8 +18,18 @@ model User {
   auth_session    Session[]
   spellbooks      Spellbook[]
   characters      Character[]
+  friends         Friends[]   @relation(fields: [friend_ids], references: [user_id])
+  friend_ids      String[]
 
   @@map("users")
+}
+
+model Friends {
+  user_id    String   @id @map("_id")
+  friends    User[]   @relation(fields: [friend_ids], references: [id])
+  friend_ids String[]
+
+  @@map("friends")
 }
 
 model Session {
