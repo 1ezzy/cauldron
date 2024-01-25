@@ -8,18 +8,20 @@ datasource db {
 }
 
 model User {
-  id              String      @id @map("_id")
-  username        String      @unique
-  discordUsername String?     @unique
-  role            Role        @default(USER)
-  created_at      DateTime    @default(now())
-  updated_at      DateTime?   @updatedAt
-  auth_key        Key[]
-  auth_session    Session[]
-  spellbooks      Spellbook[]
-  characters      Character[]
-  friends         Friends[]   @relation(fields: [friend_ids], references: [user_id])
-  friend_ids      String[]
+  id                   String             @id @map("_id")
+  username             String             @unique
+  discordUsername      String?            @unique
+  role                 Role               @default(USER)
+  created_at           DateTime           @default(now())
+  updated_at           DateTime?          @updatedAt
+  auth_key             Key[]
+  auth_session         Session[]
+  spellbooks           Spellbook[]
+  characters           Character[]
+  friends              Friends[]          @relation(fields: [friend_ids], references: [user_id])
+  friend_ids           String[]
+  requested_friends    RequestedFriends[] @relation(fields: [requested_friend_ids], references: [user_id])
+  requested_friend_ids String[]
 
   @@map("users")
 }
@@ -30,6 +32,14 @@ model Friends {
   friend_ids String[]
 
   @@map("friends")
+}
+
+model RequestedFriends {
+  user_id              String   @id @map("_id")
+  requested_friends    User[]   @relation(fields: [requested_friend_ids], references: [id])
+  requested_friend_ids String[]
+
+  @@map("requested_friends")
 }
 
 model Session {
