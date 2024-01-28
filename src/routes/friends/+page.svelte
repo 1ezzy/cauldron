@@ -32,7 +32,7 @@
 			<h2 class="h2 mb-8 text-secondary-500">Your Friends</h2>
 			<div class="flex flex-col items-center gap-10">
 				{#each friendsData.friends as friend}
-					<div class="flex flex-col items-center">
+					<div class="card">
 						<a href="/user/{friend.id}" class="h3 mb-4">{friend.username}</a>
 						<div class="flex flex-col gap-2">
 							<a href="/user/{friend.id}" class="btn variant-filled-tertiary">View Profile</a>

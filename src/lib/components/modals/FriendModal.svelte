@@ -2,10 +2,11 @@
 	import { goto } from '$app/navigation';
 	import { getModalStore, getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
 	import { FriendModalTypeEnum } from '$lib/types/friend-modal-type.enum';
+	import type { User } from '@prisma/client';
 
 	export let parent;
 	export let type: FriendModalTypeEnum;
-	export let userData;
+	export let userData: User;
 
 	const modalStore = getModalStore();
 	const toastStore = getToastStore();
