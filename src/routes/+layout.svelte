@@ -38,7 +38,7 @@
 {#if isActive}
 	<AppShell slotSidebarLeft="bg-surface-100 dark:bg-surface-800">
 		<svelte:fragment slot="header"><Header /></svelte:fragment>
-		<svelte:fragment slot="sidebarLeft"><Sidebar /></svelte:fragment>
+		<svelte:fragment slot="sidebarLeft"><Sidebar userId={data.user.userId} /></svelte:fragment>
 		<!-- Router Slot -->
 		<slot />
 		<!-- ---- / ---- -->

@@ -1,8 +1,9 @@
 <script lang="ts">
+	import { PUBLIC_CLOUDINARY_BASE_URL } from '$env/static/public';
 	import PageBlock from '$lib/components/PageBlock.svelte';
 	import FriendModal from '$lib/components/modals/FriendModal.svelte';
 	import { FriendModalTypeEnum } from '$lib/types/friend-modal-type.enum.js';
-	import { getModalStore } from '@skeletonlabs/skeleton';
+	import { Avatar, getModalStore } from '@skeletonlabs/skeleton';
 
 	export let data;
 	const friendsData = data.friendsItem;
@@ -33,17 +34,29 @@
 			<div class="flex flex-col items-center gap-10">
 				{#each friendsData.friends as friend}
 					<div class="card">
-						<a href="/user/{friend.id}" class="h3 mb-4">{friend.username}</a>
-						<div class="flex flex-col gap-2">
-							<a href="/user/{friend.id}" class="btn variant-filled-tertiary">View Profile</a>
-							<button
-								class="btn variant-filled-error"
-								on:click={() => {
-									modalFriendUpdate(FriendModalTypeEnum.remove, friend);
-								}}
-							>
-								Remove
-							</button>
+						<header class="card-header">
+							<a href="/users/{friend.id}" class="h3 mb-4 text-primary-500">{friend.username}</a>
+						</header>
+
+						<div class="p-4 flex flex-col xl:flex-row gap-4 xl:gap-0 items-center">
+							<Avatar
+								src="{PUBLIC_CLOUDINARY_BASE_URL}{friend.profile_pic_url}"
+								alt="Profile Picture for {friend.username}"
+								rounded="rounded-full"
+								width="w-16"
+							/>
+							<span class="divider-vertical mx-6 self-stretch hidden xl:inline-block" />
+							<div class="flex flex-col xl:flex-row gap-2">
+								<a href="/users/{friend.id}" class="btn variant-filled-tertiary">View Profile</a>
+								<button
+									class="btn variant-filled-error"
+									on:click={() => {
+										modalFriendUpdate(FriendModalTypeEnum.remove, friend);
+									}}
+								>
+									Remove
+								</button>
+							</div>
 						</div>
 					</div>
 				{/each}
@@ -57,26 +70,37 @@
 			<h2 class="h2 mb-8 text-secondary-500 text-center">Pending Friends</h2>
 			<div class="flex flex-col items-center gap-10">
 				{#each requestedFriendsData.requested_friends as friend}
-					<div class="flex flex-col">
-						<a href="/user/{friend.id}" class="h3 mb-4">{friend.username}</a>
-						<div class="flex flex-col gap-2">
-							<a href="/user/{friend.id}" class="btn variant-filled-tertiary">View Profile</a>
-							<button
-								class="btn variant-filled-success"
-								on:click={() => {
-									modalFriendUpdate(FriendModalTypeEnum.accept, friend);
-								}}
-							>
-								Accept
-							</button>
-							<button
-								class="btn variant-filled-error"
-								on:click={() => {
-									modalFriendUpdate(FriendModalTypeEnum.decline, friend);
-								}}
-							>
-								Decline
-							</button>
+					<div class="card">
+						<header class="card-header">
+							<a href="/users/{friend.id}" class="h3 mb-4 text-primary-500">{friend.username}</a>
+						</header>
+						<div class="p-4 flex flex-col xl:flex-row gap-4 xl:gap-0 items-center">
+							<Avatar
+								src="{PUBLIC_CLOUDINARY_BASE_URL}{friend.profile_pic_url}"
+								alt="Profile Picture for {friend.username}"
+								rounded="rounded-full"
+								width="w-16"
+							/>
+							<span class="divider-vertical mx-6 self-stretch hidden xl:inline-block" />
+							<div class="flex flex-col xl:flex-row gap-2">
+								<a href="/users/{friend.id}" class="btn variant-filled-tertiary">View Profile</a>
+								<button
+									class="btn variant-filled-success"
+									on:click={() => {
+										modalFriendUpdate(FriendModalTypeEnum.accept, friend);
+									}}
+								>
+									Accept
+								</button>
+								<button
+									class="btn variant-filled-error"
+									on:click={() => {
+										modalFriendUpdate(FriendModalTypeEnum.decline, friend);
+									}}
+								>
+									Decline
+								</button>
+							</div>
 						</div>
 					</div>
 				{/each}

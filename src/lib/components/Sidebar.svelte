@@ -19,6 +19,7 @@
 	const expandedAClasses = 'w-56 h-14 px-4 flex items-center justify-between';
 	const AClasses = 'w-14 h-14 flex justify-center items-center';
 
+	export let userId: string;
 	let expanded: boolean = true;
 </script>
 
@@ -89,7 +90,7 @@
 			</a>
 		</ul>
 		<ul class={listClasses}>
-			<a href="/profile" class={expanded ? expandedAClasses : AClasses}>
+			<a href="/users/{userId}" class={expanded ? expandedAClasses : AClasses}>
 				<Icon src={UserCircle} theme="mini" size="24px" />
 				{#if expanded}
 					<h4 class="h4" in:slide={{ delay: 100, axis: 'x' }}>Profile</h4>

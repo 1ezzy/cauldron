@@ -16,6 +16,8 @@ model User {
   updated_at           DateTime?          @updatedAt
   auth_key             Key[]
   auth_session         Session[]
+  biography            String?
+  profile_pic_url      String             @default("profile_pics/default_pfp.png")
   spellbooks           Spellbook[]
   characters           Character[]
   friends              Friends[]          @relation(fields: [friend_ids], references: [user_id])
