@@ -21,32 +21,51 @@
 			title: type
 		});
 	};
+
+	const gridSizes: { [key: number]: string } = {
+		1: 'grid-cols-1',
+		2: 'md:grid-cols-2 grid-cols-1',
+		3: 'lg:grid-cols-3 md:grid-cols-2 grid-cols-1',
+		4: 'xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1',
+		5: 'xl:grid-cols-5 lg:grid-cols-3 md:grid-cols-2 grid-cols-1',
+		6: 'xl:grid-cols-6 lg:grid-cols-3 md:grid-cols-2 grid-cols-1'
+	};
 </script>
 
 <svelte:head>
 	<title>Cauldron | Friends</title>
 </svelte:head>
 <PageBlock>
-	<h1 class="h1 mb-8 text-primary-500">Friends</h1>
+	<div class="mb-8 w-full flex flex-row items-center">
+		<div />
+		<h1 class="h1 text-primary-500 self-center mx-auto">Friends</h1>
+		<a href="/friends/add">
+			<button class="btn variant-filled-primary"> Add Friend </button>
+		</a>
+	</div>
+
 	<div class="w-full flex flex-1">
 		<div class="p-8 flex flex-col items-center basis-2/3">
 			<h2 class="h2 mb-8 text-secondary-500">Your Friends</h2>
-			<div class="flex flex-col items-center gap-10">
+			<div
+				class={`my-auto grid ${
+					gridSizes[Math.min(6, friendsData.friends.length)]
+				} justify-items-center gap-8`}
+			>
 				{#each friendsData.friends as friend}
-					<div class="card">
-						<header class="card-header">
+					<div class="card flex flex-col w-44 h-80">
+						<header class="card-header text-center">
 							<a href="/users/{friend.id}" class="h3 mb-4 text-primary-500">{friend.username}</a>
 						</header>
 
-						<div class="p-4 flex flex-col xl:flex-row gap-4 xl:gap-0 items-center">
+						<div class="p-4 flex flex-col flex-1 gap-4 items-center">
 							<Avatar
 								src="{PUBLIC_CLOUDINARY_BASE_URL}{friend.profile_pic_url}"
 								alt="Profile Picture for {friend.username}"
 								rounded="rounded-full"
 								width="w-16"
 							/>
-							<span class="divider-vertical mx-6 self-stretch hidden xl:inline-block" />
-							<div class="flex flex-col xl:flex-row gap-2">
+							<div class="mt-auto flex flex-col gap-2">
 								<a href="/users/{friend.id}" class="btn variant-filled-tertiary">View Profile</a>
 								<button
 									class="btn variant-filled-error"
@@ -61,28 +80,28 @@
 					</div>
 				{/each}
 			</div>
-			<a href="/friends/add" class="mt-auto">
-				<button class="btn variant-filled-primary"> Add Friend </button>
-			</a>
 		</div>
 		<span class="divider-vertical my-auto h-[95%] md:block hidden" />
 		<div class="p-8 flex flex-col basis-1/3">
 			<h2 class="h2 mb-8 text-secondary-500 text-center">Pending Friends</h2>
-			<div class="flex flex-col items-center gap-10">
+			<div
+				class={`my-auto grid ${
+					gridSizes[Math.min(6, requestedFriendsData.requested_friends.length)]
+				} justify-items-center gap-8`}
+			>
 				{#each requestedFriendsData.requested_friends as friend}
-					<div class="card">
-						<header class="card-header">
+					<div class="card flex flex-col w-44 h-80">
+						<header class="card-header text-center">
 							<a href="/users/{friend.id}" class="h3 mb-4 text-primary-500">{friend.username}</a>
 						</header>
-						<div class="p-4 flex flex-col xl:flex-row gap-4 xl:gap-0 items-center">
+						<div class="p-4 flex flex-col flex-1 gap-4 items-center">
 							<Avatar
 								src="{PUBLIC_CLOUDINARY_BASE_URL}{friend.profile_pic_url}"
 								alt="Profile Picture for {friend.username}"
 								rounded="rounded-full"
 								width="w-16"
 							/>
-							<span class="divider-vertical mx-6 self-stretch hidden xl:inline-block" />
-							<div class="flex flex-col xl:flex-row gap-2">
+							<div class="mt-auto flex flex-col gap-2">
 								<a href="/users/{friend.id}" class="btn variant-filled-tertiary">View Profile</a>
 								<button
 									class="btn variant-filled-success"
