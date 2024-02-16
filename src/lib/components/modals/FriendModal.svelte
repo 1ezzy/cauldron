@@ -4,7 +4,6 @@
 	import { FriendModalTypeEnum } from '$lib/types/friend-modal-type.enum';
 	import type { User } from '@prisma/client';
 
-	export let parent;
 	export let type: FriendModalTypeEnum;
 	export let userData: User;
 
@@ -61,7 +60,9 @@
 			<h3 class="h4 mb-8 text-secondary-500">{userData.username}</h3>
 		</header>
 		<footer class="flex justify-start">
-			<button class="mr-2 btn variant-filled-secondary" on:click={parent.onClose}> Cancel </button>
+			<button class="mr-2 btn variant-filled-secondary" on:click={() => modalStore.close()}>
+				Cancel
+			</button>
 			<button
 				class="btn"
 				class:variant-filled-error={type !== FriendModalTypeEnum.accept}

@@ -4,27 +4,36 @@
 	import { Avatar } from '@skeletonlabs/skeleton';
 
 	export let data;
-	const profileData = data.profileItem;
+	$: profileData = data.profileItem;
+	$: userData = data.user;
+
+	$: isUser = profileData?.username === userData?.username;
 </script>
 
 <svelte:head>
-	<title>Cauldron | {profileData.username}</title>
+	<title>Cauldron | {profileData.username ?? null}</title>
 </svelte:head>
 <PageBlock>
-	<div class="w-full flex flex-row gap-8">
+	{#if isUser}
+		<div class="w-full mb-8 flex flex-row justify-between">
+			<h1 class="h1 text-primary-500">Your Profile</h1>
+			<button class="self-start btn variant-filled-secondary">Edit Profile</button>
+		</div>
+	{/if}
+	<div class="w-full flex flex-row gap-8 mb-8">
 		<div class="card p-4 basis-[40%]">
 			<header class="card-header">
 				<h1 class="h1 text-primary-500 text-center">{profileData.username}</h1>
 			</header>
-			<div class="px-4 py-12 flex flex-row justify-center">
+			<div class="px-4 py-8 flex flex-row justify-center">
 				<Avatar
 					src="{PUBLIC_CLOUDINARY_BASE_URL}{profileData.profile_pic_url}"
 					alt="Profile Picture for {profileData.username}"
 					rounded="rounded-full"
-					width="w-48"
+					width="w-24"
 				/>
 			</div>
-			<footer class="card-footer flex flex-row gap-2 justify-start">
+			<footer class="card-footer flex flex-row gap-2 justify-center">
 				<h4 class="h4 text-secondary-500">User Since:</h4>
 				<h4 class="h4">{new Date(profileData.created_at).toDateString()}</h4>
 			</footer>
@@ -38,9 +47,4 @@
 			</div>
 		</div>
 	</div>
-
-	<!-- <span class="divider-vertical my-auto h-48" />
-	<div class="p-8 basis-1/3 flex flex-col">
-		<h3 class="h3 mb-8 text-secondary-500">Edit account details</h3>
-	</div> -->
 </PageBlock>
