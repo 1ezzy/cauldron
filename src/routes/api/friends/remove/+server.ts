@@ -28,7 +28,7 @@ export const POST: RequestHandler = async ({ url }) => {
 	}
 
 	const updatedUserFriendsList = userFriends.friend_ids.filter((id: string) => id !== friendId);
-	const updatedFriendFriendsList = friendFriends.friend_ids((id: string) => id !== userId);
+	const updatedFriendFriendsList = friendFriends.friend_ids.filter((id: string) => id !== userId);
 
 	let updateUserFriends, updateFriendsFriends;
 	if (userFriends.friend_ids.includes(friendId)) {
