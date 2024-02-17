@@ -22,9 +22,9 @@
 		{spellbook.spellbook_description ?? 'No Description'}
 	</section>
 	<footer class="card-footer mt-auto">
-		<button class="btn variant-filled-tertiary">
-			<a href="/spellbooks/{spellbook.id}">Open Spellbook</a>
-		</button>
+		<a href="/spellbooks/{spellbook.id}">
+			<button class="btn variant-filled-tertiary">Open Spellbook</button>
+		</a>
 	</footer>
 </div>
 

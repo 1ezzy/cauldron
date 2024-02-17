@@ -21,8 +21,13 @@
 	<title>Cauldron | Spellbooks</title>
 </svelte:head>
 <PageBlock>
-	<h1 class="h1 mb-8 text-primary-500">Spellbooks</h1>
-	<a class="btn variant-filled-primary mb-8" href="/spellbooks/create">Create a Spellbook</a>
+	<div class="w-full mb-8 flex flex-row items-center">
+		<div class="basis-1/3" />
+		<h1 class="h1 text-primary-500 text-center basis-1/3">Spellbooks</h1>
+		<a href="/spellbooks/create" class="flex justify-end basis-1/3">
+			<button class="btn variant-filled-primary">Create a Spellbook</button>
+		</a>
+	</div>
 	{#if spellbookData.length > 0}
 		<div class={`my-auto grid ${gridSizes[Math.min(6, spellbookData.length)]} gap-8`}>
 			{#each spellbookData as spellbook}

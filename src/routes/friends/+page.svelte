@@ -44,11 +44,11 @@
 	<title>Cauldron | Friends</title>
 </svelte:head>
 <PageBlock>
-	<div class="mb-8 w-full flex flex-row items-center">
-		<div />
-		<h1 class="h1 text-primary-500 self-center mx-auto">Friends</h1>
-		<a href="/friends/add" class="mr-8">
-			<button class="btn variant-filled-primary"> Add Friend </button>
+	<div class="w-full mb-8 flex flex-row items-center">
+		<div class="basis-1/3" />
+		<h1 class="h1 text-primary-500 text-center basis-1/3">Friends</h1>
+		<a href="/friends/add" class="flex justify-end basis-1/3">
+			<button class="btn variant-filled-primary">Add Friend</button>
 		</a>
 	</div>
 

@@ -15,9 +15,12 @@
 </svelte:head>
 <PageBlock>
 	{#if isUser}
-		<div class="w-full mb-8 flex flex-row justify-between">
-			<h1 class="h1 text-primary-500">Your Profile</h1>
-			<button class="self-start btn variant-filled-primary">Edit Profile</button>
+		<div class="w-full mb-8 flex flex-row items-center">
+			<div class="basis-1/3" />
+			<h1 class="h1 text-primary-500 text-center basis-1/3">Your Profile</h1>
+			<div class="flex justify-end basis-1/3">
+				<button class="btn variant-filled-primary">Edit Profile</button>
+			</div>
 		</div>
 	{/if}
 	<div class="w-full flex flex-row gap-8 mb-8">

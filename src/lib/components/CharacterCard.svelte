@@ -22,9 +22,9 @@
 		{character.description ?? 'No Description'}
 	</section>
 	<footer class="card-footer mt-auto">
-		<button class="btn variant-filled-tertiary">
-			<a href="/characters/{character.id}">Open Character</a>
-		</button>
+		<a href="/characters/{character.id}">
+			<button class="btn variant-filled-tertiary">Open Character</button>
+		</a>
 	</footer>
 </div>
 
