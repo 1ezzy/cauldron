@@ -27,29 +27,29 @@ export const load = (async ({ locals }) => {
 }) satisfies PageServerLoad;
 
 export const actions = {
-	default: async ({ request }) => {
+	default: async ({ request, fetch }) => {
 		const form = await superValidate(request, addFriendSchema);
 
 		if (!form.valid) {
 			return fail(400, { form });
 		}
 
-		const friend = await prisma.friends.update({
+		const friend = await prisma.user.findUnique({
 			where: {
-				user_id: get(userStore)
-			},
-			data: {
-				friends: {
-					connect: {
-						username: form.data.username
-					}
-				}
+				username: form.data.username
 			}
 		});
 
-		if (!friend) {
-			console.log('hit!');
-			return json({ message: `Could not add friend` }, { status: 404 });
+		const requestRes = await fetch(
+			`/api/requestedFriends/add?
+			user_id=${get(userStore)}&
+			friend_id=${friend.id}`,
+			{
+				method: 'POST'
+			}
+		);
+		if (!requestRes.ok) {
+			return json({ message: `Couldn't add friend ${friend.username}` }, { status: 404 });
 		}
 
 		redirect(307, '/friends');

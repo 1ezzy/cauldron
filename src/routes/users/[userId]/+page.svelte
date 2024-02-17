@@ -17,7 +17,7 @@
 	{#if isUser}
 		<div class="w-full mb-8 flex flex-row justify-between">
 			<h1 class="h1 text-primary-500">Your Profile</h1>
-			<button class="self-start btn variant-filled-secondary">Edit Profile</button>
+			<button class="self-start btn variant-filled-primary">Edit Profile</button>
 		</div>
 	{/if}
 	<div class="w-full flex flex-row gap-8 mb-8">

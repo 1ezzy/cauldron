@@ -6,19 +6,25 @@
 	import { Avatar, Tab, TabGroup, getModalStore } from '@skeletonlabs/skeleton';
 
 	export let data;
-	const friendsData = data.friendsItem;
-	const requestedFriendsData = data.requestedFriendsItem;
+	$: userData = data.user;
+	$: friendsData = data.friendsItem;
+	$: requestedFriendsData = data.requestedFriendsItem;
 
 	let tabSet: number = 0;
 
 	const modalStore = getModalStore();
 
-	const modalFriendUpdate = (type: FriendModalTypeEnum, userData: any) => {
+	const modalFriendUpdate = (
+		type: FriendModalTypeEnum,
+		userData: any,
+		requestedFriendData?: any,
+		friendData?: any
+	) => {
 		modalStore.trigger({
 			type: 'component',
 			component: {
 				ref: FriendModal,
-				props: { type, userData }
+				props: { type, userData, requestedFriendData, friendData }
 			},
 			title: type
 		});
@@ -78,7 +84,7 @@
 										<button
 											class="btn variant-filled-error"
 											on:click={() => {
-												modalFriendUpdate(FriendModalTypeEnum.remove, friend);
+												modalFriendUpdate(FriendModalTypeEnum.remove, userData, null, friend);
 											}}
 										>
 											Remove
@@ -113,7 +119,7 @@
 										<button
 											class="btn variant-filled-success"
 											on:click={() => {
-												modalFriendUpdate(FriendModalTypeEnum.accept, friend);
+												modalFriendUpdate(FriendModalTypeEnum.accept, userData, friend);
 											}}
 										>
 											Accept
@@ -121,7 +127,7 @@
 										<button
 											class="btn variant-filled-error"
 											on:click={() => {
-												modalFriendUpdate(FriendModalTypeEnum.decline, friend);
+												modalFriendUpdate(FriendModalTypeEnum.decline, userData, friend);
 											}}
 										>
 											Decline
