@@ -11,6 +11,12 @@ export const POST: RequestHandler = async ({ url }) => {
 		}
 	});
 
+	const friendFriends = await prisma.friends.findUnique({
+		where: {
+			user_id: friendId
+		}
+	});
+
 	const friend = await prisma.user.findUnique({
 		where: {
 			id: friendId
@@ -21,9 +27,10 @@ export const POST: RequestHandler = async ({ url }) => {
 		return json({ message: `Could not find user` }, { status: 404 });
 	}
 
-	const updatedFriendsList = userFriends.friend_ids.filter((id: string) => id !== friendId);
+	const updatedUserFriendsList = userFriends.friend_ids.filter((id: string) => id !== friendId);
+	const updatedFriendFriendsList = friendFriends.friend_ids((id: string) => id !== userId);
 
-	let updateUserFriends;
+	let updateUserFriends, updateFriendsFriends;
 	if (userFriends.friend_ids.includes(friendId)) {
 		updateUserFriends = await prisma.friends.update({
 			where: {
@@ -31,11 +38,21 @@ export const POST: RequestHandler = async ({ url }) => {
 			},
 			data: {
 				friend_ids: {
-					set: updatedFriendsList
+					set: updatedUserFriendsList
 				}
 			}
 		});
-		return json(updateUserFriends);
+		updateFriendsFriends = await prisma.friends.update({
+			where: {
+				user_id: friendId
+			},
+			data: {
+				friend_ids: {
+					set: updatedFriendFriendsList
+				}
+			}
+		});
+		return json({ updateUserFriends, updateFriendsFriends });
 	} else {
 		return json({ message: `${friend.username} isn't in your friends list` }, { status: 404 });
 	}
