@@ -44,6 +44,16 @@
 		>
 		<a
 			class="w-fit text-xl text-primary-500"
+			href="/friends"
+			on:click={() => {
+				closeDrawer();
+			}}
+			on:keydown={() => {
+				closeDrawer();
+			}}>Friends</a
+		>
+		<a
+			class="w-fit text-xl text-primary-500"
 			href="/profile"
 			on:click={() => {
 				closeDrawer();
