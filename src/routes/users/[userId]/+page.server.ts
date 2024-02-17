@@ -1,13 +1,15 @@
 import type { PageServerLoad } from './$types';
 import { redirect } from '@sveltejs/kit';
 
-export const load = (async ({ fetch, locals }) => {
+export const load = (async ({ fetch, locals, params }) => {
 	const session = await locals.auth.validate();
 	if (!session) redirect(307, '/login');
 
-	const profileRes = await fetch(`/api/profile?user_id=${session.user.userId}`);
+	const user = session.user;
+
+	const profileRes = await fetch(`/api/users/${params.userId}`);
 
 	const profileItem = await profileRes.json();
 
-	return { profileItem };
+	return { profileItem, user };
 }) satisfies PageServerLoad;

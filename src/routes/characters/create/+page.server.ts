@@ -50,8 +50,6 @@ export const actions = {
 			return { index: className };
 		});
 
-		console.log(form.data);
-
 		const character = await prisma.character.create({
 			data: {
 				character_name: form.data.characterName,

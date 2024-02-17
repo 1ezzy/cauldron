@@ -146,13 +146,13 @@
 											{spell.name}
 										</a>
 										<div
-											class="card dark:variant-filled-surface p-4"
+											class="card dark:variant-filled-surface p-4 mr-12"
 											data-popup={`popupElement-${spell.id}`}
 										>
 											<header class="card-header text-primary-500 font-bold">{spell.name}</header>
 											<section class="p-4">
-												<p class="text-secondary-500">Duration: {spell.duration}</p>
-												<p class="mb-2 text-secondary-500">Range: {spell.range}</p>
+												<p class="font-bold">Duration: {spell.duration}</p>
+												<p class="mb-2 font-bold">Range: {spell.range}</p>
 												{#each spell.desc as part}
 													<p class="mb-2">{part}</p>
 												{/each}

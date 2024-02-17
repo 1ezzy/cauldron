@@ -3,15 +3,18 @@ import { json, type RequestHandler } from '@sveltejs/kit';
 
 export const GET: RequestHandler = async ({ url }) => {
 	const userId = url.searchParams.get('user_id') ?? '';
-	const profile = await prisma.user.findFirst({
+	const friends = await prisma.requestedFriends.findUnique({
 		where: {
-			id: userId
+			user_id: userId
+		},
+		include: {
+			requested_friends: true
 		}
 	});
 
-	if (!profile) {
-		return json({ message: `No user found` }, { status: 404 });
+	if (!friends) {
+		return json({ message: `No friends found` }, { status: 404 });
 	}
 
-	return json(profile);
+	return json(friends);
 };
