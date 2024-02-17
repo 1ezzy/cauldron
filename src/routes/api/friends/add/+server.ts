@@ -7,13 +7,13 @@ export const POST: RequestHandler = async ({ url }) => {
 
 	const user = await prisma.user.findUnique({
 		where: {
-			user_id: userId
+			id: userId
 		}
 	});
 
 	const friend = await prisma.user.findUnique({
 		where: {
-			user_id: friendId
+			id: friendId
 		}
 	});
 

@@ -53,6 +53,14 @@
 				invalidateAll();
 				break;
 			case FriendModalTypeEnum.accept:
+				const requestDeleteRes = await fetch(
+					`/api/requestedFriends/remove
+					?user_id=${userData.userId}
+					&requested_friend_id=${requestedFriendData.id}`,
+					{
+						method: 'POST'
+					}
+				);
 				const acceptRes = await fetch(
 					`/api/friends/add
 					?user_id=${userData.userId}
@@ -61,7 +69,7 @@
 						method: 'POST'
 					}
 				);
-				if (!acceptRes.ok) {
+				if (!requestDeleteRes.ok || !acceptRes.ok) {
 					const data = await acceptRes.json();
 					const toastAcceptRequestFail: ToastSettings = {
 						message: `Error: ${data.message}`,
