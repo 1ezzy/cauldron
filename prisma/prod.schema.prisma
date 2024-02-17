@@ -25,6 +25,9 @@ model User {
   friend_ids           String[]
   requested_friends    RequestedFriends[] @relation(fields: [requested_friend_ids], references: [user_id])
   requested_friend_ids String[]
+  owned_campaigns      Campaign[]         @relation("OwnerUser")
+  joined_campaigns     Campaign[]         @relation("MemberUsers", fields: [joined_campaign_ids], references: [id])
+  joined_campaign_ids  String[]           @db.ObjectId
 
   @@map("users")
 }
@@ -84,6 +87,21 @@ model Spellbook {
   races                 Race[]     @relation(fields: [race_ids], references: [id])
 
   @@map("spellbooks")
+}
+
+model Campaign {
+  id                  String    @id @default(auto()) @map("_id") @db.ObjectId
+  campaign_name       String
+  capaign_description String?
+  created_at          DateTime  @default(now())
+  updated_at          DateTime? @updatedAt
+  owner_id            String
+  auth_user           User      @relation("OwnerUser", fields: [owner_id], references: [id])
+  user_ids            String[]
+  users               User[]    @relation("MemberUsers", fields: [user_ids], references: [id])
+
+  @@unique([id, owner_id], name: "user_campaign")
+  @@map("campaigns")
 }
 
 model Spell {
