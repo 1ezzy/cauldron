@@ -58,8 +58,8 @@ export const actions = {
 		);
 		const sentRequestRes = await fetch(
 			`/api/sentRequests/add?
-			user_id=${friend.id}&
-			friend_id=${get(userStore)}`,
+			user_id=${get(userStore)}&
+			friend_id=${friend.id}`,
 			{
 				method: 'POST'
 			}

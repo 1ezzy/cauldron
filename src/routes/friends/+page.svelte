@@ -125,7 +125,7 @@
 											<a href="/users/{friend.id}" class="btn variant-filled-tertiary"
 												>View Profile</a
 											>
-											{#if friend.sent_requests_ids?.includes(friend.id)}
+											{#if friend.sent_request_ids?.includes(userData.userId)}
 												<button
 													class="btn variant-filled-success"
 													on:click={() => {
