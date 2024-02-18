@@ -59,7 +59,7 @@
 			<!-- Tab Panels --->
 			<svelte:fragment slot="panel">
 				{#if tabSet === 0}
-					{#if friendsData.friends}
+					{#if friendsData.friends?.length > 0}
 						<div
 							class={`my-auto grid ${
 								gridSizes[Math.min(6, friendsData.friends?.length)]
@@ -101,7 +101,7 @@
 						<span class="mx-auto my-auto">No friends to show</span>
 					{/if}
 				{:else if tabSet === 1}
-					{#if requestedFriendsData.requested_friends}
+					{#if requestedFriendsData.requested_friends?.length > 0}
 						<div
 							class={`my-auto grid ${
 								gridSizes[Math.min(6, requestedFriendsData.requested_friends.length)]
