@@ -35,14 +35,14 @@ export const POST: RequestHandler = async ({ url }) => {
 			},
 			data: {
 				friend_ids: {
-					set: updatedFriendFriendsList
-				}updatedFriendsList
+					set: updatedFriendsList
+				}
 			}
 		});
 		return json({ updateUserFriends, updateFriendsFriends });
 	} else if (friends.friend_ids === undefined) {
 		return json({ message: 'User has no friends' }, { status: 400 });
-	}else {
+	} else {
 		return json({ message: `Friend isn't in your friends list` }, { status: 404 });
 	}
 };
