@@ -8,8 +8,7 @@ export const GET: RequestHandler = async ({ url }) => {
 			user_id: userId
 		},
 		include: {
-			requested_friends: true,
-			sent_requests: true
+			requested_friends: true
 		}
 	});
 
