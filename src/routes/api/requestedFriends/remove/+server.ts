@@ -21,9 +21,9 @@ export const POST: RequestHandler = async ({ url }) => {
 
 	let updatedRequestedFriends;
 	if (requestedFriends.requested_friend_ids.includes(requestedFriendId)) {
-		updatedRequestedFriends = await prisma.requestedFriends.update({
+		updatedRequestedFriends = await prisma.user.update({
 			where: {
-				user_id: userId
+				id: userId
 			},
 			data: {
 				requested_friend_ids: {
