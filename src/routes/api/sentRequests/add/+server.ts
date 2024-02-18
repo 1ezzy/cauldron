@@ -30,10 +30,19 @@ export const POST: RequestHandler = async ({ url }) => {
 			data: {
 				sent_request_ids: {
 					push: friendId
+				},
+				sent_requests: {
+					update: {
+						where: {
+							user_id: userId
+						},
+						data: {
+							sent_requests_ids: {
+								push: friendId
+							}
+						}
+					}
 				}
-			},
-			include: {
-				sent_requests: true
 			}
 		});
 		return json(updateUserFriends);
