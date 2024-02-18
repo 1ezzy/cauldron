@@ -78,18 +78,18 @@
 						method: 'POST'
 					}
 				);
-				const sentRequestDeleteRes = await fetch(
-					`/api/sentRequests/remove
-					?user_id=${requestedFriendData.id}
-					&sent_request_id=${userData.userId}`,
-					{
-						method: 'POST'
-					}
-				);
 				const friendRequestDeleteRes = await fetch(
 					`/api/requestedFriends/remove
 					?user_id=${requestedFriendData.id}
 					&requested_friend_id=${userData.userId}`,
+					{
+						method: 'POST'
+					}
+				);
+				const sentRequestDeleteRes = await fetch(
+					`/api/sentRequests/remove
+					?user_id=${requestedFriendData.id}
+					&sent_request_id=${userData.userId}`,
 					{
 						method: 'POST'
 					}

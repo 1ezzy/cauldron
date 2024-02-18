@@ -34,7 +34,14 @@ export const POST: RequestHandler = async ({ url }) => {
 					push: friendId
 				},
 				requested_friends: {
-					connect: [{ user_id: friendId }]
+					connectOrCreate: {
+						create: {
+							user_id: friendId
+						},
+						where: {
+							user_id: friendId
+						}
+					}
 				}
 			}
 		});
