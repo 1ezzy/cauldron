@@ -23,15 +23,11 @@ export const POST: RequestHandler = async ({ url }) => {
 
 	let updateUserFriends;
 	if (!user.friend_ids.includes(friendId)) {
-		updateUserFriends = await prisma.requestedFriends.upsert({
+		updateUserFriends = await prisma.user.update({
 			where: {
-				user_id: friendId
+				id: friendId
 			},
-			create: {
-				user_id: friendId,
-				requested_friend_ids: [userId]
-			},
-			update: {
+			data: {
 				sent_request_ids: {
 					push: userId
 				}
