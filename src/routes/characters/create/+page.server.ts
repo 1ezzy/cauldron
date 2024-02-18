@@ -70,7 +70,7 @@ export const actions = {
 		});
 
 		if (!character) {
-			return json({ message: `Could not create character` }, { status: 404 });
+			return { message: `Could not create character`, status: 404 };
 		}
 
 		redirect(307, '/characters');

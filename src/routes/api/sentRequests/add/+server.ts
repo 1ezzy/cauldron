@@ -24,16 +24,16 @@ export const POST: RequestHandler = async ({ url }) => {
 	let updateUser;
 	if (user.friend_ids.includes(friendId)) {
 		return json({ message: `Already friends with  ${friend.username}` }, { status: 404 });
-	} else if (!user.requested_friend_ids.includes(friendId)) {
+	} else if (!user.sent_request_ids.includes(friendId)) {
 		updateUser = await prisma.user.update({
 			where: {
 				id: userId
 			},
 			data: {
-				requested_friend_ids: {
+				sent_request_ids: {
 					push: friendId
 				},
-				requested_friends: {
+				sent_requests: {
 					connectOrCreate: {
 						create: {
 							user_id: friendId

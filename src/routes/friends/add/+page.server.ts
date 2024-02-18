@@ -1,15 +1,16 @@
 import { get, writable } from 'svelte/store';
-import { redirect, fail, json } from '@sveltejs/kit';
+import { redirect, fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { prisma } from '$lib/server/prisma';
 
 import { z } from 'zod';
 import { superValidate } from 'sveltekit-superforms/server';
+import type { ToastSettings } from '@skeletonlabs/skeleton';
 
 const userStore = writable('');
 
 const addFriendSchema = z.object({
-	username: z
+	friend_username: z
 		.string({ required_error: 'Name is required' })
 		.min(1)
 		.max(50, { message: 'Must be less than 50 characters' })
@@ -36,22 +37,63 @@ export const actions = {
 
 		const friend = await prisma.user.findUnique({
 			where: {
-				username: form.data.username
+				username: form.data.friend_username
 			}
 		});
 
 		const requestRes = await fetch(
 			`/api/requestedFriends/add?
-			user_id=${get(userStore)}&
-			friend_id=${friend.id}`,
+				user_id=${get(userStore)}&
+				friend_id=${friend.id}`,
 			{
 				method: 'POST'
 			}
 		);
-		if (!requestRes.ok) {
-			return json({ message: `Couldn't add friend ${friend.username}` }, { status: 404 });
-		}
+		const friendRequestRes = await fetch(
+			`/api/requestedFriends/add?
+				user_id=${friend.id}&
+				friend_id=${get(userStore)}`,
+			{
+				method: 'POST'
+			}
+		);
+		const sentRequestRes = await fetch(
+			`/api/sentRequests/add?
+				user_id=${get(userStore)}&
+				friend_id=${friend.id}`,
+			{
+				method: 'POST'
+			}
+		);
 
-		redirect(307, '/friends');
+		if (!requestRes.ok) {
+			const data = await requestRes.json();
+			const toastAddRequestedFail: ToastSettings = {
+				message: `Error: ${data.message}`,
+				background: 'variant-filled-error'
+			};
+			return { status: 404, form: form, toast: toastAddRequestedFail };
+		} else if (!friendRequestRes.ok) {
+			const data = await friendRequestRes.json();
+			const toastAddRequestedFail: ToastSettings = {
+				message: `Error: ${data.message}`,
+				background: 'variant-filled-error'
+			};
+			return { status: 404, form: form, toast: toastAddRequestedFail };
+		} else if (!sentRequestRes.ok) {
+			const data = await sentRequestRes.json();
+			const toastAddRequestedFail: ToastSettings = {
+				message: `Error: ${data.message}`,
+				background: 'variant-filled-error'
+			};
+			return { status: 404, form: form, toast: toastAddRequestedFail };
+		} else {
+			const data = await friendRequestRes.json();
+			const toastAddRequestedSuccess: ToastSettings = {
+				message: `Friend request sent to ${data.username}`,
+				background: 'variant-filled-success'
+			};
+			return { status: 200, form: form, toast: toastAddRequestedSuccess };
+		}
 	}
 } satisfies Actions;

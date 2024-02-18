@@ -24,6 +24,8 @@ model User {
   friend_ids           String[]
   requested_friends    RequestedFriends[] @relation(fields: [requested_friend_ids], references: [user_id])
   requested_friend_ids String[]
+  sent_requests        SentRequests[]     @relation(fields: [sent_request_ids], references: [user_id])
+  sent_request_ids     String[]
   owned_campaigns      Campaign[]         @relation("OwnerUser")
   joined_campaigns     Campaign[]         @relation("MemberUsers", fields: [joined_campaign_ids], references: [id])
   joined_campaign_ids  String[]           @db.ObjectId
@@ -45,6 +47,14 @@ model RequestedFriends {
   requested_friend_ids String[]
 
   @@map("requested_friends")
+}
+
+model SentRequests {
+  user_id          String   @id @map("_id")
+  sent_requests    User[]   @relation(fields: [sent_request_ids], references: [id])
+  sent_request_ids String[]
+
+  @@map("sent_requests")
 }
 
 model Session {

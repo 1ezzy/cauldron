@@ -15,12 +15,25 @@ export const POST: RequestHandler = async ({ url }) => {
 		return json({ message: `User has no requested friends` }, { status: 404 });
 	}
 
-	const updatedRequestedFriendsIdList = requestedFriends.requested_friend_ids.filter(
+	const updatedRequestedFriendsIdList = requestedFriends.requested_friend_ids?.filter(
 		(id: string) => id !== requestedFriendId
 	);
 
-	let updatedRequestedFriends;
-	if (requestedFriends.requested_friend_ids.includes(requestedFriendId)) {
+	let updatedUser, updatedRequestedFriends;
+	if (requestedFriends.requested_friend_ids === undefined) {
+		return json({ message: 'User has no requested friends' }, { status: 400 });
+	} else if (requestedFriends.requested_friend_ids?.includes(requestedFriendId)) {
+		updatedUser = await prisma.user.update({
+			where: {
+				id: userId
+			},
+			data: {
+				requested_friend_ids: {
+					set: updatedRequestedFriendsIdList
+				}
+			}
+		});
+
 		updatedRequestedFriends = await prisma.requestedFriends.update({
 			where: {
 				user_id: userId
@@ -31,7 +44,7 @@ export const POST: RequestHandler = async ({ url }) => {
 				}
 			}
 		});
-		return json(updatedRequestedFriends);
+		return json({ updatedUser, updatedRequestedFriends });
 	} else {
 		return json({ message: 'Friend not in list of requests' }, { status: 404 });
 	}

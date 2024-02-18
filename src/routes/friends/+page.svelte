@@ -59,84 +59,107 @@
 			<!-- Tab Panels --->
 			<svelte:fragment slot="panel">
 				{#if tabSet === 0}
-					<div
-						class={`my-auto grid ${
-							gridSizes[Math.min(6, friendsData.friends.length)]
-						} justify-items-center gap-8`}
-					>
-						{#each friendsData.friends as friend}
-							<div class="card flex flex-col w-44 h-80">
-								<header class="card-header text-center">
-									<a href="/users/{friend.id}" class="h3 mb-4 text-primary-500">{friend.username}</a
-									>
-								</header>
+					{#if friendsData.friends?.length > 0}
+						<div
+							class={`my-auto grid ${
+								gridSizes[Math.min(6, friendsData.friends?.length)]
+							} justify-items-center gap-8`}
+						>
+							{#each friendsData.friends as friend}
+								<div class="card flex flex-col w-44 h-80">
+									<header class="card-header text-center">
+										<a href="/users/{friend.id}" class="h3 mb-4 text-primary-500"
+											>{friend.username}</a
+										>
+									</header>
 
-								<div class="p-4 flex flex-col flex-1 gap-4 items-center">
-									<Avatar
-										src="{PUBLIC_CLOUDINARY_BASE_URL}{friend.profile_pic_url}"
-										alt="Profile Picture for {friend.username}"
-										rounded="rounded-full"
-										width="w-16"
-									/>
-									<div class="mt-auto flex flex-col gap-2">
-										<a href="/users/{friend.id}" class="btn variant-filled-tertiary">View Profile</a
-										>
-										<button
-											class="btn variant-filled-error"
-											on:click={() => {
-												modalFriendUpdate(FriendModalTypeEnum.remove, userData, null, friend);
-											}}
-										>
-											Remove
-										</button>
+									<div class="p-4 flex flex-col flex-1 gap-4 items-center">
+										<Avatar
+											src="{PUBLIC_CLOUDINARY_BASE_URL}{friend.profile_pic_url}"
+											alt="Profile Picture for {friend.username}"
+											rounded="rounded-full"
+											width="w-16"
+										/>
+										<div class="mt-auto flex flex-col gap-2">
+											<a href="/users/{friend.id}" class="btn variant-filled-tertiary"
+												>View Profile</a
+											>
+											<button
+												class="btn variant-filled-error"
+												on:click={() => {
+													modalFriendUpdate(FriendModalTypeEnum.remove, userData, null, friend);
+												}}
+											>
+												Remove
+											</button>
+										</div>
 									</div>
 								</div>
-							</div>
-						{/each}
-					</div>
+							{/each}
+						</div>
+					{:else}
+						<span class="mx-auto my-auto">No friends to show</span>
+					{/if}
 				{:else if tabSet === 1}
-					<div
-						class={`my-auto grid ${
-							gridSizes[Math.min(6, requestedFriendsData.requested_friends.length)]
-						} justify-items-center gap-8`}
-					>
-						{#each requestedFriendsData.requested_friends as friend}
-							<div class="card flex flex-col w-44 h-80">
-								<header class="card-header text-center">
-									<a href="/users/{friend.id}" class="h3 mb-4 text-primary-500">{friend.username}</a
-									>
-								</header>
-								<div class="p-4 flex flex-col flex-1 gap-4 items-center">
-									<Avatar
-										src="{PUBLIC_CLOUDINARY_BASE_URL}{friend.profile_pic_url}"
-										alt="Profile Picture for {friend.username}"
-										rounded="rounded-full"
-										width="w-16"
-									/>
-									<div class="mt-auto flex flex-col gap-2">
-										<a href="/users/{friend.id}" class="btn variant-filled-tertiary">View Profile</a
+					{#if requestedFriendsData.requested_friends?.length > 0}
+						<div
+							class={`my-auto grid ${
+								gridSizes[Math.min(6, requestedFriendsData.requested_friends.length)]
+							} justify-items-center gap-8`}
+						>
+							{#each requestedFriendsData.requested_friends as friend}
+								<div class="card flex flex-col w-44 h-80">
+									<header class="card-header text-center">
+										<a href="/users/{friend.id}" class="h3 mb-4 text-primary-500"
+											>{friend.username}</a
 										>
-										<button
-											class="btn variant-filled-success"
-											on:click={() => {
-												modalFriendUpdate(FriendModalTypeEnum.accept, userData, friend);
-											}}
-										>
-											Accept
-										</button>
-										<button
-											class="btn variant-filled-error"
-											on:click={() => {
-												modalFriendUpdate(FriendModalTypeEnum.decline, userData, friend);
-											}}
-										>
-											Decline
-										</button>
+									</header>
+									<div class="p-4 flex flex-col flex-1 gap-4 items-center">
+										<Avatar
+											src="{PUBLIC_CLOUDINARY_BASE_URL}{friend.profile_pic_url}"
+											alt="Profile Picture for {friend.username}"
+											rounded="rounded-full"
+											width="w-16"
+										/>
+										<div class="mt-auto flex flex-col gap-2">
+											<a href="/users/{friend.id}" class="btn variant-filled-tertiary"
+												>View Profile</a
+											>
+											{#if friend.sent_request_ids?.includes(userData.userId)}
+												<button
+													class="btn variant-filled-success"
+													on:click={() => {
+														modalFriendUpdate(FriendModalTypeEnum.accept, userData, friend);
+													}}
+												>
+													Accept
+												</button>
+												<button
+													class="btn variant-filled-error"
+													on:click={() => {
+														modalFriendUpdate(FriendModalTypeEnum.decline, userData, friend);
+													}}
+												>
+													Decline
+												</button>
+											{:else}
+												<button
+													class="btn variant-filled-error"
+													on:click={() => {
+														modalFriendUpdate(FriendModalTypeEnum.revoke, userData, friend);
+													}}
+												>
+													Revoke
+												</button>
+											{/if}
+										</div>
 									</div>
 								</div>
-							</div>
-						{/each}
-					</div>
+							{/each}
+						</div>
+					{:else}
+						<span class="mx-auto my-auto">No requested friends to show</span>
+					{/if}
 				{/if}
 			</svelte:fragment>
 		</TabGroup>

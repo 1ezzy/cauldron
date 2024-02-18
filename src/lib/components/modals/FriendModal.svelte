@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { goto, invalidateAll } from '$app/navigation';
+	import { invalidateAll } from '$app/navigation';
 	import { getModalStore, getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
 	import { FriendModalTypeEnum } from '$lib/types/friend-modal-type.enum';
 	import type { User } from '@prisma/client';
@@ -21,6 +21,8 @@
 				return 'Remove';
 			case FriendModalTypeEnum.decline:
 				return 'Decline';
+			case FriendModalTypeEnum.revoke:
+				return 'Revoke';
 		}
 	};
 
@@ -36,6 +38,14 @@
 						method: 'POST'
 					}
 				);
+				const friendRemoveRes = await fetch(
+					`/api/friends/remove
+					?user_id=${friendData.id}
+					&friend_id=${userData.userId}`,
+					{
+						method: 'POST'
+					}
+				);
 				if (!removeRes.ok) {
 					const data = await removeRes.json();
 					const toastRemoveFriendFail: ToastSettings = {
@@ -43,6 +53,13 @@
 						background: 'variant-filled-error'
 					};
 					toastStore.trigger(toastRemoveFriendFail);
+				} else if (!friendRemoveRes.ok) {
+					const data = await friendRemoveRes.json();
+					const toastFriendRemoveFriendFail: ToastSettings = {
+						message: `Error: ${data.message}`,
+						background: 'variant-filled-error'
+					};
+					toastStore.trigger(toastFriendRemoveFriendFail);
 				} else {
 					const toastRemoveFriendSuccess: ToastSettings = {
 						message: `Successfully removed friend`,
@@ -61,6 +78,22 @@
 						method: 'POST'
 					}
 				);
+				const friendRequestDeleteRes = await fetch(
+					`/api/requestedFriends/remove
+					?user_id=${requestedFriendData.id}
+					&requested_friend_id=${userData.userId}`,
+					{
+						method: 'POST'
+					}
+				);
+				const sentRequestDeleteRes = await fetch(
+					`/api/sentRequests/remove
+					?user_id=${requestedFriendData.id}
+					&sent_request_id=${userData.userId}`,
+					{
+						method: 'POST'
+					}
+				);
 				const acceptRes = await fetch(
 					`/api/friends/add
 					?user_id=${userData.userId}
@@ -69,13 +102,49 @@
 						method: 'POST'
 					}
 				);
-				if (!requestDeleteRes.ok || !acceptRes.ok) {
+				const friendAcceptRes = await fetch(
+					`/api/friends/add
+					?user_id=${requestedFriendData.id}
+					&friend_id=${userData.userId}`,
+					{
+						method: 'POST'
+					}
+				);
+				if (!requestDeleteRes.ok) {
+					const data = await requestDeleteRes.json();
+					const toastRequestDeleteFail: ToastSettings = {
+						message: `Error: ${data.message}`,
+						background: 'variant-filled-error'
+					};
+					toastStore.trigger(toastRequestDeleteFail);
+				} else if (!friendRequestDeleteRes.ok) {
+					const data = await friendRequestDeleteRes.json();
+					const toastFriendRequestDeleteFail: ToastSettings = {
+						message: `Error: ${data.message}`,
+						background: 'variant-filled-error'
+					};
+					toastStore.trigger(toastFriendRequestDeleteFail);
+				} else if (!sentRequestDeleteRes.ok) {
+					const data = await sentRequestDeleteRes.json();
+					const toastSentRequestDeleteFail: ToastSettings = {
+						message: `Error: ${data.message}`,
+						background: 'variant-filled-error'
+					};
+					toastStore.trigger(toastSentRequestDeleteFail);
+				} else if (!acceptRes.ok) {
 					const data = await acceptRes.json();
 					const toastAcceptRequestFail: ToastSettings = {
 						message: `Error: ${data.message}`,
 						background: 'variant-filled-error'
 					};
 					toastStore.trigger(toastAcceptRequestFail);
+				} else if (!friendAcceptRes.ok) {
+					const data = await friendAcceptRes.json();
+					const toastFriendAcceptRequestFail: ToastSettings = {
+						message: `Error: ${data.message}`,
+						background: 'variant-filled-error'
+					};
+					toastStore.trigger(toastFriendAcceptRequestFail);
 				} else {
 					const toastAcceptRequestSuccess: ToastSettings = {
 						message: `Friend request from ${requestedFriendData.username} accepted`,
@@ -94,8 +163,38 @@
 						method: 'POST'
 					}
 				);
+				const friendDeclineRes = await fetch(
+					`/api/requestedFriends/remove
+					?user_id=${requestedFriendData.id}
+					&requested_friend_id=${userData.userId}`,
+					{
+						method: 'POST'
+					}
+				);
+				const sentRequestDeclineRes = await fetch(
+					`/api/sentRequests/remove
+					?user_id=${requestedFriendData.id}
+					&sent_request_id=${userData.userId}`,
+					{
+						method: 'POST'
+					}
+				);
 				if (!declineRes.ok) {
 					const data = await declineRes.json();
+					const toastDeclineRequestFail: ToastSettings = {
+						message: `Error: ${data.message}`,
+						background: 'variant-filled-error'
+					};
+					toastStore.trigger(toastDeclineRequestFail);
+				} else if (!friendDeclineRes.ok) {
+					const data = await friendDeclineRes.json();
+					const toastDeclineRequestFail: ToastSettings = {
+						message: `Error: ${data.message}`,
+						background: 'variant-filled-error'
+					};
+					toastStore.trigger(toastDeclineRequestFail);
+				} else if (!sentRequestDeclineRes.ok) {
+					const data = await sentRequestDeclineRes.json();
 					const toastDeclineRequestFail: ToastSettings = {
 						message: `Error: ${data.message}`,
 						background: 'variant-filled-error'
@@ -104,6 +203,62 @@
 				} else {
 					const toastDeclineRequestSuccess: ToastSettings = {
 						message: `Friend request from ${requestedFriendData.username} declined`,
+						background: 'variant-filled-success'
+					};
+					toastStore.trigger(toastDeclineRequestSuccess);
+				}
+				invalidateAll();
+				break;
+			case FriendModalTypeEnum.revoke:
+				const sentRequestRevokeRes = await fetch(
+					`/api/sentRequests/remove
+					?user_id=${userData.userId}
+					&sent_request_id=${requestedFriendData.id}`,
+					{
+						method: 'POST'
+					}
+				);
+				const revokeRes = await fetch(
+					`/api/requestedFriends/remove
+					?user_id=${userData.userId}
+					&requested_friend_id=${requestedFriendData.id}`,
+					{
+						method: 'POST'
+					}
+				);
+				const friendRevokeRes = await fetch(
+					`/api/requestedFriends/remove
+					?user_id=${requestedFriendData.id}
+					&requested_friend_id=${userData.userId}`,
+					{
+						method: 'POST'
+					}
+				);
+
+				if (!sentRequestRevokeRes.ok) {
+					const data = await sentRequestRevokeRes.json();
+					const toastDeclineRequestFail: ToastSettings = {
+						message: `Error: ${data.message}`,
+						background: 'variant-filled-error'
+					};
+					toastStore.trigger(toastDeclineRequestFail);
+				} else if (!revokeRes.ok) {
+					const data = await revokeRes.json();
+					const toastDeclineRequestFail: ToastSettings = {
+						message: `Error: ${data.message}`,
+						background: 'variant-filled-error'
+					};
+					toastStore.trigger(toastDeclineRequestFail);
+				} else if (!friendRevokeRes.ok) {
+					const data = await friendRevokeRes.json();
+					const toastDeclineRequestFail: ToastSettings = {
+						message: `Error: ${data.message}`,
+						background: 'variant-filled-error'
+					};
+					toastStore.trigger(toastDeclineRequestFail);
+				} else {
+					const toastDeclineRequestSuccess: ToastSettings = {
+						message: `Friend request to ${requestedFriendData.username} revoked`,
 						background: 'variant-filled-success'
 					};
 					toastStore.trigger(toastDeclineRequestSuccess);
