@@ -61,7 +61,7 @@
 				{#if tabSet === 0}
 					<div
 						class={`my-auto grid ${
-							gridSizes[Math.min(6, friendsData.friends.length)]
+							gridSizes[Math.min(6, friendsData.friends?.length)]
 						} justify-items-center gap-8`}
 					>
 						{#each friendsData.friends as friend}
@@ -97,7 +97,7 @@
 				{:else if tabSet === 1}
 					<div
 						class={`my-auto grid ${
-							gridSizes[Math.min(6, requestedFriendsData.requested_friends.length)]
+							gridSizes[Math.min(6, requestedFriendsData.requested_friends?.length)]
 						} justify-items-center gap-8`}
 					>
 						{#each requestedFriendsData.requested_friends as friend}
