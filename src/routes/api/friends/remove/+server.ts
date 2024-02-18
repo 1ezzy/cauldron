@@ -5,55 +5,44 @@ export const POST: RequestHandler = async ({ url }) => {
 	const userId = url.searchParams.get('user_id') ?? '';
 	const friendId = url.searchParams.get('friend_id') ?? '';
 
-	const userFriends = await prisma.friends.findUnique({
+	const friends = await prisma.friends.findUnique({
 		where: {
 			user_id: userId
 		}
 	});
 
-	const friendFriends = await prisma.friends.findUnique({
-		where: {
-			user_id: friendId
-		}
-	});
-
-	const friend = await prisma.user.findUnique({
-		where: {
-			id: friendId
-		}
-	});
-
-	if (!friend || !userFriends) {
-		return json({ message: `Could not find user` }, { status: 404 });
+	if (!friends) {
+		return json({ message: `User has no friends` }, { status: 404 });
 	}
 
-	const updatedUserFriendsList = userFriends.friend_ids.filter((id: string) => id !== friendId);
-	const updatedFriendFriendsList = friendFriends.friend_ids.filter((id: string) => id !== userId);
+	const updatedFriendsList = friends.friend_ids.filter((id: string) => id !== friendId);
 
 	let updateUserFriends, updateFriendsFriends;
-	if (userFriends.friend_ids.includes(friendId)) {
-		updateUserFriends = await prisma.friends.update({
+	if (friends.friend_ids?.includes(friendId)) {
+		updateUserFriends = await prisma.user.update({
 			where: {
-				user_id: userId
+				id: userId
 			},
 			data: {
 				friend_ids: {
-					set: updatedUserFriendsList
+					set: updatedFriendsList
 				}
 			}
 		});
 		updateFriendsFriends = await prisma.friends.update({
 			where: {
-				user_id: friendId
+				user_id: userId
 			},
 			data: {
 				friend_ids: {
 					set: updatedFriendFriendsList
-				}
+				}updatedFriendsList
 			}
 		});
 		return json({ updateUserFriends, updateFriendsFriends });
-	} else {
-		return json({ message: `${friend.username} isn't in your friends list` }, { status: 404 });
+	} else if (friends.friend_ids === undefined) {
+		return json({ message: 'User has no friends' }, { status: 400 });
+	}else {
+		return json({ message: `Friend isn't in your friends list` }, { status: 404 });
 	}
 };
