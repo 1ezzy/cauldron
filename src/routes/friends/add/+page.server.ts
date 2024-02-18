@@ -48,7 +48,15 @@ export const actions = {
 				method: 'POST'
 			}
 		);
-		if (!requestRes.ok) {
+		const sentRequestRes = await fetch(
+			`/api/sentRequests/add?
+			user_id=${get(userStore)}&
+			friend_id=${friend.id}`,
+			{
+				method: 'POST'
+			}
+		);
+		if (!requestRes.ok || !sentRequestRes.ok) {
 			return json({ message: `Couldn't add friend ${friend.username}` }, { status: 404 });
 		}
 
