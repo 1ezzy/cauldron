@@ -46,13 +46,20 @@
 						method: 'POST'
 					}
 				);
-				if (!removeRes.ok || !friendRemoveRes.ok) {
+				if (!removeRes.ok) {
 					const data = await removeRes.json();
 					const toastRemoveFriendFail: ToastSettings = {
 						message: `Error: ${data.message}`,
 						background: 'variant-filled-error'
 					};
 					toastStore.trigger(toastRemoveFriendFail);
+				} else if (!friendRemoveRes.ok) {
+					const data = await friendRemoveRes.json();
+					const toastFriendRemoveFriendFail: ToastSettings = {
+						message: `Error: ${data.message}`,
+						background: 'variant-filled-error'
+					};
+					toastStore.trigger(toastFriendRemoveFriendFail);
 				} else {
 					const toastRemoveFriendSuccess: ToastSettings = {
 						message: `Successfully removed friend`,
@@ -103,19 +110,41 @@
 						method: 'POST'
 					}
 				);
-				if (
-					!requestDeleteRes.ok ||
-					!acceptRes.ok ||
-					!friendRequestDeleteRes.ok ||
-					!friendAcceptRes.ok ||
-					!sentRequestDeleteRes.ok
-				) {
+				if (!requestDeleteRes.ok) {
+					const data = await requestDeleteRes.json();
+					const toastRequestDeleteFail: ToastSettings = {
+						message: `Error: ${data.message}`,
+						background: 'variant-filled-error'
+					};
+					toastStore.trigger(toastRequestDeleteFail);
+				} else if (!friendRequestDeleteRes.ok) {
+					const data = await friendRequestDeleteRes.json();
+					const toastFriendRequestDeleteFail: ToastSettings = {
+						message: `Error: ${data.message}`,
+						background: 'variant-filled-error'
+					};
+					toastStore.trigger(toastFriendRequestDeleteFail);
+				} else if (!sentRequestDeleteRes.ok) {
+					const data = await sentRequestDeleteRes.json();
+					const toastSentRequestDeleteFail: ToastSettings = {
+						message: `Error: ${data.message}`,
+						background: 'variant-filled-error'
+					};
+					toastStore.trigger(toastSentRequestDeleteFail);
+				} else if (!acceptRes.ok) {
 					const data = await acceptRes.json();
 					const toastAcceptRequestFail: ToastSettings = {
 						message: `Error: ${data.message}`,
 						background: 'variant-filled-error'
 					};
 					toastStore.trigger(toastAcceptRequestFail);
+				} else if (!friendAcceptRes.ok) {
+					const data = await friendAcceptRes.json();
+					const toastFriendAcceptRequestFail: ToastSettings = {
+						message: `Error: ${data.message}`,
+						background: 'variant-filled-error'
+					};
+					toastStore.trigger(toastFriendAcceptRequestFail);
 				} else {
 					const toastAcceptRequestSuccess: ToastSettings = {
 						message: `Friend request from ${requestedFriendData.username} accepted`,
@@ -150,8 +179,22 @@
 						method: 'POST'
 					}
 				);
-				if (!declineRes.ok || !friendDeclineRes.ok || !sentRequestDeclineRes.ok) {
+				if (!declineRes.ok) {
 					const data = await declineRes.json();
+					const toastDeclineRequestFail: ToastSettings = {
+						message: `Error: ${data.message}`,
+						background: 'variant-filled-error'
+					};
+					toastStore.trigger(toastDeclineRequestFail);
+				} else if (!friendDeclineRes.ok) {
+					const data = await friendDeclineRes.json();
+					const toastDeclineRequestFail: ToastSettings = {
+						message: `Error: ${data.message}`,
+						background: 'variant-filled-error'
+					};
+					toastStore.trigger(toastDeclineRequestFail);
+				} else if (!sentRequestDeclineRes.ok) {
+					const data = await sentRequestDeclineRes.json();
 					const toastDeclineRequestFail: ToastSettings = {
 						message: `Error: ${data.message}`,
 						background: 'variant-filled-error'
