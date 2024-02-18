@@ -9,7 +9,7 @@
 	const drawerStore = getDrawerStore();
 
 	const triggerDrawer = () => {
-		drawerStore.open({ position: 'top', height: 'h-96' });
+		drawerStore.open({ position: 'top', height: 'h-auto' });
 	};
 </script>
 

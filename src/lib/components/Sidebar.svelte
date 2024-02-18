@@ -6,17 +6,16 @@
 		Home,
 		BookOpen,
 		Sparkles,
-		Cog8Tooth,
 		UserCircle,
 		ArrowLeftOnRectangle,
 		ChevronDoubleLeft,
 		ChevronDoubleRight,
-		UserGroup,
-		Users
+		Users,
+		Flag
 	} from '@steeze-ui/heroicons';
 
 	const listClasses = 'rounded-full bg-primary-500';
-	const expandedAClasses = 'w-56 h-14 px-4 flex items-center justify-between';
+	const expandedAClasses = 'w-48 h-12 px-4 flex items-center justify-between';
 	const AClasses = 'w-14 h-14 flex justify-center items-center';
 
 	export let userId: string;
@@ -25,8 +24,8 @@
 
 <div
 	class="h-[calc(100%-4rem)] m-8 hidden md:flex flex-col items-start relative transition-width ease-out"
-	class:w-56={expanded}
-	class:w-16={!expanded}
+	class:w-48={expanded}
+	class:w-14={!expanded}
 >
 	<button
 		class="absolute top-[-32px] right-[-30px]"
@@ -64,23 +63,23 @@
 			</a>
 		</ul>
 	</div>
-	<!-- <div class="mt-10 space-y-4">
-		<ul class={listClasses}>
+	<div class="mt-10 space-y-4">
+		<!-- <ul class={listClasses}>
 			<a href="/characters" class={expanded ? expandedAClasses : AClasses}>
 				<Icon src={UserGroup} theme="mini" size="24px" />
 				{#if expanded}
 					<h4 class="h4" in:slide={{ delay: 150, axis: 'x' }}>Characters</h4>
 				{/if}
 			</a>
-		</ul>
-	</div> -->
-	<div class="mt-auto space-y-4">
-		<!-- <ul class={listClasses}>
-			<a href="/settings" class="w-56 h-14 px-4 flex items-center justify-between">
-				<Icon src={Cog8Tooth} theme="mini" size="24px" />
-				<h4 class="h4">Settings</h4>
-			</a>
 		</ul> -->
+		<ul class={listClasses}>
+			<a href="/campaigns" class={expanded ? expandedAClasses : AClasses}>
+				<Icon src={Flag} theme="mini" size="24px" />
+				{#if expanded}
+					<h4 class="h4" in:slide={{ delay: 100, axis: 'x' }}>Campaigns</h4>
+				{/if}
+			</a>
+		</ul>
 		<ul class={listClasses}>
 			<a href="/friends" class={expanded ? expandedAClasses : AClasses}>
 				<Icon src={Users} theme="mini" size="24px" />
@@ -89,6 +88,14 @@
 				{/if}
 			</a>
 		</ul>
+	</div>
+	<div class="mt-auto space-y-4">
+		<!-- <ul class={listClasses}>
+			<a href="/settings" class="w-56 h-14 px-4 flex items-center justify-between">
+				<Icon src={Cog8Tooth} theme="mini" size="24px" />
+				<h4 class="h4">Settings</h4>
+			</a>
+		</ul> -->
 		<ul class={listClasses}>
 			<a href="/users/{userId}" class={expanded ? expandedAClasses : AClasses}>
 				<Icon src={UserCircle} theme="mini" size="24px" />

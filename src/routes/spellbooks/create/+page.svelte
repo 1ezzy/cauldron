@@ -6,7 +6,7 @@
 	import { superForm } from 'sveltekit-superforms/client';
 
 	export let data: PageData;
-	const { form, errors } = superForm(data.form);
+	const { form, errors, enhance } = superForm(data.form);
 </script>
 
 <svelte:head>
@@ -14,7 +14,7 @@
 </svelte:head>
 <PageBlock>
 	<h1 class="h1 mb-8 text-primary-500">Create a Spellbook</h1>
-	<form class="w-fit flex flex-col flex-1 gap-6" method="POST">
+	<form class="w-fit flex flex-col flex-1 gap-6" method="POST" use:enhance>
 		<label class="label">
 			<div class="flex gap-4">
 				<span>Spellbook Name</span>

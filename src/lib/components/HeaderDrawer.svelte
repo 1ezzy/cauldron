@@ -11,7 +11,7 @@
 </script>
 
 <Drawer>
-	<div class="h-full flex flex-col items-center justify-center space-y-8">
+	<div class="h-full py-8 flex flex-col items-center justify-center space-y-8">
 		<a
 			class="w-fit text-xl text-primary-500"
 			href="/"
@@ -41,6 +41,16 @@
 			on:keydown={() => {
 				closeDrawer();
 			}}>Spells</a
+		>
+		<a
+			class="w-fit text-xl text-primary-500"
+			href="/campaigns"
+			on:click={() => {
+				closeDrawer();
+			}}
+			on:keydown={() => {
+				closeDrawer();
+			}}>Campaigns</a
 		>
 		<a
 			class="w-fit text-xl text-primary-500"
