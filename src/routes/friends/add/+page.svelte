@@ -4,17 +4,19 @@
 	import { superForm, type FormResult } from 'sveltekit-superforms/client';
 	import { getToastStore } from '@skeletonlabs/skeleton';
 	import { goto } from '$app/navigation';
-	import type { ActionResult } from '@sveltejs/kit';
+	import { type ActionResult } from '@sveltejs/kit';
 
 	export let data: PageData;
 	const toastStore = getToastStore();
 
 	const { form, errors, enhance } = superForm(data.form, {
-		onResult(event) {
-			const result = event.result as FormResult<ActionResult>;
+		onResult({ result, cancel }) {
 			toastStore.trigger(result.data?.toast);
 			if (result.data?.status === 200) {
+				cancel();
 				goto('/friends');
+			} else {
+				console.log(result.data?.status);
 			}
 		}
 	});
