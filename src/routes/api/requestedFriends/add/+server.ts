@@ -32,18 +32,14 @@ export const POST: RequestHandler = async ({ url }) => {
 					push: friendId
 				},
 				requested_friends: {
-					upsert: {
+					update: {
 						where: {
 							user_id: userId
 						},
-						update: {
+						data: {
 							requested_friend_ids: {
 								push: friendId
 							}
-						},
-						create: {
-							user_id: userId,
-							requested_friend_ids: [friendId]
 						}
 					}
 				}
