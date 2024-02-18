@@ -142,7 +142,15 @@
 						method: 'POST'
 					}
 				);
-				if (!declineRes.ok || !friendDeclineRes.ok) {
+				const sentRequestDeclineRes = await fetch(
+					`/api/sentRequests/remove
+					?user_id=${requestedFriendData.id}
+					&sent_request_id=${userData.userId}`,
+					{
+						method: 'POST'
+					}
+				);
+				if (!declineRes.ok || !friendDeclineRes.ok || !sentRequestDeclineRes.ok) {
 					const data = await declineRes.json();
 					const toastDeclineRequestFail: ToastSettings = {
 						message: `Error: ${data.message}`,
@@ -161,8 +169,8 @@
 			case FriendModalTypeEnum.revoke:
 				const sentRequestRevokeRes = await fetch(
 					`/api/sentRequests/remove
-					?user_id=${requestedFriendData.id}
-					&sent_request_id=${userData.userId}`,
+					?user_id=${userData.userId}
+					&sent_request_id=${requestedFriendData.id}`,
 					{
 						method: 'POST'
 					}
