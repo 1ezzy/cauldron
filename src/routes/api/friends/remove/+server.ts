@@ -18,7 +18,9 @@ export const POST: RequestHandler = async ({ url }) => {
 	const updatedFriendsList = friends.friend_ids.filter((id: string) => id !== friendId);
 
 	let updateUserFriends, updateFriendsFriends;
-	if (friends.friend_ids?.includes(friendId)) {
+	if (friends.friend_ids === undefined) {
+		return json({ message: 'User has no friends' }, { status: 400 });
+	} else if (friends.friend_ids?.includes(friendId)) {
 		updateUserFriends = await prisma.user.update({
 			where: {
 				id: userId
@@ -40,8 +42,6 @@ export const POST: RequestHandler = async ({ url }) => {
 			}
 		});
 		return json({ updateUserFriends, updateFriendsFriends });
-	} else if (friends.friend_ids === undefined) {
-		return json({ message: 'User has no friends' }, { status: 400 });
 	} else {
 		return json({ message: `Friend isn't in your friends list` }, { status: 404 });
 	}

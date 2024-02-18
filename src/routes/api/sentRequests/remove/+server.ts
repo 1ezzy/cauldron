@@ -20,7 +20,9 @@ export const POST: RequestHandler = async ({ url }) => {
 	);
 
 	let updatedUser, updatedSentRequests;
-	if (sentRequests.sent_request_ids?.includes(userId)) {
+	if (sentRequests.sent_request_ids === undefined) {
+		return json({ message: 'User has no sent friend requests' }, { status: 400 });
+	} else if (sentRequests.sent_request_ids?.includes(userId)) {
 		updatedUser = await prisma.user.update({
 			where: {
 				id: userId
@@ -43,8 +45,6 @@ export const POST: RequestHandler = async ({ url }) => {
 			}
 		});
 		return json({ updatedUser, updatedSentRequests });
-	} else if (sentRequests.sent_request_ids === undefined) {
-		return json({ message: 'User has no sent friend requests' }, { status: 400 });
 	} else {
 		return json({ message: 'You didnt send a request to this user' }, { status: 404 });
 	}
