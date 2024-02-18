@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { goto, invalidateAll } from '$app/navigation';
+	import { invalidateAll } from '$app/navigation';
 	import { getModalStore, getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
 	import { FriendModalTypeEnum } from '$lib/types/friend-modal-type.enum';
 	import type { User } from '@prisma/client';
@@ -21,6 +21,8 @@
 				return 'Remove';
 			case FriendModalTypeEnum.decline:
 				return 'Decline';
+			case FriendModalTypeEnum.revoke:
+				return 'Revoke';
 		}
 	};
 
