@@ -21,9 +21,11 @@ export const POST: RequestHandler = async ({ url }) => {
 		return json({ message: `Could not find user` }, { status: 404 });
 	}
 
-	let updateUserFriends;
-	if (!user.friend_ids.includes(friendId)) {
-		updateUserFriends = await prisma.user.update({
+	let updateUser;
+	if (user.friend_ids.includes(friendId)) {
+		return json({ message: `Already friends with  ${friend.username}` }, { status: 404 });
+	} else if (!user.requested_friend_ids.includes(friendId)) {
+		updateUser = await prisma.user.update({
 			where: {
 				id: userId
 			},
@@ -32,21 +34,15 @@ export const POST: RequestHandler = async ({ url }) => {
 					push: friendId
 				},
 				requested_friends: {
-					update: {
-						where: {
-							user_id: userId
-						},
-						data: {
-							requested_friend_ids: {
-								push: friendId
-							}
-						}
-					}
+					connect: [{ user_id: friendId }]
 				}
 			}
 		});
-		return json(updateUserFriends);
+		return json(updateUser);
 	} else {
-		return json({ message: `You are already friends with ${friend.username}` }, { status: 404 });
+		return json(
+			{ message: `A request has already been sent to ${friend.username}` },
+			{ status: 404 }
+		);
 	}
 };

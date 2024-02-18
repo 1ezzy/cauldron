@@ -191,8 +191,23 @@
 						method: 'POST'
 					}
 				);
-				if (!sentRequestRevokeRes.ok || !revokeRes.ok || !friendRevokeRes.ok) {
+
+				if (!sentRequestRevokeRes.ok) {
+					const data = await sentRequestRevokeRes.json();
+					const toastDeclineRequestFail: ToastSettings = {
+						message: `Error: ${data.message}`,
+						background: 'variant-filled-error'
+					};
+					toastStore.trigger(toastDeclineRequestFail);
+				} else if (!revokeRes.ok) {
 					const data = await revokeRes.json();
+					const toastDeclineRequestFail: ToastSettings = {
+						message: `Error: ${data.message}`,
+						background: 'variant-filled-error'
+					};
+					toastStore.trigger(toastDeclineRequestFail);
+				} else if (!friendRevokeRes.ok) {
+					const data = await friendRevokeRes.json();
 					const toastDeclineRequestFail: ToastSettings = {
 						message: `Error: ${data.message}`,
 						background: 'variant-filled-error'

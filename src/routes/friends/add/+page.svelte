@@ -1,21 +1,23 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	import PageBlock from '$lib/components/PageBlock.svelte';
-	import { superForm } from 'sveltekit-superforms/client';
-	import { getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
+	import { superForm, type FormResult } from 'sveltekit-superforms/client';
+	import { getToastStore } from '@skeletonlabs/skeleton';
+	import { goto } from '$app/navigation';
+	import type { ActionResult } from '@sveltejs/kit';
 
 	export let data: PageData;
-	const { form, errors, enhance } = superForm(data.form);
-
 	const toastStore = getToastStore();
 
-	const handleSubmit = async (username: string) => {
-		const toastRequestSentSuccess: ToastSettings = {
-			message: `Friend request sent to ${username}`,
-			background: 'variant-filled-success'
-		};
-		toastStore.trigger(toastRequestSentSuccess);
-	};
+	const { form, errors, enhance } = superForm(data.form, {
+		onResult(event) {
+			const result = event.result as FormResult<ActionResult>;
+			toastStore.trigger(result.data?.toast);
+			if (result.data?.status === 200) {
+				goto('/friends');
+			}
+		}
+	});
 </script>
 
 <svelte:head>
@@ -23,26 +25,21 @@
 </svelte:head>
 <PageBlock>
 	<h1 class="h1 mb-8 text-primary-500">Add Friends</h1>
-	<form
-		class="w-fit flex flex-col flex-1 gap-6"
-		method="POST"
-		use:enhance
-		on:submit={() => handleSubmit($form.username)}
-	>
+	<form class="w-fit flex flex-col flex-1 gap-6" method="POST" use:enhance>
 		<label class="label">
 			<div class="flex gap-4 mb-1">
 				<span>Username</span>
-				{#if $errors.username}
-					<span class="text-secondary-500">{$errors.username}</span>
+				{#if $errors.friend_username}
+					<span class="text-secondary-500">{$errors.friend_username}</span>
 				{/if}
 			</div>
 			<input
 				class="input"
-				class:input-error={$errors.username}
+				class:input-error={$errors.friend_username}
 				type="text"
-				name="username"
-				aria-invalid={$errors.username ? 'true' : undefined}
-				bind:value={$form.username}
+				name="friend_username"
+				aria-invalid={$errors.friend_username ? 'true' : undefined}
+				bind:value={$form.friend_username}
 				placeholder="Enter a username"
 			/>
 		</label>

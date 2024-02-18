@@ -3,47 +3,48 @@ import { json, type RequestHandler } from '@sveltejs/kit';
 
 export const POST: RequestHandler = async ({ url }) => {
 	const userId = url.searchParams.get('user_id') ?? '';
-	const requestedFriendId = url.searchParams.get('requested_friend_id') ?? '';
+	const sentRequestId = url.searchParams.get('sent_request_id') ?? '';
 
-	const requestedFriends = await prisma.requestedFriends.findUnique({
+	const sentRequests = await prisma.sentRequests.findUnique({
 		where: {
-			user_id: userId
+			user_id: sentRequestId
 		}
 	});
 
-	if (!requestedFriends) {
-		return json({ message: `User has no requested friends` }, { status: 404 });
+	if (!sentRequests) {
+		return json({ message: `User has no sent friend requests` }, { status: 404 });
 	}
 
-	const updatedRequestedFriendsIdList = requestedFriends.sent_request_ids.filter(
-		(id: string) => id !== requestedFriendId
+	const updatedSentRequestIdList = sentRequests.sent_request_ids?.filter(
+		(id: string) => id !== userId
 	);
 
-	let updatedRequestedFriends;
-	if (requestedFriends.sent_request_ids.includes(requestedFriendId)) {
-		updatedRequestedFriends = await prisma.user.update({
+	let updatedUser, updatedSentRequests;
+	if (sentRequests.sent_request_ids?.includes(userId)) {
+		updatedUser = await prisma.user.update({
 			where: {
 				id: userId
 			},
 			data: {
-				sent_requests_ids: {
-					set: updatedRequestedFriendsIdList
-				},
-				sent_requests: {
-					update: {
-						where: {
-							user_id: userId
-						},
-						data: {
-							sent_requests_ids: {
-								set: updatedRequestedFriendsIdList
-							}
-						}
-					}
+				sent_request_ids: {
+					set: updatedSentRequestIdList
 				}
 			}
 		});
-		return json(updatedRequestedFriends);
+
+		updatedSentRequests = await prisma.sentRequests.update({
+			where: {
+				user_id: sentRequestId
+			},
+			data: {
+				sent_request_ids: {
+					set: updatedSentRequestIdList
+				}
+			}
+		});
+		return json({ updatedUser, updatedSentRequests });
+	} else if (sentRequests.sent_request_ids === undefined) {
+		return json({ message: 'User has no sent friend requests' }, { status: 400 });
 	} else {
 		return json({ message: 'You didnt send a request to this user' }, { status: 404 });
 	}
