@@ -101,7 +101,7 @@
 						<span class="mx-auto my-auto">No requested friends</span>
 					{/if}
 				{:else if tabSet === 1}
-					{#if requestedFriendsData.requested_friends}
+					{#if requestedFriendsData.friends}
 						<div
 							class={`my-auto grid ${
 								gridSizes[Math.min(6, requestedFriendsData.requested_friends.length)]
