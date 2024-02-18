@@ -31,6 +31,9 @@ export const POST: RequestHandler = async ({ url }) => {
 				sent_request_ids: {
 					push: friendId
 				}
+			},
+			include: {
+				sent_requests: true
 			}
 		});
 		return json(updateUserFriends);

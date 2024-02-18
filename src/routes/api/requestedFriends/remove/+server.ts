@@ -29,6 +29,9 @@ export const POST: RequestHandler = async ({ url }) => {
 				requested_friend_ids: {
 					set: updatedRequestedFriendsIdList
 				}
+			},
+			include: {
+				requested_friends: true
 			}
 		});
 		return json(updatedRequestedFriends);
