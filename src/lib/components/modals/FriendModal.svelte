@@ -177,8 +177,8 @@
 				);
 				const friendRevokeRes = await fetch(
 					`/api/requestedFriends/remove
-					?user_id=${userData.userId}
-					&requested_friend_id=${requestedFriendData.id}`,
+					?user_id=${requestedFriendData.id}
+					&requested_friend_id=${userData.userId}`,
 					{
 						method: 'POST'
 					}
