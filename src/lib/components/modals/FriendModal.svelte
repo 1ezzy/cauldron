@@ -36,7 +36,15 @@
 						method: 'POST'
 					}
 				);
-				if (!removeRes.ok) {
+				const friendRemoveRes = await fetch(
+					`/api/friends/remove
+					?user_id=${friendData.id}
+					&friend_id=${userData.userId}`,
+					{
+						method: 'POST'
+					}
+				);
+				if (!removeRes.ok || !friendRemoveRes.ok) {
 					const data = await removeRes.json();
 					const toastRemoveFriendFail: ToastSettings = {
 						message: `Error: ${data.message}`,
@@ -61,6 +69,22 @@
 						method: 'POST'
 					}
 				);
+				const sentRequestDeleteRes = await fetch(
+					`/api/sentRequests/remove
+					?user_id=${requestedFriendData.id}
+					&sent_request_id=${userData.userId}`,
+					{
+						method: 'POST'
+					}
+				);
+				const friendRequestDeleteRes = await fetch(
+					`/api/requestedFriends/remove
+					?user_id=${requestedFriendData.id}
+					&requested_friend_id=${userData.userId}`,
+					{
+						method: 'POST'
+					}
+				);
 				const acceptRes = await fetch(
 					`/api/friends/add
 					?user_id=${userData.userId}
@@ -69,7 +93,21 @@
 						method: 'POST'
 					}
 				);
-				if (!requestDeleteRes.ok || !acceptRes.ok) {
+				const friendAcceptRes = await fetch(
+					`/api/friends/add
+					?user_id=${requestedFriendData.id}
+					&friend_id=${userData.userId}`,
+					{
+						method: 'POST'
+					}
+				);
+				if (
+					!requestDeleteRes.ok ||
+					!acceptRes.ok ||
+					!friendRequestDeleteRes.ok ||
+					!friendAcceptRes.ok ||
+					!sentRequestDeleteRes.ok
+				) {
 					const data = await acceptRes.json();
 					const toastAcceptRequestFail: ToastSettings = {
 						message: `Error: ${data.message}`,
@@ -94,7 +132,15 @@
 						method: 'POST'
 					}
 				);
-				if (!declineRes.ok) {
+				const friendDeclineRes = await fetch(
+					`/api/requestedFriends/remove
+					?user_id=${requestedFriendData.id}
+					&requested_friend_id=${userData.userId}`,
+					{
+						method: 'POST'
+					}
+				);
+				if (!declineRes.ok || !friendDeclineRes.ok) {
 					const data = await declineRes.json();
 					const toastDeclineRequestFail: ToastSettings = {
 						message: `Error: ${data.message}`,
@@ -104,6 +150,47 @@
 				} else {
 					const toastDeclineRequestSuccess: ToastSettings = {
 						message: `Friend request from ${requestedFriendData.username} declined`,
+						background: 'variant-filled-success'
+					};
+					toastStore.trigger(toastDeclineRequestSuccess);
+				}
+				invalidateAll();
+				break;
+			case FriendModalTypeEnum.revoke:
+				const sentRequestRevokeRes = await fetch(
+					`/api/sentRequests/remove
+					?user_id=${requestedFriendData.id}
+					&sent_request_id=${userData.userId}`,
+					{
+						method: 'POST'
+					}
+				);
+				const revokeRes = await fetch(
+					`/api/requestedFriends/remove
+					?user_id=${userData.userId}
+					&requested_friend_id=${requestedFriendData.id}`,
+					{
+						method: 'POST'
+					}
+				);
+				const friendRevokeRes = await fetch(
+					`/api/requestedFriends/remove
+					?user_id=${userData.userId}
+					&requested_friend_id=${requestedFriendData.id}`,
+					{
+						method: 'POST'
+					}
+				);
+				if (!sentRequestRevokeRes.ok || !revokeRes.ok || !friendRevokeRes.ok) {
+					const data = await revokeRes.json();
+					const toastDeclineRequestFail: ToastSettings = {
+						message: `Error: ${data.message}`,
+						background: 'variant-filled-error'
+					};
+					toastStore.trigger(toastDeclineRequestFail);
+				} else {
+					const toastDeclineRequestSuccess: ToastSettings = {
+						message: `Friend request to ${requestedFriendData.username} revoked`,
 						background: 'variant-filled-success'
 					};
 					toastStore.trigger(toastDeclineRequestSuccess);

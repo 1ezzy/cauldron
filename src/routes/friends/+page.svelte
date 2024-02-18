@@ -125,22 +125,33 @@
 											<a href="/users/{friend.id}" class="btn variant-filled-tertiary"
 												>View Profile</a
 											>
-											<button
-												class="btn variant-filled-success"
-												on:click={() => {
-													modalFriendUpdate(FriendModalTypeEnum.accept, userData, friend);
-												}}
-											>
-												Accept
-											</button>
-											<button
-												class="btn variant-filled-error"
-												on:click={() => {
-													modalFriendUpdate(FriendModalTypeEnum.decline, userData, friend);
-												}}
-											>
-												Decline
-											</button>
+											{#if friend.sent_requests?.includes(friend.id)}
+												<button
+													class="btn variant-filled-success"
+													on:click={() => {
+														modalFriendUpdate(FriendModalTypeEnum.accept, userData, friend);
+													}}
+												>
+													Accept
+												</button>
+												<button
+													class="btn variant-filled-error"
+													on:click={() => {
+														modalFriendUpdate(FriendModalTypeEnum.decline, userData, friend);
+													}}
+												>
+													Decline
+												</button>
+											{:else}
+												<button
+													class="btn variant-filled-error"
+													on:click={() => {
+														modalFriendUpdate(FriendModalTypeEnum.revoke, userData, friend);
+													}}
+												>
+													Revoke
+												</button>
+											{/if}
 										</div>
 									</div>
 								</div>
