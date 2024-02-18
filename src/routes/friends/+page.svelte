@@ -98,7 +98,7 @@
 							{/each}
 						</div>
 					{:else}
-						<span class="mx-auto my-auto">No requested friends</span>
+						<span class="mx-auto my-auto">No friends to show</span>
 					{/if}
 				{:else if tabSet === 1}
 					{#if requestedFriendsData.friends}
@@ -158,7 +158,7 @@
 							{/each}
 						</div>
 					{:else}
-						<span class="mx-auto my-auto">No requested friends</span>
+						<span class="mx-auto my-auto">No requested friends to show</span>
 					{/if}
 				{/if}
 			</svelte:fragment>
