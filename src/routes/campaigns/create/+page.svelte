@@ -3,14 +3,31 @@
 	import PageBlock from '$lib/components/PageBlock.svelte';
 	import { superForm } from 'sveltekit-superforms/client';
 	import { Icon } from '@steeze-ui/svelte-icon';
-	import { MagnifyingGlass } from '@steeze-ui/heroicons';
+	import { MagnifyingGlass, PlusCircle } from '@steeze-ui/heroicons';
+	import type { User } from '@prisma/client';
 
 	export let data: PageData;
-	const { form, errors, enhance } = superForm(data.form);
+	const { form, errors, enhance } = superForm(data.campaignForm);
+	const {
+		form: searchForm,
+		errors: searchErrors,
+		enhance: searchEnhance
+	} = superForm(data.searchForm, {
+		onResult({ result }) {
+			searchedUsers = result.data.users;
+		}
+	});
 
-	const handleSearch = async () => {
-		console.log('searching...');
+	let searchedUsers: User[];
+	let addedUsers: User[] = [];
+	$: searchedUsers;
+
+	const addUser = (user: User) => {
+		addedUsers.push(user);
+		addedUsers = addedUsers;
 	};
+
+	$: addedUsers, console.log(addedUsers);
 </script>
 
 <svelte:head>
@@ -18,7 +35,13 @@
 </svelte:head>
 <PageBlock>
 	<h1 class="h1 mb-8 text-primary-500">Create a Campaign</h1>
-	<form class="w-full px-8 flex flex-col flex-1 gap-6" method="POST" use:enhance>
+	<form
+		id="createform"
+		class="w-full px-8 flex flex-col flex-1 gap-6"
+		method="POST"
+		action="?/create"
+		use:enhance
+	>
 		<div class="w-full h-full flex flex-row">
 			<div class="p-4 flex flex-col gap-4 basis-1/3">
 				<div class="flex flex-row">
@@ -59,30 +82,77 @@
 						<div class="flex gap-4">
 							<span>Search</span>
 						</div>
-						<form class="input flex flex-row justify-between" method="POST">
+						<form
+							id="searchform"
+							class="input flex flex-row justify-between"
+							class:input-error={$searchErrors.username}
+							method="POST"
+							action="?/search"
+							use:searchEnhance
+						>
 							<input
-								class="min-w-0 bg-transparent border-none focus:outline-none"
+								class="min-w-0 rounded-[16px] bg-transparent border-transparent focus:border-transparent focus:ring-0"
+								name="username"
 								type="search"
+								aria-invalid={$searchErrors.username ? 'true' : undefined}
 								placeholder="Search..."
+								bind:value={$searchForm.username}
 							/>
-							<button
-								class="w-fit mr-4 flex items-center justify-center"
-								on:click={() => handleSearch()}
-							>
+							<button form="searchform" class="w-fit mr-4 flex items-center justify-center">
 								<Icon src={MagnifyingGlass} theme="mini" size="24px" />
 							</button>
 						</form>
 					</label>
-					<div class="card p-4 flex-1" />
+					<div class="card p-4 flex-1 overflow-y-auto">
+						{#if searchedUsers}
+							{#if searchedUsers.length > 0}
+								<div class="flex flex-col gap-4">
+									{#each searchedUsers as user}
+										<div class="flex flex-row gap-2">
+											<button
+												on:click={(event) => {
+													addUser(user);
+													event.stopPropagation();
+													event.preventDefault();
+												}}
+											>
+												<Icon
+													src={PlusCircle}
+													size="16px"
+													theme="mini"
+													class="text-success-500 mr-2"
+												/>
+											</button>
+											<span>{user.username}</span>
+										</div>
+									{/each}
+								</div>
+							{:else}
+								No users found
+							{/if}
+						{/if}
+					</div>
 				</div>
 			</div>
 			<div class="p-4 flex flex-col gap-4 basis-1/3">
 				<h3 class="h3 text-secondary-500">Added Users</h3>
-				<div class="card p-4 flex-1" />
+				<div class="card p-4 flex-1 overflow-y-auto">
+					{#if addedUsers.length > 0}
+						<div class="flex flex-col gap-4">
+							{#each addedUsers as user}
+								<div class="flex flex-row gap-2">
+									<span>{user.username}</span>
+								</div>
+							{/each}
+						</div>
+					{:else}
+						No users added
+					{/if}
+				</div>
 			</div>
 		</div>
 		<div class="mt-auto mx-auto">
-			<button class="btn variant-filled-primary">Create Campaign</button>
+			<button form="createform" class="btn variant-filled-primary">Create Campaign</button>
 		</div>
 	</form>
 </PageBlock>

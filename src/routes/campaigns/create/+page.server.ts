@@ -1,5 +1,5 @@
 import { get, writable } from 'svelte/store';
-import { redirect, fail } from '@sveltejs/kit';
+import { redirect, fail, json } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { prisma } from '$lib/server/prisma';
 
@@ -17,19 +17,24 @@ const createCampaignSchema = z.object({
 	users: z.array(z.string())
 });
 
+const searchSchema = z.object({
+	username: z.string().min(1).max(50, { message: 'Must be less than 50 characters' })
+});
+
 export const load = (async ({ locals }) => {
 	const session = await locals.auth.validate();
 	if (!session) redirect(307, '/login');
 
 	userStore.set(session.user.userId);
 
-	const form = await superValidate(createCampaignSchema);
+	const campaignForm = await superValidate(createCampaignSchema);
+	const searchForm = await superValidate(searchSchema);
 
-	return { form };
+	return { campaignForm, searchForm };
 }) satisfies PageServerLoad;
 
 export const actions = {
-	default: async ({ request, fetch }) => {
+	create: async ({ request, fetch }) => {
 		const form = await superValidate(request, createCampaignSchema);
 
 		if (!form.valid) {
@@ -37,11 +42,11 @@ export const actions = {
 		}
 
 		const createRes = await fetch(
-			`/api/spellbooks/create?
-			user_id=${get(userStore)}&
+			`/api/campaigns/create?
+			owner_id=${get(userStore)}&
 			campaign_name=${form.data.name}&
-			spellbook_description=${form.data.description}&
-			classes=${JSON.stringify(form.data.users)}`,
+			campaign_description=${form.data.description}&
+			users=${JSON.stringify(form.data.users)}`,
 			{
 				method: 'POST'
 			}
@@ -50,5 +55,21 @@ export const actions = {
 
 		redirect(303, '/campaigns');
 	},
-	search: async () => {}
+	search: async ({ request }) => {
+		const form = await superValidate(request, searchSchema);
+
+		if (!form.valid) {
+			return fail(400, { form });
+		}
+
+		const searchedUsers = await prisma.user.findMany({
+			where: {
+				username: {
+					contains: form.data.username
+				}
+			}
+		});
+
+		return { status: 200, form: form, users: searchedUsers };
+	}
 } satisfies Actions;

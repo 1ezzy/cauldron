@@ -41,6 +41,14 @@ export const actions = {
 			}
 		});
 
+		if (!friend) {
+			const toastAddRequestedFail: ToastSettings = {
+				message: `Error: User not found`,
+				background: 'variant-filled-error'
+			};
+			return { status: 404, form: form, toast: toastAddRequestedFail };
+		}
+
 		const requestRes = await fetch(
 			`/api/requestedFriends/add?
 				user_id=${get(userStore)}&
