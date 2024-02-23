@@ -8,11 +8,9 @@ export const load = (async ({ fetch, locals }) => {
 	const campaignsRes = await fetch(`/api/campaigns?user_id=${session.user.userId}`);
 	const campaignsItem = await campaignsRes.json();
 
-	console.log(campaignsItem);
+	const campaignOwner = await fetch(`/api/users/${campaignsItem.owner_id}`);
+	const ownerItem = await campaignOwner.json();
+	const ownerUsername = ownerItem.username;
 
-	// const campaignOwner = await fetch(`/api/users?user_id=${campaignsItem.owner_id}`);
-	// const ownerItem = await campaignOwner.json();
-	// const ownerUsername = ownerItem.username;
-
-	return { campaignsItem };
+	return { campaignsItem, ownerUsername };
 }) satisfies PageServerLoad;

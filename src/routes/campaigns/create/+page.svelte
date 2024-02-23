@@ -3,16 +3,22 @@
 	import PageBlock from '$lib/components/PageBlock.svelte';
 	import { superForm } from 'sveltekit-superforms/client';
 	import { Icon } from '@steeze-ui/svelte-icon';
-	import { MagnifyingGlass, PlusCircle } from '@steeze-ui/heroicons';
+	import { MagnifyingGlass, MinusCircle, PlusCircle } from '@steeze-ui/heroicons';
 	import type { User } from '@prisma/client';
 
 	export let data: PageData;
-	const { form, errors, enhance } = superForm(data.campaignForm);
+	const { form, errors, enhance } = superForm(data.campaignForm, {
+		dataType: 'json',
+		onSubmit() {
+			$form.users = addedUsers;
+		}
+	});
 	const {
 		form: searchForm,
 		errors: searchErrors,
 		enhance: searchEnhance
 	} = superForm(data.searchForm, {
+		invalidateAll: false,
 		onResult({ result }) {
 			searchedUsers = result.data.users;
 		}
@@ -21,13 +27,21 @@
 	let searchedUsers: User[];
 	let addedUsers: User[] = [];
 	$: searchedUsers;
+	$: addedUsers;
 
 	const addUser = (user: User) => {
-		addedUsers.push(user);
-		addedUsers = addedUsers;
+		if (!addedUsers.includes(user)) {
+			addedUsers.push(user);
+			addedUsers = addedUsers;
+		}
 	};
 
-	$: addedUsers, console.log(addedUsers);
+	const removeUser = (user: User) => {
+		let newAddedUsers = addedUsers.filter((item) => {
+			return item.id !== user.id;
+		});
+		addedUsers = newAddedUsers;
+	};
 </script>
 
 <svelte:head>
@@ -84,15 +98,16 @@
 						</div>
 						<form
 							id="searchform"
-							class="input flex flex-row justify-between"
-							class:input-error={$searchErrors.username}
 							method="POST"
 							action="?/search"
 							use:searchEnhance
+							class="input flex flex-row justify-between"
+							class:input-error={$searchErrors.username}
 						>
 							<input
 								class="min-w-0 rounded-[16px] bg-transparent border-transparent focus:border-transparent focus:ring-0"
 								name="username"
+								form="searchform"
 								type="search"
 								aria-invalid={$searchErrors.username ? 'true' : undefined}
 								placeholder="Search..."
@@ -111,9 +126,9 @@
 										<div class="flex flex-row gap-2">
 											<button
 												on:click={(event) => {
-													addUser(user);
-													event.stopPropagation();
 													event.preventDefault();
+													event.stopPropagation();
+													addUser(user);
 												}}
 											>
 												<Icon
@@ -141,6 +156,15 @@
 						<div class="flex flex-col gap-4">
 							{#each addedUsers as user}
 								<div class="flex flex-row gap-2">
+									<button
+										on:click={(event) => {
+											event.preventDefault();
+											event.stopPropagation();
+											removeUser(user);
+										}}
+									>
+										<Icon src={MinusCircle} size="16px" theme="mini" class="text-error-500 mr-2" />
+									</button>
 									<span>{user.username}</span>
 								</div>
 							{/each}
@@ -155,4 +179,5 @@
 			<button form="createform" class="btn variant-filled-primary">Create Campaign</button>
 		</div>
 	</form>
+	<form />
 </PageBlock>

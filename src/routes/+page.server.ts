@@ -5,7 +5,7 @@ export const load = (async ({ locals }) => {
 	const session = await locals.auth.validate();
 	if (!session) redirect(302, '/login');
 
-	const username = session.user.discordUsername;
+	const username = session.user.username;
 
 	return { username };
 }) satisfies PageServerLoad;

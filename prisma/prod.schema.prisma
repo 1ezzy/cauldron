@@ -2,6 +2,10 @@ generator client {
   provider = "prisma-client-js"
 }
 
+generator zod {
+  provider = "zod-prisma-types"
+}
+
 datasource db {
   provider  = "mongodb"
   url       = env("ACCELERATE_URL")
@@ -9,27 +13,29 @@ datasource db {
 }
 
 model User {
-  id                   String             @id @map("_id")
-  username             String             @unique
-  discordUsername      String?            @unique
-  role                 Role               @default(USER)
-  created_at           DateTime           @default(now())
-  updated_at           DateTime?          @updatedAt
-  auth_key             Key[]
-  auth_session         Session[]
-  biography            String?
-  profile_pic_url      String             @default("profile_pics/default_pfp.png")
-  spellbooks           Spellbook[]
-  characters           Character[]
-  friends              Friends[]          @relation(fields: [friend_ids], references: [user_id])
-  friend_ids           String[]
-  requested_friends    RequestedFriends[] @relation(fields: [requested_friend_ids], references: [user_id])
-  requested_friend_ids String[]
-  sent_requests        SentRequests[]     @relation(fields: [sent_request_ids], references: [user_id])
-  sent_request_ids     String[]
-  owned_campaigns      Campaign[]         @relation("OwnerUser")
-  joined_campaigns     Campaign[]         @relation("MemberUsers", fields: [joined_campaign_ids], references: [id])
-  joined_campaign_ids  String[]           @db.ObjectId
+  id                     String             @id @map("_id")
+  username               String             @unique
+  discordUsername        String?            @unique
+  role                   Role               @default(USER)
+  created_at             DateTime           @default(now())
+  updated_at             DateTime?          @updatedAt
+  auth_key               Key[]
+  auth_session           Session[]
+  biography              String?
+  profile_pic_url        String             @default("profile_pics/default_pfp.png")
+  spellbooks             Spellbook[]
+  characters             Character[]
+  friends                Friends[]          @relation(fields: [friend_ids], references: [user_id])
+  friend_ids             String[]
+  requested_friends      RequestedFriends[] @relation(fields: [requested_friend_ids], references: [user_id])
+  requested_friend_ids   String[]
+  sent_requests          SentRequests[]     @relation(fields: [sent_request_ids], references: [user_id])
+  sent_request_ids       String[]
+  owned_campaigns        Campaign[]         @relation("OwnerUser")
+  joined_campaigns       Campaign[]         @relation("MemberUsers", fields: [joined_campaign_ids], references: [id])
+  joined_campaign_ids    String[]           @db.ObjectId
+  requested_campaigns    Campaign[]         @relation("RequestedUsers", fields: [requested_campaign_ids], references: [id])
+  requested_campaign_ids String[]           @db.ObjectId
 
   @@map("users")
 }
@@ -106,9 +112,11 @@ model Campaign {
   created_at          DateTime  @default(now())
   updated_at          DateTime? @updatedAt
   owner_id            String
-  auth_user           User      @relation("OwnerUser", fields: [owner_id], references: [id])
+  owner_user          User      @relation("OwnerUser", fields: [owner_id], references: [id])
   user_ids            String[]
   users               User[]    @relation("MemberUsers", fields: [user_ids], references: [id])
+  requested_user_ids  String[]
+  requested_users     User[]    @relation("RequestedUsers", fields: [requested_user_ids], references: [id])
 
   @@unique([id, owner_id], name: "user_campaign")
   @@map("campaigns")

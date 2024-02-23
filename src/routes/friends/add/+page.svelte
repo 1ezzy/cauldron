@@ -15,8 +15,6 @@
 			if (result.data?.status === 200) {
 				cancel();
 				goto('/friends');
-			} else {
-				console.log(result.data?.status);
 			}
 		}
 	});

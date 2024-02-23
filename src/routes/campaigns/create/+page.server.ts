@@ -1,7 +1,8 @@
 import { get, writable } from 'svelte/store';
-import { redirect, fail, json } from '@sveltejs/kit';
+import { redirect, fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { prisma } from '$lib/server/prisma';
+import { UserSchema } from '/prisma/generated/zod';
 
 import { z } from 'zod';
 import { superValidate } from 'sveltekit-superforms/server';
@@ -14,7 +15,7 @@ const createCampaignSchema = z.object({
 		.min(1)
 		.max(50, { message: 'Must be less than 50 characters' }),
 	description: z.string().max(500, { message: 'Must be less than 500 characters' }),
-	users: z.array(z.string())
+	users: UserSchema.array()
 });
 
 const searchSchema = z.object({
@@ -46,15 +47,16 @@ export const actions = {
 			owner_id=${get(userStore)}&
 			campaign_name=${form.data.name}&
 			campaign_description=${form.data.description}&
-			users=${JSON.stringify(form.data.users)}`,
+			campaign_users=${JSON.stringify(form.data.users)}`,
 			{
 				method: 'POST'
 			}
 		);
 		createRes.json();
 
-		redirect(303, '/campaigns');
+		// redirect(303, '/campaigns');
 	},
+
 	search: async ({ request }) => {
 		const form = await superValidate(request, searchSchema);
 
@@ -67,6 +69,9 @@ export const actions = {
 				username: {
 					contains: form.data.username
 				}
+			},
+			include: {
+				friends: true
 			}
 		});
 
