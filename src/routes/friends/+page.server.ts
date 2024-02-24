@@ -11,5 +11,5 @@ export const load = (async ({ fetch, locals }) => {
 	const friendsItem = await friendsRes.json();
 	const requestedFriendsItem = await requestedFriendsRes.json();
 
-	return { friendsItem, requestedFriendsItem };
+	return { friendsItem, requestedFriendsItem, user };
 }) satisfies PageServerLoad;
