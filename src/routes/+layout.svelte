@@ -26,7 +26,7 @@
 	// };
 
 	export let data;
-	$: isActive = data.user;
+	$: isActive = data.user !== null;
 </script>
 
 <svelte:head>
@@ -38,7 +38,7 @@
 {#if isActive}
 	<AppShell slotSidebarLeft="bg-surface-100 dark:bg-surface-800">
 		<svelte:fragment slot="header"><Header /></svelte:fragment>
-		<svelte:fragment slot="sidebarLeft"><Sidebar userId={data.user.userId} /></svelte:fragment>
+		<svelte:fragment slot="sidebarLeft"><Sidebar userId={data.user?.id} /></svelte:fragment>
 		<!-- Router Slot -->
 		<slot />
 		<!-- ---- / ---- -->

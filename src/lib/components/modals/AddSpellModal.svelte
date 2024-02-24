@@ -6,7 +6,7 @@
 	export let data: any;
 	export let spellId: string;
 
-	let userId: string = data.session.user.userId;
+	let userId: string = data.userId;
 	let spellbookData: any[] = data.spellbookItem;
 
 	let spellbooks: string[] = spellbookData.map((spellbook) => {

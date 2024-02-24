@@ -1,20 +1,23 @@
+import { redirect } from '@sveltejs/kit';
+import { generateState } from 'arctic';
+import { discord } from '$lib/server/auth';
 import { dev } from '$app/environment';
-import { discordAuth } from '$lib/server/lucia';
 
-export const GET = async ({ cookies }) => {
-	const [url, state] = await discordAuth.getAuthorizationUrl();
+import type { RequestEvent } from '@sveltejs/kit';
 
-	cookies.set('discord_oauth_state', state, {
-		httpOnly: true,
-		secure: !dev,
+export async function GET(event: RequestEvent): Promise<Response> {
+	const state = generateState();
+	const url = await discord.createAuthorizationURL(state, {
+		scopes: ['identify']
+	});
+
+	event.cookies.set('discord_oauth_state', state, {
 		path: '/',
-		maxAge: 60 * 60
+		secure: !dev,
+		httpOnly: true,
+		maxAge: 60 * 10,
+		sameSite: 'lax'
 	});
 
-	return new Response(null, {
-		status: 307,
-		headers: {
-			location: url.toString()
-		}
-	});
-};
+	redirect(302, url.toString());
+}
