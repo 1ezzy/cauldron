@@ -28,10 +28,10 @@ const createCharacterSchema = z.object({
 });
 
 export const load = (async ({ locals }) => {
-	const session = await locals.auth.validate();
-	if (!session) redirect(307, '/login');
+	const user = await locals.user;
+	if (!user) redirect(307, '/login');
 
-	userStore.set(session.user.userId);
+	userStore.set(user.id);
 
 	const form = await superValidate(createCharacterSchema);
 

@@ -2,14 +2,12 @@ import { redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 
 export const load = (async ({ fetch, locals, params }) => {
-	const session = await locals.auth.validate();
-	if (!session) redirect(307, '/login');
+	const user = await locals.user;
+	if (!user) redirect(307, '/login');
 
-	const userId = session.user.userId;
+	const userId = user.id;
 
-	const characterRes = await fetch(
-		`/api/characters/${params.characterId}?user_id=${session.user.userId}`
-	);
+	const characterRes = await fetch(`/api/characters/${params.characterId}?user_id=${userId}`);
 
 	const characterItem = await characterRes.json();
 

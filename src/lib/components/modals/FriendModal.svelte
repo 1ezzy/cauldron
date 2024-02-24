@@ -3,10 +3,9 @@
 	import { getModalStore, getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
 	import { FriendModalTypeEnum } from '$lib/types/friend-modal-type.enum';
 	import type { User } from '@prisma/client';
-	import type { User as LuciaUser } from 'lucia';
 
 	export let type: FriendModalTypeEnum;
-	export let userData: LuciaUser;
+	export let userData: User;
 	export let requestedFriendData: User;
 	export let friendData: User;
 
@@ -32,7 +31,7 @@
 			case FriendModalTypeEnum.remove:
 				const removeRes = await fetch(
 					`/api/friends/remove
-					?user_id=${userData.userId}
+					?user_id=${userData.id}
 					&friend_id=${friendData.id}`,
 					{
 						method: 'POST'
@@ -41,7 +40,7 @@
 				const friendRemoveRes = await fetch(
 					`/api/friends/remove
 					?user_id=${friendData.id}
-					&friend_id=${userData.userId}`,
+					&friend_id=${userData.id}`,
 					{
 						method: 'POST'
 					}
@@ -72,7 +71,7 @@
 			case FriendModalTypeEnum.accept:
 				const requestDeleteRes = await fetch(
 					`/api/requestedFriends/remove
-					?user_id=${userData.userId}
+					?user_id=${userData.id}
 					&requested_friend_id=${requestedFriendData.id}`,
 					{
 						method: 'POST'
@@ -81,7 +80,7 @@
 				const friendRequestDeleteRes = await fetch(
 					`/api/requestedFriends/remove
 					?user_id=${requestedFriendData.id}
-					&requested_friend_id=${userData.userId}`,
+					&requested_friend_id=${userData.id}`,
 					{
 						method: 'POST'
 					}
@@ -89,14 +88,14 @@
 				const sentRequestDeleteRes = await fetch(
 					`/api/sentRequests/remove
 					?user_id=${requestedFriendData.id}
-					&sent_request_id=${userData.userId}`,
+					&sent_request_id=${userData.id}`,
 					{
 						method: 'POST'
 					}
 				);
 				const acceptRes = await fetch(
 					`/api/friends/add
-					?user_id=${userData.userId}
+					?user_id=${userData.id}
 					&friend_id=${requestedFriendData.id}`,
 					{
 						method: 'POST'
@@ -105,7 +104,7 @@
 				const friendAcceptRes = await fetch(
 					`/api/friends/add
 					?user_id=${requestedFriendData.id}
-					&friend_id=${userData.userId}`,
+					&friend_id=${userData.id}`,
 					{
 						method: 'POST'
 					}
@@ -157,7 +156,7 @@
 			case FriendModalTypeEnum.decline:
 				const declineRes = await fetch(
 					`/api/requestedFriends/remove
-					?user_id=${userData.userId}
+					?user_id=${userData.id}
 					&requested_friend_id=${requestedFriendData.id}`,
 					{
 						method: 'POST'
@@ -166,7 +165,7 @@
 				const friendDeclineRes = await fetch(
 					`/api/requestedFriends/remove
 					?user_id=${requestedFriendData.id}
-					&requested_friend_id=${userData.userId}`,
+					&requested_friend_id=${userData.id}`,
 					{
 						method: 'POST'
 					}
@@ -174,7 +173,7 @@
 				const sentRequestDeclineRes = await fetch(
 					`/api/sentRequests/remove
 					?user_id=${requestedFriendData.id}
-					&sent_request_id=${userData.userId}`,
+					&sent_request_id=${userData.id}`,
 					{
 						method: 'POST'
 					}
@@ -212,7 +211,7 @@
 			case FriendModalTypeEnum.revoke:
 				const sentRequestRevokeRes = await fetch(
 					`/api/sentRequests/remove
-					?user_id=${userData.userId}
+					?user_id=${userData.id}
 					&sent_request_id=${requestedFriendData.id}`,
 					{
 						method: 'POST'
@@ -220,7 +219,7 @@
 				);
 				const revokeRes = await fetch(
 					`/api/requestedFriends/remove
-					?user_id=${userData.userId}
+					?user_id=${userData.id}
 					&requested_friend_id=${requestedFriendData.id}`,
 					{
 						method: 'POST'
@@ -229,7 +228,7 @@
 				const friendRevokeRes = await fetch(
 					`/api/requestedFriends/remove
 					?user_id=${requestedFriendData.id}
-					&requested_friend_id=${userData.userId}`,
+					&requested_friend_id=${userData.id}`,
 					{
 						method: 'POST'
 					}

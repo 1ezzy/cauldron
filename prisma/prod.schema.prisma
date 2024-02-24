@@ -13,24 +13,24 @@ datasource db {
 }
 
 model User {
-  id                     String             @id @map("_id")
+  id                     String             @id @default(auto()) @map("_id") @db.ObjectId
   username               String             @unique
-  discordUsername        String?            @unique
+  discord_id             Int?               @unique
+  discord_username       String?            @unique
   role                   Role               @default(USER)
   created_at             DateTime           @default(now())
   updated_at             DateTime?          @updatedAt
-  auth_key               Key[]
   auth_session           Session[]
   biography              String?
   profile_pic_url        String             @default("profile_pics/default_pfp.png")
   spellbooks             Spellbook[]
   characters             Character[]
   friends                Friends[]          @relation(fields: [friend_ids], references: [user_id])
-  friend_ids             String[]
+  friend_ids             String[]           @db.ObjectId
   requested_friends      RequestedFriends[] @relation(fields: [requested_friend_ids], references: [user_id])
-  requested_friend_ids   String[]
+  requested_friend_ids   String[]           @db.ObjectId
   sent_requests          SentRequests[]     @relation(fields: [sent_request_ids], references: [user_id])
-  sent_request_ids       String[]
+  sent_request_ids       String[]           @db.ObjectId
   owned_campaigns        Campaign[]         @relation("OwnerUser")
   joined_campaigns       Campaign[]         @relation("MemberUsers", fields: [joined_campaign_ids], references: [id])
   joined_campaign_ids    String[]           @db.ObjectId
@@ -40,47 +40,37 @@ model User {
   @@map("users")
 }
 
+model Session {
+  id        String   @id @map("_id")
+  userId    String   @map("user_id") @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime @map("expires_at")
+
+  @@map("sessions")
+}
+
 model Friends {
-  user_id    String   @id @map("_id")
+  user_id    String   @id @map("_id") @db.ObjectId
   friends    User[]   @relation(fields: [friend_ids], references: [id])
-  friend_ids String[]
+  friend_ids String[] @db.ObjectId
 
   @@map("friends")
 }
 
 model RequestedFriends {
-  user_id              String   @id @map("_id")
+  user_id              String   @id @map("_id") @db.ObjectId
   requested_friends    User[]   @relation(fields: [requested_friend_ids], references: [id])
-  requested_friend_ids String[]
+  requested_friend_ids String[] @db.ObjectId
 
   @@map("requested_friends")
 }
 
 model SentRequests {
-  user_id          String   @id @map("_id")
+  user_id          String   @id @map("_id") @db.ObjectId
   sent_requests    User[]   @relation(fields: [sent_request_ids], references: [id])
-  sent_request_ids String[]
+  sent_request_ids String[] @db.ObjectId
 
   @@map("sent_requests")
-}
-
-model Session {
-  id             String @id @map("_id")
-  active_expires BigInt
-  idle_expires   BigInt
-  user_id        String
-  user           User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
-
-  @@map("sessions")
-}
-
-model Key {
-  id              String  @id @map("_id")
-  hashed_password String?
-  user_id         String
-  user            User    @relation(fields: [user_id], references: [id], onDelete: Cascade)
-
-  @@map("keys")
 }
 
 model Spellbook {
@@ -91,7 +81,7 @@ model Spellbook {
   image_url             String?
   created_at            DateTime   @default(now())
   updated_at            DateTime?  @updatedAt
-  user_id               String
+  user_id               String     @db.ObjectId
   auth_user             User       @relation(fields: [user_id], references: [id])
   character_id          String?    @db.ObjectId
   character             Character? @relation(fields: [character_id], references: [id])
@@ -111,11 +101,11 @@ model Campaign {
   capaign_description String?
   created_at          DateTime  @default(now())
   updated_at          DateTime? @updatedAt
-  owner_id            String
+  owner_id            String    @db.ObjectId
   owner_user          User      @relation("OwnerUser", fields: [owner_id], references: [id])
-  user_ids            String[]
+  user_ids            String[]  @db.ObjectId
   users               User[]    @relation("MemberUsers", fields: [user_ids], references: [id])
-  requested_user_ids  String[]
+  requested_user_ids  String[]  @db.ObjectId
   requested_users     User[]    @relation("RequestedUsers", fields: [requested_user_ids], references: [id])
 
   @@unique([id, owner_id], name: "user_campaign")
@@ -233,7 +223,7 @@ model Character {
   image_url        String?
   created_at       DateTime                @default(now())
   updated_at       DateTime?               @updatedAt
-  user_id          String
+  user_id          String                  @db.ObjectId
   auth_user        User                    @relation(fields: [user_id], references: [id])
   class_ids        String[]                @db.ObjectId
   classes          Class[]                 @relation(fields: [class_ids], references: [id])

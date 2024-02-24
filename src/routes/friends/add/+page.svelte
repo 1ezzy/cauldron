@@ -4,7 +4,6 @@
 	import { superForm, type FormResult } from 'sveltekit-superforms/client';
 	import { getToastStore } from '@skeletonlabs/skeleton';
 	import { goto } from '$app/navigation';
-	import { type ActionResult } from '@sveltejs/kit';
 
 	export let data: PageData;
 	const toastStore = getToastStore();
