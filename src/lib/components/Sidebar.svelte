@@ -19,7 +19,7 @@
 	const expandedAClasses = 'w-56 h-14 px-4 flex items-center justify-between';
 	const AClasses = 'w-14 h-14 flex justify-center items-center';
 
-	export let userId: string;
+	export let userId: string | undefined;
 	let expanded: boolean = true;
 </script>
 
