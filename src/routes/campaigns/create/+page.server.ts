@@ -23,10 +23,10 @@ const searchSchema = z.object({
 });
 
 export const load = (async ({ locals }) => {
-	const session = await locals.auth.validate();
-	if (!session) redirect(307, '/login');
+	const user = await locals.user;
+	if (!user) redirect(307, '/login');
 
-	userStore.set(session.user.userId);
+	userStore.set(user.id);
 
 	const campaignForm = await superValidate(createCampaignSchema);
 	const searchForm = await superValidate(searchSchema);
@@ -54,7 +54,7 @@ export const actions = {
 		);
 		createRes.json();
 
-		// redirect(303, '/campaigns');
+		redirect(303, '/campaigns');
 	},
 
 	search: async ({ request }) => {

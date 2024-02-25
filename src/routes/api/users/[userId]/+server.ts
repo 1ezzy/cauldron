@@ -2,7 +2,7 @@ import { prisma } from '$lib/server/prisma';
 import { json, type RequestHandler } from '@sveltejs/kit';
 
 export const GET: RequestHandler = async ({ params }) => {
-	const userId = params.userId as string;
+	const userId = params.userId;
 	const profile = await prisma.user.findUnique({
 		where: {
 			id: userId
