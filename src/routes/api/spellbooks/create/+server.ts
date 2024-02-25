@@ -4,7 +4,7 @@ import { json, type RequestHandler } from '@sveltejs/kit';
 export const POST: RequestHandler = async ({ url }) => {
 	const userId = url.searchParams.get('user_id') ?? '';
 	const spellbookName = url.searchParams.get('spellbook_name') ?? '';
-	const spellbookDescription = url.searchParams.get('spellbook_description') ?? '';
+	const spellbookDescription = url.searchParams.get('spellbook_description') ?? null;
 	const characterName = url.searchParams.get('character_name') ?? '';
 	const classes = JSON.parse(url.searchParams.get('classes') ?? '') ?? '';
 

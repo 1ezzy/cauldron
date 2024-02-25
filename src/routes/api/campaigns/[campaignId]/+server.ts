@@ -1,7 +1,7 @@
 import { prisma } from '$lib/server/prisma';
 import { json, type RequestHandler } from '@sveltejs/kit';
 
-export const GET: RequestHandler = async ({ url, params }) => {
+export const GET: RequestHandler = async ({ params }) => {
 	const campaignId = params.campaignId as string;
 
 	const campaign = await prisma.campaign.findUnique({
@@ -9,12 +9,8 @@ export const GET: RequestHandler = async ({ url, params }) => {
 			id: campaignId
 		},
 		include: {
-			spells: {
-				orderBy: {
-					level: 'asc'
-				}
-			},
-			classes: true
+			users: true,
+			owner_user: true
 		}
 	});
 

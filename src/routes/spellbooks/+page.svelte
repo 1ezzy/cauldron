@@ -1,6 +1,6 @@
 <script lang="ts">
 	import PageBlock from '$lib/components/PageBlock.svelte';
-	import SpellbookCard from '$lib/components/SpellbookCard.svelte';
+	import SpellbookCard from '$lib/components/cards/SpellbookCard.svelte';
 	import type { Spellbook } from '@prisma/client';
 
 	export let data;

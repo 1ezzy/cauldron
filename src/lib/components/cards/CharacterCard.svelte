@@ -1,27 +1,29 @@
 <script lang="ts">
-	import type { Campaign } from '@prisma/client';
+	import { capitalizeFirstLetter } from '$lib/utils/string-utils.js';
+	import type { Character } from '@prisma/client';
 
-	export let campaign: Campaign;
-	export let ownerUsername: string;
+	export let character: Character;
 </script>
 
 <div
 	class="card h-96 w-72 md:w-60 p-4 flex flex-col items-center bg-gradient-to-br variant-gradient-primary-secondary"
 >
 	<header class="card-header w-72 md:w-60 mb-2 text-xl text-center">
-		<p class="text-xl font-bold truncate">{campaign.campaign_name}</p>
-		<p class="text-lg truncate">Created By</p>
+		<p class="text-xl font-bold truncate">{character.character_name}</p>
 		<p class="text-lg truncate">
-			{ownerUsername}
+			{character.classes.map((word) => capitalizeFirstLetter(word.name)).join('/')}
+		</p>
+		<p class="text-lg truncate">
+			{character.race.name}
 		</p>
 	</header>
 	<hr class="w-full !border-t-2 my-1" />
 	<section class="mt-2 px-4 line-clamp">
-		{campaign.capaign_description ?? 'No Description'}
+		{character.description ?? 'No description'}
 	</section>
 	<footer class="card-footer mt-auto">
-		<a href="/campaigns/{campaign.id}">
-			<button class="btn variant-filled-tertiary">Open Campaign</button>
+		<a href="/characters/{character.id}">
+			<button class="btn variant-filled-tertiary">Open Character</button>
 		</a>
 	</footer>
 </div>

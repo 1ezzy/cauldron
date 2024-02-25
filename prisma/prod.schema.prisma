@@ -96,17 +96,17 @@ model Spellbook {
 }
 
 model Campaign {
-  id                  String    @id @default(auto()) @map("_id") @db.ObjectId
-  campaign_name       String
-  capaign_description String?
-  created_at          DateTime  @default(now())
-  updated_at          DateTime? @updatedAt
-  owner_id            String    @db.ObjectId
-  owner_user          User      @relation("OwnerUser", fields: [owner_id], references: [id])
-  user_ids            String[]  @db.ObjectId
-  users               User[]    @relation("MemberUsers", fields: [user_ids], references: [id])
-  requested_user_ids  String[]  @db.ObjectId
-  requested_users     User[]    @relation("RequestedUsers", fields: [requested_user_ids], references: [id])
+  id                   String    @id @default(auto()) @map("_id") @db.ObjectId
+  campaign_name        String
+  campaign_description String?
+  created_at           DateTime  @default(now())
+  updated_at           DateTime? @updatedAt
+  owner_id             String    @db.ObjectId
+  owner_user           User      @relation("OwnerUser", fields: [owner_id], references: [id])
+  user_ids             String[]  @db.ObjectId
+  users                User[]    @relation("MemberUsers", fields: [user_ids], references: [id])
+  requested_user_ids   String[]  @db.ObjectId
+  requested_users      User[]    @relation("RequestedUsers", fields: [requested_user_ids], references: [id])
 
   @@unique([id, owner_id], name: "user_campaign")
   @@map("campaigns")

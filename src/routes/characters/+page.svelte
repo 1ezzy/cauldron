@@ -1,6 +1,6 @@
 <script lang="ts">
 	import PageBlock from '$lib/components/PageBlock.svelte';
-	import CharacterCard from '$lib/components/CharacterCard.svelte';
+	import CharacterCard from '$lib/components/cards/CharacterCard.svelte';
 	import type { Character } from '@prisma/client';
 
 	export let data;

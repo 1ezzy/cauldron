@@ -185,7 +185,7 @@
 			<div class="mb-8">
 				<h4 class="h4 mb-2 text-tertiary-500">Description</h4>
 				{#if !detailsEditMode}
-					{spellbookData?.spellbook_description}
+					{spellbookData?.spellbook_description ?? 'No description available'}
 				{:else}{/if}
 			</div>
 			<div class="mb-8">

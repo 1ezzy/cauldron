@@ -66,7 +66,7 @@ export const SentRequestsScalarFieldEnumSchema = z.enum(['user_id','sent_request
 
 export const SpellbookScalarFieldEnumSchema = z.enum(['id','spellbook_name','character_name','spellbook_description','image_url','created_at','updated_at','user_id','character_id','spell_ids','class_ids','race_ids']);
 
-export const CampaignScalarFieldEnumSchema = z.enum(['id','campaign_name','capaign_description','created_at','updated_at','owner_id','user_ids','requested_user_ids']);
+export const CampaignScalarFieldEnumSchema = z.enum(['id','campaign_name','campaign_description','created_at','updated_at','owner_id','user_ids','requested_user_ids']);
 
 export const SpellScalarFieldEnumSchema = z.enum(['id','index','name','url','desc','higher_level','range','components','material','ritual','duration','concentration','casting_time','level','attack_type','damage','spellbook_ids']);
 
@@ -200,7 +200,7 @@ export type Spellbook = z.infer<typeof SpellbookSchema>
 export const CampaignSchema = z.object({
   id: z.string(),
   campaign_name: z.string(),
-  capaign_description: z.string().nullable(),
+  campaign_description: z.string().nullable(),
   created_at: z.coerce.date(),
   updated_at: z.coerce.date().nullable(),
   owner_id: z.string(),
@@ -784,7 +784,7 @@ export const CampaignCountOutputTypeSelectSchema: z.ZodType<Prisma.CampaignCount
 export const CampaignSelectSchema: z.ZodType<Prisma.CampaignSelect> = z.object({
   id: z.boolean().optional(),
   campaign_name: z.boolean().optional(),
-  capaign_description: z.boolean().optional(),
+  campaign_description: z.boolean().optional(),
   created_at: z.boolean().optional(),
   updated_at: z.boolean().optional(),
   owner_id: z.boolean().optional(),
@@ -1795,7 +1795,7 @@ export const CampaignWhereInputSchema: z.ZodType<Prisma.CampaignWhereInput> = z.
   NOT: z.union([ z.lazy(() => CampaignWhereInputSchema),z.lazy(() => CampaignWhereInputSchema).array() ]).optional(),
   id: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
   campaign_name: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
-  capaign_description: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
+  campaign_description: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
   created_at: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
   updated_at: z.union([ z.lazy(() => DateTimeNullableFilterSchema),z.coerce.date() ]).optional().nullable(),
   owner_id: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
@@ -1809,7 +1809,7 @@ export const CampaignWhereInputSchema: z.ZodType<Prisma.CampaignWhereInput> = z.
 export const CampaignOrderByWithRelationInputSchema: z.ZodType<Prisma.CampaignOrderByWithRelationInput> = z.object({
   id: z.lazy(() => SortOrderSchema).optional(),
   campaign_name: z.lazy(() => SortOrderSchema).optional(),
-  capaign_description: z.lazy(() => SortOrderSchema).optional(),
+  campaign_description: z.lazy(() => SortOrderSchema).optional(),
   created_at: z.lazy(() => SortOrderSchema).optional(),
   updated_at: z.lazy(() => SortOrderSchema).optional(),
   owner_id: z.lazy(() => SortOrderSchema).optional(),
@@ -1839,7 +1839,7 @@ export const CampaignWhereUniqueInputSchema: z.ZodType<Prisma.CampaignWhereUniqu
   OR: z.lazy(() => CampaignWhereInputSchema).array().optional(),
   NOT: z.union([ z.lazy(() => CampaignWhereInputSchema),z.lazy(() => CampaignWhereInputSchema).array() ]).optional(),
   campaign_name: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
-  capaign_description: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
+  campaign_description: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
   created_at: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
   updated_at: z.union([ z.lazy(() => DateTimeNullableFilterSchema),z.coerce.date() ]).optional().nullable(),
   owner_id: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
@@ -1853,7 +1853,7 @@ export const CampaignWhereUniqueInputSchema: z.ZodType<Prisma.CampaignWhereUniqu
 export const CampaignOrderByWithAggregationInputSchema: z.ZodType<Prisma.CampaignOrderByWithAggregationInput> = z.object({
   id: z.lazy(() => SortOrderSchema).optional(),
   campaign_name: z.lazy(() => SortOrderSchema).optional(),
-  capaign_description: z.lazy(() => SortOrderSchema).optional(),
+  campaign_description: z.lazy(() => SortOrderSchema).optional(),
   created_at: z.lazy(() => SortOrderSchema).optional(),
   updated_at: z.lazy(() => SortOrderSchema).optional(),
   owner_id: z.lazy(() => SortOrderSchema).optional(),
@@ -1870,7 +1870,7 @@ export const CampaignScalarWhereWithAggregatesInputSchema: z.ZodType<Prisma.Camp
   NOT: z.union([ z.lazy(() => CampaignScalarWhereWithAggregatesInputSchema),z.lazy(() => CampaignScalarWhereWithAggregatesInputSchema).array() ]).optional(),
   id: z.union([ z.lazy(() => StringWithAggregatesFilterSchema),z.string() ]).optional(),
   campaign_name: z.union([ z.lazy(() => StringWithAggregatesFilterSchema),z.string() ]).optional(),
-  capaign_description: z.union([ z.lazy(() => StringNullableWithAggregatesFilterSchema),z.string() ]).optional().nullable(),
+  campaign_description: z.union([ z.lazy(() => StringNullableWithAggregatesFilterSchema),z.string() ]).optional().nullable(),
   created_at: z.union([ z.lazy(() => DateTimeWithAggregatesFilterSchema),z.coerce.date() ]).optional(),
   updated_at: z.union([ z.lazy(() => DateTimeNullableWithAggregatesFilterSchema),z.coerce.date() ]).optional().nullable(),
   owner_id: z.union([ z.lazy(() => StringWithAggregatesFilterSchema),z.string() ]).optional(),
@@ -3164,7 +3164,7 @@ export const SpellbookUncheckedUpdateManyInputSchema: z.ZodType<Prisma.Spellbook
 export const CampaignCreateInputSchema: z.ZodType<Prisma.CampaignCreateInput> = z.object({
   id: z.string().optional(),
   campaign_name: z.string(),
-  capaign_description: z.string().optional().nullable(),
+  campaign_description: z.string().optional().nullable(),
   created_at: z.coerce.date().optional(),
   updated_at: z.coerce.date().optional().nullable(),
   owner_user: z.lazy(() => UserCreateNestedOneWithoutOwned_campaignsInputSchema),
@@ -3175,7 +3175,7 @@ export const CampaignCreateInputSchema: z.ZodType<Prisma.CampaignCreateInput> = 
 export const CampaignUncheckedCreateInputSchema: z.ZodType<Prisma.CampaignUncheckedCreateInput> = z.object({
   id: z.string().optional(),
   campaign_name: z.string(),
-  capaign_description: z.string().optional().nullable(),
+  campaign_description: z.string().optional().nullable(),
   created_at: z.coerce.date().optional(),
   updated_at: z.coerce.date().optional().nullable(),
   owner_id: z.string(),
@@ -3187,7 +3187,7 @@ export const CampaignUncheckedCreateInputSchema: z.ZodType<Prisma.CampaignUnchec
 
 export const CampaignUpdateInputSchema: z.ZodType<Prisma.CampaignUpdateInput> = z.object({
   campaign_name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
-  capaign_description: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  campaign_description: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   created_at: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   updated_at: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   owner_user: z.lazy(() => UserUpdateOneRequiredWithoutOwned_campaignsNestedInputSchema).optional(),
@@ -3197,7 +3197,7 @@ export const CampaignUpdateInputSchema: z.ZodType<Prisma.CampaignUpdateInput> = 
 
 export const CampaignUncheckedUpdateInputSchema: z.ZodType<Prisma.CampaignUncheckedUpdateInput> = z.object({
   campaign_name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
-  capaign_description: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  campaign_description: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   created_at: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   updated_at: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   owner_id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
@@ -3210,7 +3210,7 @@ export const CampaignUncheckedUpdateInputSchema: z.ZodType<Prisma.CampaignUnchec
 export const CampaignCreateManyInputSchema: z.ZodType<Prisma.CampaignCreateManyInput> = z.object({
   id: z.string().optional(),
   campaign_name: z.string(),
-  capaign_description: z.string().optional().nullable(),
+  campaign_description: z.string().optional().nullable(),
   created_at: z.coerce.date().optional(),
   updated_at: z.coerce.date().optional().nullable(),
   owner_id: z.string(),
@@ -3220,14 +3220,14 @@ export const CampaignCreateManyInputSchema: z.ZodType<Prisma.CampaignCreateManyI
 
 export const CampaignUpdateManyMutationInputSchema: z.ZodType<Prisma.CampaignUpdateManyMutationInput> = z.object({
   campaign_name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
-  capaign_description: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  campaign_description: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   created_at: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   updated_at: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
 }).strict();
 
 export const CampaignUncheckedUpdateManyInputSchema: z.ZodType<Prisma.CampaignUncheckedUpdateManyInput> = z.object({
   campaign_name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
-  capaign_description: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  campaign_description: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   created_at: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   updated_at: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   owner_id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
@@ -4672,7 +4672,7 @@ export const CampaignUser_campaignCompoundUniqueInputSchema: z.ZodType<Prisma.Ca
 export const CampaignCountOrderByAggregateInputSchema: z.ZodType<Prisma.CampaignCountOrderByAggregateInput> = z.object({
   id: z.lazy(() => SortOrderSchema).optional(),
   campaign_name: z.lazy(() => SortOrderSchema).optional(),
-  capaign_description: z.lazy(() => SortOrderSchema).optional(),
+  campaign_description: z.lazy(() => SortOrderSchema).optional(),
   created_at: z.lazy(() => SortOrderSchema).optional(),
   updated_at: z.lazy(() => SortOrderSchema).optional(),
   owner_id: z.lazy(() => SortOrderSchema).optional(),
@@ -4683,7 +4683,7 @@ export const CampaignCountOrderByAggregateInputSchema: z.ZodType<Prisma.Campaign
 export const CampaignMaxOrderByAggregateInputSchema: z.ZodType<Prisma.CampaignMaxOrderByAggregateInput> = z.object({
   id: z.lazy(() => SortOrderSchema).optional(),
   campaign_name: z.lazy(() => SortOrderSchema).optional(),
-  capaign_description: z.lazy(() => SortOrderSchema).optional(),
+  campaign_description: z.lazy(() => SortOrderSchema).optional(),
   created_at: z.lazy(() => SortOrderSchema).optional(),
   updated_at: z.lazy(() => SortOrderSchema).optional(),
   owner_id: z.lazy(() => SortOrderSchema).optional()
@@ -4692,7 +4692,7 @@ export const CampaignMaxOrderByAggregateInputSchema: z.ZodType<Prisma.CampaignMa
 export const CampaignMinOrderByAggregateInputSchema: z.ZodType<Prisma.CampaignMinOrderByAggregateInput> = z.object({
   id: z.lazy(() => SortOrderSchema).optional(),
   campaign_name: z.lazy(() => SortOrderSchema).optional(),
-  capaign_description: z.lazy(() => SortOrderSchema).optional(),
+  campaign_description: z.lazy(() => SortOrderSchema).optional(),
   created_at: z.lazy(() => SortOrderSchema).optional(),
   updated_at: z.lazy(() => SortOrderSchema).optional(),
   owner_id: z.lazy(() => SortOrderSchema).optional()
@@ -7847,7 +7847,7 @@ export const SentRequestsCreateOrConnectWithoutSent_requestsInputSchema: z.ZodTy
 export const CampaignCreateWithoutOwner_userInputSchema: z.ZodType<Prisma.CampaignCreateWithoutOwner_userInput> = z.object({
   id: z.string().optional(),
   campaign_name: z.string(),
-  capaign_description: z.string().optional().nullable(),
+  campaign_description: z.string().optional().nullable(),
   created_at: z.coerce.date().optional(),
   updated_at: z.coerce.date().optional().nullable(),
   users: z.lazy(() => UserCreateNestedManyWithoutJoined_campaignsInputSchema).optional(),
@@ -7857,7 +7857,7 @@ export const CampaignCreateWithoutOwner_userInputSchema: z.ZodType<Prisma.Campai
 export const CampaignUncheckedCreateWithoutOwner_userInputSchema: z.ZodType<Prisma.CampaignUncheckedCreateWithoutOwner_userInput> = z.object({
   id: z.string().optional(),
   campaign_name: z.string(),
-  capaign_description: z.string().optional().nullable(),
+  campaign_description: z.string().optional().nullable(),
   created_at: z.coerce.date().optional(),
   updated_at: z.coerce.date().optional().nullable(),
   user_ids: z.union([ z.lazy(() => CampaignCreateuser_idsInputSchema),z.string().array() ]).optional(),
@@ -7878,7 +7878,7 @@ export const CampaignCreateManyOwner_userInputEnvelopeSchema: z.ZodType<Prisma.C
 export const CampaignCreateWithoutUsersInputSchema: z.ZodType<Prisma.CampaignCreateWithoutUsersInput> = z.object({
   id: z.string().optional(),
   campaign_name: z.string(),
-  capaign_description: z.string().optional().nullable(),
+  campaign_description: z.string().optional().nullable(),
   created_at: z.coerce.date().optional(),
   updated_at: z.coerce.date().optional().nullable(),
   owner_user: z.lazy(() => UserCreateNestedOneWithoutOwned_campaignsInputSchema),
@@ -7888,7 +7888,7 @@ export const CampaignCreateWithoutUsersInputSchema: z.ZodType<Prisma.CampaignCre
 export const CampaignUncheckedCreateWithoutUsersInputSchema: z.ZodType<Prisma.CampaignUncheckedCreateWithoutUsersInput> = z.object({
   id: z.string().optional(),
   campaign_name: z.string(),
-  capaign_description: z.string().optional().nullable(),
+  campaign_description: z.string().optional().nullable(),
   created_at: z.coerce.date().optional(),
   updated_at: z.coerce.date().optional().nullable(),
   owner_id: z.string(),
@@ -7905,7 +7905,7 @@ export const CampaignCreateOrConnectWithoutUsersInputSchema: z.ZodType<Prisma.Ca
 export const CampaignCreateWithoutRequested_usersInputSchema: z.ZodType<Prisma.CampaignCreateWithoutRequested_usersInput> = z.object({
   id: z.string().optional(),
   campaign_name: z.string(),
-  capaign_description: z.string().optional().nullable(),
+  campaign_description: z.string().optional().nullable(),
   created_at: z.coerce.date().optional(),
   updated_at: z.coerce.date().optional().nullable(),
   owner_user: z.lazy(() => UserCreateNestedOneWithoutOwned_campaignsInputSchema),
@@ -7915,7 +7915,7 @@ export const CampaignCreateWithoutRequested_usersInputSchema: z.ZodType<Prisma.C
 export const CampaignUncheckedCreateWithoutRequested_usersInputSchema: z.ZodType<Prisma.CampaignUncheckedCreateWithoutRequested_usersInput> = z.object({
   id: z.string().optional(),
   campaign_name: z.string(),
-  capaign_description: z.string().optional().nullable(),
+  campaign_description: z.string().optional().nullable(),
   created_at: z.coerce.date().optional(),
   updated_at: z.coerce.date().optional().nullable(),
   owner_id: z.string(),
@@ -8132,7 +8132,7 @@ export const CampaignScalarWhereInputSchema: z.ZodType<Prisma.CampaignScalarWher
   NOT: z.union([ z.lazy(() => CampaignScalarWhereInputSchema),z.lazy(() => CampaignScalarWhereInputSchema).array() ]).optional(),
   id: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
   campaign_name: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
-  capaign_description: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
+  campaign_description: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
   created_at: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
   updated_at: z.union([ z.lazy(() => DateTimeNullableFilterSchema),z.coerce.date() ]).optional().nullable(),
   owner_id: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
@@ -10783,7 +10783,7 @@ export const CharacterCreateManyAuth_userInputSchema: z.ZodType<Prisma.Character
 export const CampaignCreateManyOwner_userInputSchema: z.ZodType<Prisma.CampaignCreateManyOwner_userInput> = z.object({
   id: z.string().optional(),
   campaign_name: z.string(),
-  capaign_description: z.string().optional().nullable(),
+  campaign_description: z.string().optional().nullable(),
   created_at: z.coerce.date().optional(),
   updated_at: z.coerce.date().optional().nullable(),
   user_ids: z.union([ z.lazy(() => CampaignCreateuser_idsInputSchema),z.string().array() ]).optional(),
@@ -10985,7 +10985,7 @@ export const SentRequestsUncheckedUpdateManyWithoutSent_requestsInputSchema: z.Z
 
 export const CampaignUpdateWithoutOwner_userInputSchema: z.ZodType<Prisma.CampaignUpdateWithoutOwner_userInput> = z.object({
   campaign_name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
-  capaign_description: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  campaign_description: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   created_at: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   updated_at: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   users: z.lazy(() => UserUpdateManyWithoutJoined_campaignsNestedInputSchema).optional(),
@@ -10994,7 +10994,7 @@ export const CampaignUpdateWithoutOwner_userInputSchema: z.ZodType<Prisma.Campai
 
 export const CampaignUncheckedUpdateWithoutOwner_userInputSchema: z.ZodType<Prisma.CampaignUncheckedUpdateWithoutOwner_userInput> = z.object({
   campaign_name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
-  capaign_description: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  campaign_description: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   created_at: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   updated_at: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   user_ids: z.union([ z.lazy(() => CampaignUpdateuser_idsInputSchema),z.string().array() ]).optional(),
@@ -11005,7 +11005,7 @@ export const CampaignUncheckedUpdateWithoutOwner_userInputSchema: z.ZodType<Pris
 
 export const CampaignUncheckedUpdateManyWithoutOwner_userInputSchema: z.ZodType<Prisma.CampaignUncheckedUpdateManyWithoutOwner_userInput> = z.object({
   campaign_name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
-  capaign_description: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  campaign_description: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   created_at: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   updated_at: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   user_ids: z.union([ z.lazy(() => CampaignUpdateuser_idsInputSchema),z.string().array() ]).optional(),
@@ -11014,7 +11014,7 @@ export const CampaignUncheckedUpdateManyWithoutOwner_userInputSchema: z.ZodType<
 
 export const CampaignUpdateWithoutUsersInputSchema: z.ZodType<Prisma.CampaignUpdateWithoutUsersInput> = z.object({
   campaign_name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
-  capaign_description: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  campaign_description: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   created_at: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   updated_at: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   owner_user: z.lazy(() => UserUpdateOneRequiredWithoutOwned_campaignsNestedInputSchema).optional(),
@@ -11023,7 +11023,7 @@ export const CampaignUpdateWithoutUsersInputSchema: z.ZodType<Prisma.CampaignUpd
 
 export const CampaignUncheckedUpdateWithoutUsersInputSchema: z.ZodType<Prisma.CampaignUncheckedUpdateWithoutUsersInput> = z.object({
   campaign_name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
-  capaign_description: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  campaign_description: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   created_at: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   updated_at: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   owner_id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
@@ -11034,7 +11034,7 @@ export const CampaignUncheckedUpdateWithoutUsersInputSchema: z.ZodType<Prisma.Ca
 
 export const CampaignUncheckedUpdateManyWithoutUsersInputSchema: z.ZodType<Prisma.CampaignUncheckedUpdateManyWithoutUsersInput> = z.object({
   campaign_name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
-  capaign_description: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  campaign_description: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   created_at: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   updated_at: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   owner_id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
@@ -11044,7 +11044,7 @@ export const CampaignUncheckedUpdateManyWithoutUsersInputSchema: z.ZodType<Prism
 
 export const CampaignUpdateWithoutRequested_usersInputSchema: z.ZodType<Prisma.CampaignUpdateWithoutRequested_usersInput> = z.object({
   campaign_name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
-  capaign_description: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  campaign_description: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   created_at: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   updated_at: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   owner_user: z.lazy(() => UserUpdateOneRequiredWithoutOwned_campaignsNestedInputSchema).optional(),
@@ -11053,7 +11053,7 @@ export const CampaignUpdateWithoutRequested_usersInputSchema: z.ZodType<Prisma.C
 
 export const CampaignUncheckedUpdateWithoutRequested_usersInputSchema: z.ZodType<Prisma.CampaignUncheckedUpdateWithoutRequested_usersInput> = z.object({
   campaign_name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
-  capaign_description: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  campaign_description: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   created_at: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   updated_at: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   owner_id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
@@ -11064,7 +11064,7 @@ export const CampaignUncheckedUpdateWithoutRequested_usersInputSchema: z.ZodType
 
 export const CampaignUncheckedUpdateManyWithoutRequested_usersInputSchema: z.ZodType<Prisma.CampaignUncheckedUpdateManyWithoutRequested_usersInput> = z.object({
   campaign_name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
-  capaign_description: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  campaign_description: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   created_at: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   updated_at: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   owner_id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),

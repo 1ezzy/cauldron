@@ -1,29 +1,29 @@
 <script lang="ts">
 	import { capitalizeFirstLetter } from '$lib/utils/string-utils.js';
-	import type { Character } from '@prisma/client';
+	import type { Spellbook } from '@prisma/client';
 
-	export let character: Character;
+	export let spellbook: Spellbook;
 </script>
 
 <div
 	class="card h-96 w-72 md:w-60 p-4 flex flex-col items-center bg-gradient-to-br variant-gradient-primary-secondary"
 >
 	<header class="card-header w-72 md:w-60 mb-2 text-xl text-center">
-		<p class="text-xl font-bold truncate">{character.character_name}</p>
+		<p class="text-xl font-bold truncate">{spellbook.spellbook_name}</p>
 		<p class="text-lg truncate">
-			{character.classes.map((word) => capitalizeFirstLetter(word.name)).join('/')}
+			{spellbook.character_name}
 		</p>
 		<p class="text-lg truncate">
-			{character.race.name}
+			{spellbook.classes.map((word) => capitalizeFirstLetter(word.name)).join('/')}
 		</p>
 	</header>
 	<hr class="w-full !border-t-2 my-1" />
 	<section class="mt-2 px-4 line-clamp">
-		{character.description ?? 'No Description'}
+		{spellbook.spellbook_description ?? 'No description'}
 	</section>
 	<footer class="card-footer mt-auto">
-		<a href="/characters/{character.id}">
-			<button class="btn variant-filled-tertiary">Open Character</button>
+		<a href="/spellbooks/{spellbook.id}">
+			<button class="btn variant-filled-tertiary">Open Spellbook</button>
 		</a>
 	</footer>
 </div>

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import PageBlock from '$lib/components/PageBlock.svelte';
-	import CampaignCard from '$lib/components/CampaignCard.svelte';
+	import CampaignCard from '$lib/components/cards/CampaignCard.svelte';
 	import type { Campaign } from '@prisma/client';
 
 	export let data;
