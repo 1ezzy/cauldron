@@ -52,9 +52,14 @@ export const actions = {
 				method: 'POST'
 			}
 		);
-		createRes.json();
+		const campaignData = await createRes.json();
 
-		redirect(303, '/campaigns');
+		return {
+			success: true,
+			status: 200,
+			form: form,
+			campaignId: campaignData.id
+		};
 	},
 
 	search: async ({ request }) => {

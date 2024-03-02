@@ -98,6 +98,7 @@ model Campaign {
   id                   String    @id @default(auto()) @map("_id") @db.ObjectId
   campaign_name        String
   campaign_description String?
+  campaign_pic_url     String?   @default("campaign_pics/default_pic.png")
   created_at           DateTime  @default(now())
   updated_at           DateTime? @updatedAt
   owner_id             String    @db.ObjectId

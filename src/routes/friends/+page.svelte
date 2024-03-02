@@ -78,6 +78,7 @@
 											src="{PUBLIC_CLOUDINARY_BASE_URL}{friend.profile_pic_url}"
 											alt="Profile Picture for {friend.username}"
 											rounded="rounded-full"
+											background="bg-transparent"
 											width="w-16"
 										/>
 										<div class="mt-auto flex flex-col gap-2">
@@ -119,6 +120,7 @@
 											src="{PUBLIC_CLOUDINARY_BASE_URL}{friend.profile_pic_url}"
 											alt="Profile Picture for {friend.username}"
 											rounded="rounded-full"
+											background="bg-transparent"
 											width="w-16"
 										/>
 										<div class="mt-auto flex flex-col gap-2">

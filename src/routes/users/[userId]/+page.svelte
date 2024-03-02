@@ -33,6 +33,7 @@
 					src="{PUBLIC_CLOUDINARY_BASE_URL}{profileData.profile_pic_url}"
 					alt="Profile Picture for {profileData.username}"
 					rounded="rounded-full"
+					background="bg-transparent"
 					width="w-24"
 				/>
 			</div>

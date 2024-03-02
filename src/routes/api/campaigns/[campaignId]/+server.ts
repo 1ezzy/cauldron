@@ -36,5 +36,52 @@ export const DELETE: RequestHandler = async ({ url }) => {
 		return json({ message: `Could not find campaign` }, { status: 404 });
 	}
 
+	const campaignUserIds = campaign.user_ids;
+	const campaignRequestedUserIds = campaign.requested_user_ids;
+
+	campaignUserIds.forEach(async (userId: string) => {
+		const { joined_campaign_ids } = await prisma.user.findUnique({
+			where: {
+				id: userId
+			},
+			include: {
+				joined_campaigns: true
+			}
+		});
+
+		await prisma.user.update({
+			where: {
+				id: userId
+			},
+			data: {
+				joined_campaign_ids: joined_campaign_ids.filter((id: string) => {
+					id !== campaignId;
+				})
+			}
+		});
+	});
+
+	campaignRequestedUserIds.forEach(async (userId: string) => {
+		const { requested_campaign_ids } = await prisma.user.findUnique({
+			where: {
+				id: userId
+			},
+			include: {
+				requested_campaigns: true
+			}
+		});
+
+		await prisma.user.update({
+			where: {
+				id: userId
+			},
+			data: {
+				requested_campaign_ids: requested_campaign_ids.filter((id: string) => {
+					id !== campaignId;
+				})
+			}
+		});
+	});
+
 	return json(campaign);
 };

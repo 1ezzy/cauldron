@@ -3,7 +3,7 @@
 	import { getModalStore, getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
 
 	export let parent: any;
-	export let userId: string;
+	export let ownerId: string;
 	export let campaignId: string;
 	export let campaignName: string;
 
@@ -12,7 +12,7 @@
 
 	const handleSubmit = async () => {
 		const deleteRes = await fetch(
-			`/api/campaigns/delete?user_id=${userId}&campaign_id=${campaignId}`,
+			`/api/campaigns/delete?owner_id=${ownerId}&campaign_id=${campaignId}`,
 			{
 				method: 'DELETE'
 			}

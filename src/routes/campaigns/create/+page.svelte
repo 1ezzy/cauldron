@@ -5,12 +5,36 @@
 	import { Icon } from '@steeze-ui/svelte-icon';
 	import { MagnifyingGlass, MinusCircle, PlusCircle } from '@steeze-ui/heroicons';
 	import type { User } from '@prisma/client';
+	import { getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
+	import { goto } from '$app/navigation';
 
 	export let data: PageData;
+
+	const toastStore = getToastStore();
+
 	const { form, errors, enhance } = superForm(data.campaignForm, {
 		dataType: 'json',
 		onSubmit() {
 			$form.users = addedUsers;
+		},
+		onResult({ result }) {
+			const campaignId = result.data.campaignId;
+
+			const toastCreatedCampaign: ToastSettings = {
+				message: `Campaign created`,
+				background: 'variant-filled-success',
+				action: {
+					label: 'View campaign',
+					response: () => goto(`/campaigns/${campaignId}`)
+				}
+			};
+			toastStore.trigger(toastCreatedCampaign);
+
+			console.log(result.type);
+
+			if (result.type === 'success') {
+				window.location = '/campaigns';
+			}
 		}
 	});
 	const {
@@ -175,7 +199,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="mt-auto mx-auto">
+		<div class="mt-auto ml-auto mr-4">
 			<button form="createform" class="btn variant-filled-primary">Create Campaign</button>
 		</div>
 	</form>

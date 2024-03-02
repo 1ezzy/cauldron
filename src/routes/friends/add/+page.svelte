@@ -13,7 +13,7 @@
 			toastStore.trigger(result.data?.toast);
 			if (result.data?.status === 200) {
 				cancel();
-				goto('/friends');
+				window.location = '/friends';
 			}
 		}
 	});

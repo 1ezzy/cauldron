@@ -6,6 +6,9 @@ export const GET: RequestHandler = async ({ params }) => {
 	const profile = await prisma.user.findUnique({
 		where: {
 			id: userId
+		},
+		include: {
+			requested_campaigns: true
 		}
 	});
 
