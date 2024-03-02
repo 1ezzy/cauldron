@@ -25,15 +25,15 @@
 	<title>Cauldron | Campaigns</title>
 </svelte:head>
 <PageBlock>
-	<div class="w-full mb-8 flex flex-row items-center">
+	<div class="w-full mb-8 flex md:flex-row flex-col md:gap-0 gap-2 items-center">
 		<div class="basis-1/3" />
 		<h1 class="h1 text-primary-500 text-center basis-1/3">Campaigns</h1>
 		<a href="/campaigns/create" class="flex justify-end basis-1/3">
 			<button class="btn variant-filled-primary">Create a Campaign</button>
 		</a>
 	</div>
-	<div class="w-full p-8 overflow-auto flex flex-row flex-auto gap-8">
-		<div class="flex flex-col basis-1/4 truncate">
+	<div class="w-full p-8 overflow-auto flex md:flex-row flex-col flex-auto gap-8">
+		<div class="flex flex-col basis-1/4 md:truncate">
 			{#if campaignMode === 'campaigns'}
 				<div class="mb-4 flex flex-row justify-between gap-4">
 					<h2 class="h2 text-secondary-500 text-center">Campaigns</h2>
@@ -59,7 +59,7 @@
 					</button>
 				</div>
 			{/if}
-			<div class="card p-4 flex flex-col flex-1 gap-4 overflow-y-scroll">
+			<div class="card p-4 flex flex-col flex-1 gap-4 md:min-h-0 min-h-[288px] overflow-y-scroll">
 				{#if campaignMode === 'campaigns'}
 					{#if campaignData.length > 0}
 						{#each campaignData as campaign}
@@ -113,10 +113,10 @@
 					<h2 class="h2 mb-2 text-secondary-500 text-center truncate">
 						{selectedCampaign.campaign_name}
 					</h2>
-					<h4 class="h4 mb-8 text-tertiary-500 text-center">
+					<h4 class="h4 md:mb-8 mb-4 text-tertiary-500 text-center">
 						Created by {selectedCampaign.owner_user?.username}
 					</h4>
-					<div class="flex flex-row flex-1">
+					<div class="flex md:flex-row flex-col flex-1">
 						<div class="p-4 flex flex-col flex-1 items-center basis-1/2 gap-4 overflow-y-scroll">
 							<h4 class="h4 text-tertiary-500">Campaign Members</h4>
 							{#if selectedCampaign.users.length > 0}
@@ -138,8 +138,10 @@
 							{/if}
 						</div>
 						<span class="divider-vertical my-auto h-[95%] md:block hidden" />
-						<div class="p-4 flex flex-col items-end text-end basis-1/2">
-							<div class="flex flex-col gap-4">
+						<div
+							class="p-4 flex flex-col md:items-end items-center md:text-end text-center basis-1/2"
+						>
+							<div class="flex flex-col gap-4 md:mb-0 mb-12">
 								<h4 class="h4 text-tertiary-500">Campaign Members</h4>
 								<span>{selectedCampaign.campaign_description ?? 'No description available'}</span>
 							</div>
@@ -160,10 +162,10 @@
 					<h2 class="h2 mb-2 text-secondary-500 text-center truncate">
 						{selectedCampaign.campaign_name}
 					</h2>
-					<h4 class="h4 mb-8 text-tertiary-500 text-center">
+					<h4 class="h4 md:mb-8 mb-4 text-tertiary-500 text-center">
 						Created by {selectedCampaign.owner_user?.username}
 					</h4>
-					<div class="flex flex-row flex-1">
+					<div class="flex md:flex-row flex-col flex-1">
 						<div class="p-4 flex flex-col flex-1 items-center basis-1/2 gap-4 overflow-y-scroll">
 							<h4 class="h4 text-tertiary-500">Campaign Members</h4>
 							{#if selectedCampaign.users.length > 0}
@@ -185,7 +187,9 @@
 							{/if}
 						</div>
 						<span class="divider-vertical my-auto h-[95%] md:block hidden" />
-						<div class="p-4 flex flex-col items-end text-end basis-1/2">
+						<div
+							class="p-4 flex flex-col md:items-end items-center md:text-end text-center basis-1/2"
+						>
 							<div class="flex flex-col gap-4">
 								<h4 class="h4 text-tertiary-500">Campaign Members</h4>
 								<span>{selectedCampaign.campaign_description ?? 'No description available'}</span>

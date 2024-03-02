@@ -44,7 +44,7 @@
 	<title>Cauldron | Friends</title>
 </svelte:head>
 <PageBlock>
-	<div class="w-full mb-8 flex flex-row items-center">
+	<div class="w-full mb-8 flex md:flex-row flex-col md:gap-0 gap-2 items-center">
 		<div class="basis-1/3" />
 		<h1 class="h1 text-primary-500 text-center basis-1/3">Friends</h1>
 		<a href="/friends/add" class="flex justify-end basis-1/3">

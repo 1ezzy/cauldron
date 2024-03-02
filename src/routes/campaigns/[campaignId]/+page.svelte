@@ -47,8 +47,8 @@
 	</h3>
 	<div class="w-full flex flex-1 md:flex-row flex-col">
 		<div class="p-8 flex flex-col basis-2/3">
-			<div class="mb-8 flex md:flex-row flex-col md:items-center justify-center">
-				<div class="flex items-center md:mb-0 mb-4">
+			<div class="mb-8 flex md:flex-row flex-col items-center justify-center">
+				<div class="flex items-center md:mb-0 mb-8">
 					<h3 class="h3 mr-2 text-secondary-500">Campaign Members</h3>
 				</div>
 				<a class="btn variant-filled-secondary md:ml-auto w-fit" href="/spells">Add More Members</a>
@@ -56,9 +56,9 @@
 		</div>
 		<span class="divider-vertical my-auto h-[95%] md:block hidden" />
 		<hr class="md:hidden block" />
-		<div class="p-8 basis-1/3 flex flex-col">
+		<div class="p-8 basis-1/3 flex flex-col md:items-end items-center">
 			<div class="mb-8 flex items-center">
-				<h3 class="h3 mr-4 text-secondary-500">Details</h3>
+				<h3 class="h3 md:mr-4 mr-0 text-secondary-500">Details</h3>
 				<!-- <button
 					on:click={() => {
 						detailsEditMode = !detailsEditMode;
@@ -67,11 +67,11 @@
 					<Icon src={PencilSquare} size="16px" theme="mini" class="text-secondary-500 mt-1" />
 				</button> -->
 			</div>
-			<div class="mb-8">
+			<div class="mb-8 md:text-end text-center">
 				<h4 class="h4 mb-2 text-tertiary-500">Description</h4>
 				<span>{campaignData?.campaign_description ?? 'No description available'}</span>
 			</div>
-			<div class="mb-8">
+			<div class="mb-8 md:text-end text-center">
 				<h4 class="h4 mb-2 text-tertiary-500">Created</h4>
 				{new Date(campaignData?.created_at).toDateString()}
 			</div>

@@ -36,7 +36,7 @@
 <HeaderDrawer />
 <Toast position="tr" />
 {#if isActive}
-	<AppShell slotSidebarLeft="bg-surface-100 dark:bg-surface-800" slotPageContent="overflow-auto">
+	<AppShell slotSidebarLeft="bg-surface-100 dark:bg-surface-800" slotPageContent="md:overflow-auto">
 		<svelte:fragment slot="header"><Header /></svelte:fragment>
 		<svelte:fragment slot="sidebarLeft"><Sidebar userId={data.user?.id} /></svelte:fragment>
 		<!-- Router Slot -->

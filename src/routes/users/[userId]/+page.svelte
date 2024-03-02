@@ -23,7 +23,7 @@
 			</div>
 		</div>
 	{/if}
-	<div class="w-full flex flex-row gap-8 mb-8">
+	<div class="w-full flex md:flex-row flex-col gap-8 mb-8">
 		<div class="card p-4 basis-[40%]">
 			<header class="card-header">
 				<h1 class="h1 text-primary-500 text-center">{profileData.username}</h1>
@@ -34,7 +34,7 @@
 					alt="Profile Picture for {profileData.username}"
 					rounded="rounded-full"
 					background="bg-transparent"
-					width="w-24"
+					width="md:w-24 w-40"
 				/>
 			</div>
 			<footer class="card-footer flex flex-row gap-2 justify-center">
@@ -46,7 +46,7 @@
 			<header class="card-header mb-4">
 				<h3 class="h3 text-primary-500">About {profileData.username}</h3>
 			</header>
-			<div class="flex flex-col gap-8 px-4">
+			<div class="flex flex-col gap-8 p-4">
 				<p class="flex-1">{profileData.biography ?? 'No information provided.'}</p>
 			</div>
 		</div>
