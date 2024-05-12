@@ -18,31 +18,33 @@
 			$form.users = addedUsers;
 		},
 		onResult({ result }) {
-			const campaignId = result.data.campaignId;
-
-			const toastCreatedCampaign: ToastSettings = {
-				message: `Campaign created`,
-				background: 'variant-filled-success',
-				action: {
-					label: 'View campaign',
-					response: () => goto(`/campaigns/${campaignId}`)
-				}
-			};
-			toastStore.trigger(toastCreatedCampaign);
-
 			console.log(result.type);
-
 			if (result.type === 'success') {
-				window.location = '/campaigns';
+				const campaignId = result.data.campaignId;
+
+				const toastCreatedCampaign: ToastSettings = {
+					message: `Campaign created`,
+					background: 'variant-filled-success',
+					action: {
+						label: 'View campaign',
+						response: () => goto(`/campaigns/${campaignId}`)
+					}
+				};
+				toastStore.trigger(toastCreatedCampaign);
+
+				goto(`/campaigns`, { invalidateAll: true });
+
+				console.log('cat');
 			}
 		}
 	});
+
 	const {
 		form: searchForm,
 		errors: searchErrors,
 		enhance: searchEnhance
 	} = superForm(data.searchForm, {
-		invalidateAll: false,
+		dataType: 'json',
 		onResult({ result }) {
 			searchedUsers = result.data.users;
 		}

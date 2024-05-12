@@ -14,7 +14,7 @@ const createCampaignSchema = z.object({
 		.string({ required_error: 'Campaign name is required' })
 		.min(1)
 		.max(50, { message: 'Must be less than 50 characters' }),
-	description: z.string().max(500, { message: 'Must be less than 500 characters' }),
+	description: z.string().max(500, { message: 'Must be less than 500 characters' }).nullable(),
 	users: UserSchema.array()
 });
 

@@ -8,7 +8,17 @@ export const GET: RequestHandler = async ({ params }) => {
 			id: userId
 		},
 		include: {
-			requested_campaigns: true
+			requested_campaigns: {
+				include: {
+					owner_user: true
+				}
+			},
+			joined_campaigns: {
+				include: {
+					owner_user: true
+				}
+			},
+			owned_campaigns: true
 		}
 	});
 

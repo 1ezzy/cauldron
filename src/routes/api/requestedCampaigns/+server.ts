@@ -5,13 +5,12 @@ export const GET: RequestHandler = async ({ url }) => {
 	const userId = url.searchParams.get('user_id') ?? '';
 	const campaigns = await prisma.campaign.findMany({
 		where: {
-			user_ids: {
+			requested_user_ids: {
 				has: userId
 			}
 		},
 		include: {
 			owner_user: true,
-			requested_users: true,
 			users: true
 		}
 	});

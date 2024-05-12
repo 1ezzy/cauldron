@@ -1,23 +1,53 @@
 <script lang="ts">
-	import { PUBLIC_CLOUDINARY_BASE_URL } from '$env/static/public';
-	import type { Campaign, User } from '@prisma/client';
-	import { Avatar } from '@skeletonlabs/skeleton';
+	import { getModalStore, type ModalComponent, type ModalSettings } from '@skeletonlabs/skeleton';
 	import PageBlock from '$lib/components/PageBlock.svelte';
 	import { Icon } from '@steeze-ui/svelte-icon';
 	import { ArrowLeft, ArrowRight } from '@steeze-ui/heroicons';
+	import CampaignModal from '$lib/components/modals/CampaignModal.svelte';
+	import type { CampaignWithUserFields } from '$lib/types/campaign-with-user-fields.type';
+	import type { UserWithRequestedCampaigns } from '$lib/types/user-with-requested-campaigns.type';
+	import CampaignDetails from './CampaignDetails.svelte';
+	import CampaignList from './CampaignList.svelte';
+
+	const modalStore = getModalStore();
 
 	export let data;
 
-	let campaignData: Campaign[] = data.campaignsItem;
-	let ownerData: User = data.ownerItem;
-	let ownerUsername: string = data.ownerUsername;
+	let campaignData: CampaignWithUserFields[] = data.campaignsItem;
+	let requestedCampaignData: CampaignWithUserFields[] = data.requestedCampaignsItem;
+	let ownerData: UserWithRequestedCampaigns = data.ownerItem;
 
-	let selectedCampaign: Campaign = campaignData[0];
+	$: campaignId = selectedCampaign?.id;
+	$: campaignName = selectedCampaign?.campaign_name;
 
+	$: campaignData, console.log(campaignData);
+
+	let selectedCampaign: CampaignWithUserFields | null = campaignData ? campaignData[0] : null;
 	let campaignMode: 'campaigns' | 'requested_campaigns' = 'campaigns';
+	$: campaignMode,
+		campaignMode === 'campaigns'
+			? (selectedCampaign = campaignData[0])
+			: (selectedCampaign = requestedCampaignData[0]);
 
-	const changeSelectedCampaign = (campaign: Campaign) => {
-		selectedCampaign = campaign;
+	const changeSelectedCampaign = (event: CustomEvent) => {
+		selectedCampaign = event.detail.campaign;
+	};
+
+	let modalComponent: ModalComponent;
+	$: modalComponent = {
+		ref: CampaignModal,
+		props: { data, campaignId, campaignName }
+	};
+
+	let modal: ModalSettings;
+	$: modal = {
+		type: 'component',
+		component: modalComponent,
+		title: 'Join Campaign'
+	};
+
+	const modalJoinCampaign = () => {
+		modalStore.trigger(modal);
 	};
 </script>
 
@@ -32,15 +62,17 @@
 			<button class="btn variant-filled-primary">Create a Campaign</button>
 		</a>
 	</div>
-	<div class="w-full p-8 overflow-auto flex md:flex-row flex-col flex-auto gap-8">
-		<div class="flex flex-col basis-1/4 md:truncate">
+	<div
+		class="w-full p-8 overflow-auto flex md:flex-row flex-col flex-auto xl:gap-32 md:gap-24 gap-8"
+	>
+		<div class="flex flex-col md:min-w-[256px] min-w-auto">
 			{#if campaignMode === 'campaigns'}
 				<div class="mb-4 flex flex-row justify-between gap-4">
 					<h2 class="h2 text-secondary-500 text-center">Campaigns</h2>
 					<button
 						on:click={() => {
 							campaignMode = 'requested_campaigns';
-							selectedCampaign = ownerData.requested_campaigns[0];
+							selectedCampaign = ownerData.requested_campaigns[0] ?? null;
 						}}
 					>
 						<Icon src={ArrowRight} theme="mini" size="32px" />
@@ -52,105 +84,38 @@
 					<button
 						on:click={() => {
 							campaignMode = 'campaigns';
-							selectedCampaign = campaignData[0];
+							selectedCampaign = campaignData[0] ?? null;
 						}}
 					>
 						<Icon src={ArrowLeft} theme="mini" size="32px" />
 					</button>
 				</div>
 			{/if}
-			<div class="card p-4 flex flex-col flex-1 gap-4 md:min-h-0 min-h-[288px] overflow-y-scroll">
+			<div
+				class="card md:min-h-0 min-h-[288px] p-4 flex flex-col flex-1 gap-4 overflow-y-scroll overflow-x-hidden whitespace-nowrap text-ellipsis"
+			>
 				{#if campaignMode === 'campaigns'}
-					{#if campaignData.length > 0}
-						{#each campaignData as campaign}
-							<button
-								class="btn variant-filled-surface p-2 flex flex-row justify-start gap-1 rounded-lg"
-								on:click={() => changeSelectedCampaign(campaign)}
-								on:keydown={() => changeSelectedCampaign(campaign)}
-							>
-								<Avatar
-									src="{PUBLIC_CLOUDINARY_BASE_URL}{campaign.campaign_pic_url}"
-									alt="Profile Picture for {campaign.campaign_name}"
-									rounded="rounded-full"
-									background="bg-transparent"
-									width="w-8"
-									height="h-8"
-								/>
-								<h4 class="h4 truncate">{campaign.campaign_name}</h4>
-							</button>
-						{/each}
-					{:else}
-						<span class="text-wrap text-center">No campaigns to display</span>
-					{/if}
+					<CampaignList
+						{campaignData}
+						noCampaignText="No Campaigns to Display"
+						on:selectedCampaignChanged={changeSelectedCampaign}
+					/>
 				{:else if campaignMode === 'requested_campaigns'}
-					{#if ownerData.requested_campaigns.length > 0}
-						{#each ownerData.requested_campaigns as campaign}
-							<button
-								class="btn variant-filled-surface p-2 flex flex-row justify-start gap-1 rounded-lg"
-								on:click={() => changeSelectedCampaign(campaign)}
-								on:keydown={() => changeSelectedCampaign(campaign)}
-							>
-								<Avatar
-									src="{PUBLIC_CLOUDINARY_BASE_URL}{campaign.campaign_pic_url}"
-									alt="Profile Picture for {campaign.campaign_name}"
-									rounded="rounded-full"
-									background="bg-transparent"
-									width="w-8"
-									height="h-8"
-								/>
-								<h4 class="h4 truncate">{campaign.campaign_name}</h4>
-							</button>
-						{/each}
-					{:else}
-						<span class="text-wrap text-center">No requests to display</span>
-					{/if}
+					<CampaignList
+						campaignData={requestedCampaignData}
+						noCampaignText="No Requests to Display"
+						on:selectedCampaignChanged={changeSelectedCampaign}
+					/>
 				{/if}
 			</div>
 		</div>
 		{#if campaignMode === 'campaigns'}
 			{#if selectedCampaign}
-				<div class="flex flex-col basis-3/4 truncate">
-					<h2 class="h2 mb-2 text-secondary-500 text-center truncate">
-						{selectedCampaign.campaign_name}
-					</h2>
-					<h4 class="h4 md:mb-8 mb-4 text-tertiary-500 text-center">
-						Created by {selectedCampaign.owner_user?.username}
-					</h4>
-					<div class="flex md:flex-row flex-col flex-1">
-						<div class="p-4 flex flex-col flex-1 items-center basis-1/2 gap-4 overflow-y-scroll">
-							<h4 class="h4 text-tertiary-500">Campaign Members</h4>
-							{#if selectedCampaign.users.length > 0}
-								{#each selectedCampaign.users as user}
-									<button class="p-2 flex flex-row justify-start gap-1 rounded-lg truncate">
-										<Avatar
-											src="{PUBLIC_CLOUDINARY_BASE_URL}{user.profile_pic_url}"
-											alt="Profile Picture for {user.username}"
-											rounded="rounded-full"
-											background="bg-transparent"
-											width="w-8"
-											height="h-8"
-										/>
-										<h4 class="h4 truncate">{user.username}</h4>
-									</button>
-								{/each}
-							{:else}
-								<span class="text-wrap text-center">This campaign has no members</span>
-							{/if}
-						</div>
-						<span class="divider-vertical my-auto h-[95%] md:block hidden" />
-						<div
-							class="p-4 flex flex-col md:items-end items-center md:text-end text-center basis-1/2"
-						>
-							<div class="flex flex-col gap-4 md:mb-0 mb-12">
-								<h4 class="h4 text-tertiary-500">Campaign Members</h4>
-								<span>{selectedCampaign.campaign_description ?? 'No description available'}</span>
-							</div>
-							<a class="mt-auto" href="/campaigns/{selectedCampaign.id}">
-								<button class="btn variant-filled-secondary">View Campaign</button>
-							</a>
-						</div>
-					</div>
-				</div>
+				<CampaignDetails {selectedCampaign}>
+					<a class="mt-auto" href="/campaigns/{selectedCampaign.id}">
+						<button class="btn variant-filled-secondary">View Campaign</button>
+					</a>
+				</CampaignDetails>
 			{:else}
 				<span class="my-auto flex flex-col basis-3/4 text-wrap text-center">
 					You aren't in any campaigns
@@ -158,48 +123,11 @@
 			{/if}
 		{:else if campaignMode === 'requested_campaigns'}
 			{#if selectedCampaign}
-				<div class="flex flex-col basis-3/4 truncate">
-					<h2 class="h2 mb-2 text-secondary-500 text-center truncate">
-						{selectedCampaign.campaign_name}
-					</h2>
-					<h4 class="h4 md:mb-8 mb-4 text-tertiary-500 text-center">
-						Created by {selectedCampaign.owner_user?.username}
-					</h4>
-					<div class="flex md:flex-row flex-col flex-1">
-						<div class="p-4 flex flex-col flex-1 items-center basis-1/2 gap-4 overflow-y-scroll">
-							<h4 class="h4 text-tertiary-500">Campaign Members</h4>
-							{#if selectedCampaign.users.length > 0}
-								{#each selectedCampaign.users as user}
-									<button class="p-2 flex flex-row justify-start gap-1 rounded-lg truncate">
-										<Avatar
-											src="{PUBLIC_CLOUDINARY_BASE_URL}{user.profile_pic_url}"
-											alt="Profile Picture for {user.username}"
-											rounded="rounded-full"
-											background="bg-transparent"
-											width="w-8"
-											height="h-8"
-										/>
-										<h4 class="h4 truncate">{user.username}</h4>
-									</button>
-								{/each}
-							{:else}
-								<span class="text-wrap text-center">This campaign has no members</span>
-							{/if}
-						</div>
-						<span class="divider-vertical my-auto h-[95%] md:block hidden" />
-						<div
-							class="p-4 flex flex-col md:items-end items-center md:text-end text-center basis-1/2"
-						>
-							<div class="flex flex-col gap-4">
-								<h4 class="h4 text-tertiary-500">Campaign Members</h4>
-								<span>{selectedCampaign.campaign_description ?? 'No description available'}</span>
-							</div>
-							<a class="mt-auto" href="/campaigns/{selectedCampaign.id}">
-								<button class="btn variant-filled-secondary">View Campaign</button>
-							</a>
-						</div>
-					</div>
-				</div>
+				<CampaignDetails {selectedCampaign}>
+					<button class="mt-auto btn variant-filled-success" on:click={() => modalJoinCampaign()}
+						>Join Campaign</button
+					>
+				</CampaignDetails>
 			{:else}
 				<span class="my-auto flex flex-col basis-3/4 text-wrap text-center">
 					You haven't been requested to join any campaigns

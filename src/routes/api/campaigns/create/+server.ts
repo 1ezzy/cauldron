@@ -14,6 +14,9 @@ export const POST: RequestHandler = async ({ url }) => {
 	const campaign = await prisma.campaign.create({
 		data: {
 			owner_id: ownerId,
+			user_ids: {
+				set: [ownerId]
+			},
 			campaign_name: campaignName,
 			campaign_description: campaignDescription,
 			requested_users: {
