@@ -111,7 +111,9 @@
 	};
 </script>
 
-<div class="mb-4 sticky flex flex-col sm:flex-row justify-between items-center sm:items-end">
+<div
+	class="mb-4 gap-8 sm:gap-0 sticky flex flex-col sm:flex-row justify-between items-center sm:items-end"
+>
 	<div class="flex flex-col sm:flex-row gap-4">
 		<label>
 			<span>Name</span>

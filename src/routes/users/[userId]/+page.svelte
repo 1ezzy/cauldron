@@ -20,7 +20,7 @@
 			<button class="self-start btn variant-filled-primary">Edit Profile</button>
 		</div>
 	{/if}
-	<div class="w-full flex flex-row gap-8 mb-8">
+	<div class="w-full flex sm:flex-row flex-col gap-8 mb-8">
 		<div class="card p-4 basis-[40%]">
 			<header class="card-header">
 				<h1 class="h1 text-primary-500 text-center">{profileData.username}</h1>
