@@ -1,18 +1,13 @@
+// See https://svelte.dev/docs/kit/types#app.d.ts
+// for information about these interfaces
 declare global {
 	namespace App {
-		interface Platform {
-			env: {
-				MONGODB_URL: KVNamespace;
-				ACCELERATE_URL: KVNamespace;
-			};
-		}
-
-		interface Locals {
-			user: import('lucia').User | null;
-			session: import('lucia').Session | null;
-		}
+		// interface Error {}
+		// interface Locals {}
+		// interface PageData {}
+		// interface PageState {}
+		// interface Platform {}
 	}
 }
 
-// THIS IS IMPORTANT!!!
 export {};
