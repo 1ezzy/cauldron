@@ -8,103 +8,34 @@ datasource db {
 }
 
 model User {
-  id                     String             @id @default(auto()) @map("_id") @db.ObjectId
-  username               String             @unique
-  discord_id             Int?               @unique
-  discord_username       String?            @unique
-  role                   Role               @default(USER)
-  created_at             DateTime           @default(now())
-  updated_at             DateTime?          @updatedAt
-  auth_session           Session[]
-  biography              String?
-  profile_pic_url        String             @default("profile_pics/default_pfp.png")
-  spellbooks             Spellbook[]
-  characters             Character[]
-  friends                Friends[]          @relation(fields: [friend_ids], references: [user_id])
-  friend_ids             String[]           @db.ObjectId
-  requested_friends      RequestedFriends[] @relation(fields: [requested_friend_ids], references: [user_id])
-  requested_friend_ids   String[]           @db.ObjectId
-  sent_requests          SentRequests[]     @relation(fields: [sent_request_ids], references: [user_id])
-  sent_request_ids       String[]           @db.ObjectId
-  owned_campaigns        Campaign[]         @relation("OwnerUser")
-  joined_campaigns       Campaign[]         @relation("MemberUsers", fields: [joined_campaign_ids], references: [id])
-  joined_campaign_ids    String[]           @db.ObjectId
-  requested_campaigns    Campaign[]         @relation("RequestedUsers", fields: [requested_campaign_ids], references: [id])
-  requested_campaign_ids String[]           @db.ObjectId
+  id         String      @id @default(auto()) @map("_id") @db.ObjectId
+  username   String      @unique
+  created_at DateTime    @default(now())
+  updated_at DateTime?   @updatedAt
+  biography  String?
+  spellbooks Spellbook[]
 
   @@map("users")
 }
 
-model Session {
-  id        String   @id @map("_id")
-  userId    String   @map("user_id") @db.ObjectId
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  expiresAt DateTime @map("expires_at")
-
-  @@map("sessions")
-}
-
-model Friends {
-  user_id    String   @id @map("_id") @db.ObjectId
-  friends    User[]   @relation(fields: [friend_ids], references: [id])
-  friend_ids String[] @db.ObjectId
-
-  @@map("friends")
-}
-
-model RequestedFriends {
-  user_id              String   @id @map("_id") @db.ObjectId
-  requested_friends    User[]   @relation(fields: [requested_friend_ids], references: [id])
-  requested_friend_ids String[] @db.ObjectId
-
-  @@map("requested_friends")
-}
-
-model SentRequests {
-  user_id          String   @id @map("_id") @db.ObjectId
-  sent_requests    User[]   @relation(fields: [sent_request_ids], references: [id])
-  sent_request_ids String[] @db.ObjectId
-
-  @@map("sent_requests")
-}
-
 model Spellbook {
-  id                    String     @id @default(auto()) @map("_id") @db.ObjectId
-  spellbook_name        String     @unique
+  id                    String    @id @default(auto()) @map("_id") @db.ObjectId
+  spellbook_name        String    @unique
   character_name        String
   spellbook_description String?
   image_url             String?
-  created_at            DateTime   @default(now())
-  updated_at            DateTime?  @updatedAt
-  user_id               String     @db.ObjectId
-  auth_user             User       @relation(fields: [user_id], references: [id])
-  character_id          String?    @db.ObjectId
-  character             Character? @relation(fields: [character_id], references: [id])
-  spell_ids             String[]   @db.ObjectId
-  spells                Spell[]    @relation(fields: [spell_ids], references: [id])
-  class_ids             String[]   @db.ObjectId
-  classes               Class[]    @relation(fields: [class_ids], references: [id])
-  race_ids              String[]   @db.ObjectId
-  races                 Race[]     @relation(fields: [race_ids], references: [id])
+  created_at            DateTime  @default(now())
+  updated_at            DateTime? @updatedAt
+  user_id               String    @db.ObjectId
+  auth_user             User      @relation(fields: [user_id], references: [id])
+  spell_ids             String[]  @db.ObjectId
+  spells                Spell[]   @relation(fields: [spell_ids], references: [id])
+  class_ids             String[]  @db.ObjectId
+  classes               Class[]   @relation(fields: [class_ids], references: [id])
+  race_ids              String[]  @db.ObjectId
+  races                 Race[]    @relation(fields: [race_ids], references: [id])
 
   @@map("spellbooks")
-}
-
-model Campaign {
-  id                  String    @id @default(auto()) @map("_id") @db.ObjectId
-  campaign_name       String
-  capaign_description String?
-  created_at          DateTime  @default(now())
-  updated_at          DateTime? @updatedAt
-  owner_id            String    @db.ObjectId
-  owner_user          User      @relation("OwnerUser", fields: [owner_id], references: [id])
-  user_ids            String[]  @db.ObjectId
-  users               User[]    @relation("MemberUsers", fields: [user_ids], references: [id])
-  requested_user_ids  String[]  @db.ObjectId
-  requested_users     User[]    @relation("RequestedUsers", fields: [requested_user_ids], references: [id])
-
-  @@unique([id, owner_id], name: "user_campaign")
-  @@map("campaigns")
 }
 
 model Spell {
@@ -153,8 +84,6 @@ model Class {
   subclasses                 APIReference[]
   spellbook_ids              String[]            @db.ObjectId
   spellbooks                 Spellbook[]         @relation(fields: [spellbook_ids], references: [id])
-  character_ids              String[]            @db.ObjectId
-  characters                 Character[]         @relation(fields: [character_ids], references: [id])
 
   @@map("classes")
 }
@@ -178,67 +107,18 @@ model Race {
   subraces                     APIReference[]
   spellbook_ids                String[]       @db.ObjectId
   spellbooks                   Spellbook[]    @relation(fields: [spellbook_ids], references: [id])
-  characters                   Character[]
 
   @@map("races")
 }
 
-model Character {
-  id               String                  @id @default(auto()) @map("_id") @db.ObjectId
-  spellbooks       Spellbook[]
-  character_name   String
-  player_name      String
-  description      String?
-  backstory        String?
-  level            Int
-  experience       Int?
-  next_level       Int?
-  age              Int?
-  Height           String?
-  weight           Int?
-  size             String?
-  gender           String?
-  eye_color        String?
-  hair_color       String?
-  skin_color       String?
-  scores_original  CharacterAbilityScore[]
-  scores_current   CharacterAbilityScore[]
-  saving_throw_ids String[]                @db.ObjectId
-  saving_throws    AbilityScore[]          @relation(fields: [saving_throw_ids], references: [id])
-  skill_ids        String[]                @db.ObjectId
-  skills           Skill[]                 @relation(fields: [skill_ids], references: [id])
-  armor_class      Int?
-  death_saves      DeathSave?
-  language_ids     String[]                @db.ObjectId
-  languages        Language[]              @relation(fields: [language_ids], references: [id])
-  proficiency_ids  String[]                @db.ObjectId
-  proficiencies    Proficiency[]           @relation(fields: [proficiency_ids], references: [id])
-  items            String[]
-  coins            CoinType?
-  image_url        String?
-  created_at       DateTime                @default(now())
-  updated_at       DateTime?               @updatedAt
-  user_id          String                  @db.ObjectId
-  auth_user        User                    @relation(fields: [user_id], references: [id])
-  class_ids        String[]                @db.ObjectId
-  classes          Class[]                 @relation(fields: [class_ids], references: [id])
-  race_id          String                  @db.ObjectId
-  race             Race                    @relation(fields: [race_id], references: [id])
-
-  @@unique([id, user_id], name: "user_character")
-  @@map("characters")
-}
-
 model AbilityScore {
-  id            String         @id @default(auto()) @map("_id") @db.ObjectId
-  index         String
-  name          String
-  url           String
-  full_name     String
-  desc          String[]
-  skills        APIReference[]
-  character     Character[]    @relation(fields: [character_ids], references: [id])
-  character_ids String[]       @db.ObjectId
+  id        String         @id @default(auto()) @map("_id") @db.ObjectId
+  index     String
+  name      String
+  url       String
+  full_name String
+  desc      String[]
+  skills    APIReference[]
 
   @@map("ability_scores")
 }
@@ -250,38 +130,32 @@ model Skill {
   url           String
   desc          String[]
   ability_score APIReference
-  characters    Character[]  @relation(fields: [character_ids], references: [id])
-  character_ids String[]     @db.ObjectId
 
   @@map("skills")
 }
 
 model Language {
-  id               String      @id @default(auto()) @map("_id") @db.ObjectId
+  id               String   @id @default(auto()) @map("_id") @db.ObjectId
   index            String
   name             String
   url              String
   type             String
   typical_speakers String[]
   script           String
-  character_ids    String[]    @db.ObjectId
-  characters       Character[] @relation(fields: [character_ids], references: [id])
 
   @@map("languages")
 }
 
 model Proficiency {
-  id            String       @id @default(auto()) @map("_id") @db.ObjectId
-  index         String
-  name          String
-  url           String
-  type          String
-  race_ids      String[]     @db.ObjectId
-  reference     APIReference
-  class_ids     String[]     @db.ObjectId
-  classes       Class[]      @relation(fields: [class_ids], references: [id])
-  character_ids String[]     @db.ObjectId
-  characters    Character[]  @relation(fields: [character_ids], references: [id])
+  id        String       @id @default(auto()) @map("_id") @db.ObjectId
+  index     String
+  name      String
+  url       String
+  type      String
+  race_ids  String[]     @db.ObjectId
+  reference APIReference
+  class_ids String[]     @db.ObjectId
+  classes   Class[]      @relation(fields: [class_ids], references: [id])
 
   @@map("proficiencies")
 }
@@ -352,19 +226,6 @@ type AbilityBonus {
 type DeathSave {
   successes Int
   failures  Int
-}
-
-type CoinType {
-  copper_pieces   Int
-  silver_pieces   Int
-  electrum_pieces Int
-  gold_pieces     Int
-  platinum_pieces Int
-}
-
-enum Role {
-  USER
-  ADMIN
 }
 
 enum Components {
