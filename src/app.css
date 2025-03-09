@@ -1,2 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Pro');
+
 @import 'tailwindcss';
 @plugin '@tailwindcss/forms';
+
+* {
+	@apply box-border;
+}
+
+html,
+body {
+	@apply h-full overflow-hidden;
+}
+
+body {
+	font-family: 'Crimson Pro', sans-serif;
+}

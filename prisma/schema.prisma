@@ -1,0 +1,242 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "mongodb"
+    url      = env("MONGODB_URL")
+}
+
+model User {
+    id         String      @id @default(auto()) @map("_id") @db.ObjectId
+    username   String      @unique
+    created_at DateTime    @default(now())
+    updated_at DateTime?   @updatedAt
+    biography  String?
+    spellbooks Spellbook[]
+
+    @@map("users")
+}
+
+model Spellbook {
+    id                    String    @id @default(auto()) @map("_id") @db.ObjectId
+    spellbook_name        String    @unique
+    character_name        String
+    spellbook_description String?
+    created_at            DateTime  @default(now())
+    updated_at            DateTime? @updatedAt
+    user_id               String?   @db.ObjectId
+    auth_user             User?     @relation(fields: [user_id], references: [id])
+    spell_ids             String[]  @db.ObjectId
+    spells                Spell[]   @relation(fields: [spell_ids], references: [id])
+    class_ids             String[]  @db.ObjectId
+    classes               Class[]   @relation(fields: [class_ids], references: [id])
+    race_ids              String[]  @db.ObjectId
+    races                 Race[]    @relation(fields: [race_ids], references: [id])
+
+    @@map("spellbooks")
+}
+
+model Spell {
+    id             String           @id @default(auto()) @map("_id") @db.ObjectId
+    index          String
+    name           String
+    url            String
+    desc           String[]
+    higher_level   String[]
+    range          String
+    components     Components[]
+    material       String?
+    area_of_effect AreaOfEffect?
+    ritual         Boolean
+    duration       String
+    concentration  Boolean
+    casting_time   String
+    level          Int
+    attack_type    String?
+    damage         Json?
+    dc             DifficultyClass?
+    school         APIReference
+    classes        APIReference[]
+    subclasses     APIReference[]
+    spellbook_ids  String[]         @db.ObjectId
+    spellbooks     Spellbook[]      @relation(fields: [spellbook_ids], references: [id])
+
+    @@map("spells")
+}
+
+model Class {
+    id                         String              @id @default(auto()) @map("_id") @db.ObjectId
+    index                      String              @unique
+    name                       String              @unique
+    url                        String
+    hit_die                    Int
+    class_levels               String
+    multi_classing             Multiclassing?
+    spells                     String?
+    starting_equipment         StartingEquipment[]
+    starting_equipment_options Choice[]
+    proficiency_ids            String[]            @db.ObjectId
+    proficiencies              Proficiency[]       @relation(fields: [proficiency_ids], references: [id])
+    proficiency_choices        Choice[]
+    saving_throws              APIReference[]
+    subclasses                 APIReference[]
+    spellbook_ids              String[]            @db.ObjectId
+    spellbooks                 Spellbook[]         @relation(fields: [spellbook_ids], references: [id])
+
+    @@map("classes")
+}
+
+model Race {
+    id                           String         @id @default(auto()) @map("_id") @db.ObjectId
+    index                        String         @unique
+    name                         String         @unique
+    url                          String
+    speed                        Int
+    ability_bonuses              AbilityBonus[]
+    alignment                    String
+    age                          String
+    size                         String
+    size_description             String
+    starting_proficiencies       APIReference[]
+    starting_proficiency_options Choice?
+    languages                    APIReference[]
+    language_desc                String
+    traits                       APIReference[]
+    subraces                     APIReference[]
+    spellbook_ids                String[]       @db.ObjectId
+    spellbooks                   Spellbook[]    @relation(fields: [spellbook_ids], references: [id])
+
+    @@map("races")
+}
+
+model AbilityScore {
+    id        String         @id @default(auto()) @map("_id") @db.ObjectId
+    index     String
+    name      String
+    url       String
+    full_name String
+    desc      String[]
+    skills    APIReference[]
+
+    @@map("ability_scores")
+}
+
+model Skill {
+    id            String       @id @default(auto()) @map("_id") @db.ObjectId
+    index         String
+    name          String
+    url           String
+    desc          String[]
+    ability_score APIReference
+
+    @@map("skills")
+}
+
+model Language {
+    id               String   @id @default(auto()) @map("_id") @db.ObjectId
+    index            String
+    name             String
+    url              String
+    type             String
+    typical_speakers String[]
+    script           String
+
+    @@map("languages")
+}
+
+model Proficiency {
+    id        String       @id @default(auto()) @map("_id") @db.ObjectId
+    index     String
+    name      String
+    url       String
+    type      String
+    race_ids  String[]     @db.ObjectId
+    reference APIReference
+    class_ids String[]     @db.ObjectId
+    classes   Class[]      @relation(fields: [class_ids], references: [id])
+
+    @@map("proficiencies")
+}
+
+type DifficultyClass {
+    dc_success String
+    dc_type    APIReference
+    desc       String?
+}
+
+type Choice {
+    desc   String?
+    choose Int?
+    type   String?
+    from   Json?
+}
+
+type AreaOfEffect {
+    size Int
+    type AOEType
+}
+
+type StartingEquipment {
+    quantity  Int
+    equipment APIReference
+}
+
+type Prerequisite {
+    ability_score APIReference?
+    minimum_score Int?
+}
+
+type Info {
+    name        String
+    description String[]
+}
+
+type Spellcasting {
+    level                Int
+    info                 Info[]
+    spellcasting_ability APIReference[]
+    spells               String
+}
+
+type Multiclassing {
+    prerequisites        Prerequisite[]
+    prerequisite_options Json?
+    proficiencies        APIReference[]
+    proficiency_choices  Choice[]
+}
+
+type CharacterAbilityScore {
+    type  String
+    value Int
+}
+
+type AbilityBonus {
+    bonus         Int
+    ability_score APIReference
+}
+
+type DeathSave {
+    successes Int
+    failures  Int
+}
+
+enum Components {
+    V
+    S
+    M
+}
+
+enum AOEType {
+    sphere
+    cone
+    cylinder
+    line
+    cube
+}
+
+type APIReference {
+    index String
+    name  String
+    url   String
+}

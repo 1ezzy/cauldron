@@ -8,17 +8,18 @@
 		const savedSpellbooks = localStorage.getItem('spellbooks');
 		if (savedSpellbooks) {
 			spellbooks = JSON.parse(savedSpellbooks);
+			console.log(spellbooks);
 		}
 	});
-
-	function saveSpellbooks() {
-		localStorage.setItem('spellbooks', JSON.stringify(spellbooks));
-	}
 </script>
 
 <svelte:head>
-	<title>Cauldron | Spells</title>
+	<title>Cauldron | Spellbooks</title>
 </svelte:head>
 <div class="flex flex-col items-center gap-2">
-	<button>Create Spellbook</button>
+	<a href="/spellbooks/create">Create Spellbook Page</a>
+	<span class="mb-4 font-bold">Spellbooks</span>
+	{#each spellbooks as spellbook}
+		<a href={`/spellbooks/${spellbook.spellbook_name}`}>{spellbook.spellbook_name}</a>
+	{/each}
 </div>
