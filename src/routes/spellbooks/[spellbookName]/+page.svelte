@@ -10,6 +10,8 @@
 	let spells = $state<Spell[]>([]);
 	let activeSpell = $state<Spell>();
 
+	let loadingSpells: boolean = $state(true);
+
 	onMount(async () => {
 		const savedSpellbooks = localStorage.getItem('spellbooks');
 		if (savedSpellbooks) {
@@ -18,6 +20,7 @@
 
 			if (spellbook) {
 				spells = await getSpells(spellbook);
+				loadingSpells = false;
 			}
 		}
 	});
@@ -58,23 +61,21 @@
 		class="flex w-full flex-1 flex-col justify-start gap-16 md:flex-row md:justify-center md:gap-0 md:overflow-y-hidden"
 	>
 		<div class="flex flex-col items-center gap-2 border md:flex-1 md:basis-1/4">
-			{#if spellbook && spellbook.spell_ids.length > 0}
-				<span>Spells:</span>
-				{#if spells && spells.length > 0}
-					{#each spells as spell}
-						<button
-							onclick={() => {
-								activeSpell = spell;
-							}}
-						>
-							<span>{spell.name}</span>
-						</button>
-					{/each}
-				{:else if spells}
-					<span>Loading</span>
-				{:else}
-					<span>No spells to display</span>
-				{/if}
+			<span>Spells:</span>
+			{#if spells && spells.length > 0}
+				{#each spells as spell}
+					<button
+						onclick={() => {
+							activeSpell = spell;
+						}}
+					>
+						<span>{spell.name}</span>
+					</button>
+				{/each}
+			{:else if loadingSpells}
+				<span>Loading</span>
+			{:else}
+				<span>No spells to display</span>
 			{/if}
 		</div>
 		<div class="flex flex-col items-center gap-8 md:basis-3/4 md:overflow-y-scroll md:p-8">
