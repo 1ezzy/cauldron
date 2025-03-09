@@ -8,9 +8,11 @@
 <svelte:head>
 	<title>Cauldron | Spells</title>
 </svelte:head>
-<div class="flex flex-col items-center gap-2">
+<div class="flex flex-col items-center gap-4">
 	<span class="mb-4 font-bold">Spells</span>
-	{#each data.spellsItem.splice(0, 10) as spell}
-		<a href={`spells/${stringToIndex(spell.name.toLowerCase())}`}>{spell.name}</a>
-	{/each}
+	<div class="flex flex-col items-center gap-2">
+		{#each data.spellsItem.splice(0, 10) as spell}
+			<a href={`spells/${stringToIndex(spell.name.toLowerCase())}`}>{spell.name}</a>
+		{/each}
+	</div>
 </div>

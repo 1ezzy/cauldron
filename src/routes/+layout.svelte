@@ -15,7 +15,7 @@
 <section
 	class="items:start flex min-h-[calc(100vh-4rem)] justify-center px-8 py-16 md:items-center md:px-0 md:py-0"
 >
-	<div class="flex justify-center md:min-h-[50vh] md:w-[50vh]">
+	<div class="flex justify-center md:h-[80vh] md:w-[60vh]">
 		{@render children()}
 	</div>
 </section>

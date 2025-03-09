@@ -21,6 +21,7 @@ model User {
 model Spellbook {
     id                    String    @id @default(auto()) @map("_id") @db.ObjectId
     spellbook_name        String    @unique
+    url                   String
     character_name        String
     spellbook_description String?
     created_at            DateTime  @default(now())

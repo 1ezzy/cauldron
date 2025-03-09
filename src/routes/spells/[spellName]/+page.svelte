@@ -17,16 +17,13 @@
 	});
 
 	function addToSpellbook(spellId: string): void {
-		let spellbookToUpdate = spellbooks.find((spellbook) => spellbook.spellbook_name === 'test');
+		const index = spellbooks.findIndex((spellbook) => spellbook.url === 'test-spellbook');
+		let spellbookToUpdate = spellbooks[index];
 		if (spellbookToUpdate) {
-			if (spellbookToUpdate.spell_ids) {
-				spellbookToUpdate.spell_ids = [...spellbookToUpdate.spell_ids, spellId];
-			} else {
-				spellbookToUpdate.spell_ids = [spellId];
-			}
-
-			const index = spellbooks.findIndex((spellbook) => spellbook.spellbook_name === 'test');
+			spellbookToUpdate.spell_ids = [...spellbookToUpdate.spell_ids, spellId];
 			spellbooks[index] = spellbookToUpdate;
+			console.log(spellbookToUpdate);
+
 			localStorage.setItem('spellbooks', JSON.stringify(spellbooks));
 		}
 	}

@@ -14,7 +14,7 @@
 		const savedSpellbooks = localStorage.getItem('spellbooks');
 		if (savedSpellbooks) {
 			const spellbooks = JSON.parse(savedSpellbooks);
-			spellbook = spellbooks.find((book: Spellbook) => book.spellbook_name === spellbookSlug);
+			spellbook = spellbooks.find((book: Spellbook) => book.url === spellbookSlug);
 
 			if (spellbook) {
 				spells = await getSpells(spellbook);
@@ -47,18 +47,20 @@
 <svelte:head>
 	<title>Cauldron | {spellbook?.spellbook_name}</title>
 </svelte:head>
-<div class="flex flex-1 flex-col items-center gap-4">
+<div class="flex flex-1 flex-col items-center gap-8">
 	<div class="flex gap-4">
 		<span class="mb-4 font-bold"> {spellbook?.spellbook_name}</span>
 		<span>|</span>
 		<span>A spellbook for {spellbook?.character_name}</span>
 	</div>
 
-	{#if spells.length > 0}
-		<div class="flex h-full w-full flex-col justify-start gap-16 md:flex-row md:justify-center">
-			<div class="flex flex-col items-center gap-2 border md:basis-1/3">
-				{#if spellbook && spellbook.spell_ids.length > 0}
-					<span>Spells:</span>
+	<div
+		class="flex w-full flex-1 flex-col justify-start gap-16 md:flex-row md:justify-center md:gap-0 md:overflow-y-hidden"
+	>
+		<div class="flex flex-col items-center gap-2 border md:flex-1 md:basis-1/4">
+			{#if spellbook && spellbook.spell_ids.length > 0}
+				<span>Spells:</span>
+				{#if spells && spells.length > 0}
 					{#each spells as spell}
 						<button
 							onclick={() => {
@@ -68,20 +70,18 @@
 							<span>{spell.name}</span>
 						</button>
 					{/each}
+				{:else if spells}
+					<span>Loading</span>
 				{:else}
 					<span>No spells to display</span>
 				{/if}
-			</div>
-			<div class="flex flex-col items-center gap-8 md:basis-2/3">
-				<span class:font-bold={activeSpell}>{activeSpell?.name ?? 'No Spell Selected'}</span>
-				{#if activeSpell}
-					<SpellDetails spell={activeSpell} />
-				{/if}
-			</div>
+			{/if}
 		</div>
-	{:else}
-		<div>
-			<span>There are no spells in this spellbook</span>
+		<div class="flex flex-col items-center gap-8 md:basis-3/4 md:overflow-y-scroll md:p-8">
+			<span class:font-bold={activeSpell}>{activeSpell?.name ?? 'No Spell Selected'}</span>
+			{#if activeSpell}
+				<SpellDetails spell={activeSpell} />
+			{/if}
 		</div>
-	{/if}
+	</div>
 </div>
