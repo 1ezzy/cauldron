@@ -1,13 +1,10 @@
 <script lang="ts">
-	import type { PageProps } from './$types';
-
-	let { data }: PageProps = $props();
 </script>
 
 <svelte:head>
 	<title>Cauldron</title>
 </svelte:head>
 <div class="flex flex-col items-center gap-2">
-	<span class="mb-4 font-bold">Cauldron</span>
-	<span>5e spellbook generator and spell wiki</span>
+	<span class="font-bold">Cauldron</span>
+	<span>5e Spellbook Generator and Spell Wiki</span>
 </div>

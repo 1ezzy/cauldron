@@ -17,9 +17,9 @@
 	<title>Cauldron | Spellbooks</title>
 </svelte:head>
 <div class="flex flex-col items-center gap-2">
-	<a href="/spellbooks/create">Create Spellbook Page</a>
 	<span class="mb-4 font-bold">Spellbooks</span>
 	{#each spellbooks as spellbook}
 		<a href={`/spellbooks/${spellbook.spellbook_name}`}>{spellbook.spellbook_name}</a>
 	{/each}
+	<a class="mt-auto md:mt-0" href="/spellbooks/create">Create New Spellbook</a>
 </div>

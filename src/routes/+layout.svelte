@@ -12,6 +12,10 @@
 	</div>
 </header>
 
-<section class="flex h-[100vh] items-center justify-center">
-	{@render children()}
+<section
+	class="items:start flex min-h-[calc(100vh-4rem)] justify-center px-8 py-16 md:items-center md:px-0 md:py-0"
+>
+	<div class="flex justify-center md:min-h-[50vh] md:w-[50vh]">
+		{@render children()}
+	</div>
 </section>
