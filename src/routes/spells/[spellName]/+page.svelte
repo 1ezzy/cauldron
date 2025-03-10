@@ -1,9 +1,10 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import type { Spellbook } from '@prisma/client';
 	import { formatSpellLevel } from '$lib/utils/string-utils';
 	import SpellDetails from '$lib/components/SpellDetails.svelte';
+	import PageBlock from '$lib/components/PageBlock.svelte';
 	import type { PageProps } from './$types';
-	import type { Spellbook } from '@prisma/client';
 
 	let { data }: PageProps = $props();
 
@@ -40,14 +41,12 @@
 <svelte:head>
 	<title>Cauldron | Spellbooks</title>
 </svelte:head>
-<div class="flex flex-col items-center gap-8">
-	<div class="flex flex-col items-center gap-2">
-		<div class="flex gap-4">
-			<span class="font-bold">{data.spellItem.name}</span>
-			<span>|</span>
-			<span>{formatSpellLevel(data.spellItem.level, data.spellItem.school.name)}</span>
-		</div>
-		<button onclick={() => addToSpellbook(data.spellItem.id)}>Add To Spellbook</button>
-	</div>
+<PageBlock
+	title={data.spellItem.name}
+	subtitle={formatSpellLevel(data.spellItem.level, data.spellItem.school.name)}
+	gapsize={8}
+>
+	<button onclick={() => addToSpellbook(data.spellItem.id)}>Add To Spellbook</button>
+
 	<SpellDetails spell={data.spellItem} />
-</div>
+</PageBlock>
