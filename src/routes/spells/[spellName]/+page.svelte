@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { PageProps } from './$types';
 	import { formatSpellLevel } from '$lib/utils/string-utils';
-	import type { Spellbook } from '@prisma/client';
+	import type { Spell, Spellbook } from '@prisma/client';
 	import { onMount } from 'svelte';
 	import SpellDetails from '$lib/components/SpellDetails.svelte';
 
@@ -17,14 +17,18 @@
 	});
 
 	function addToSpellbook(spellId: string): void {
-		const index = spellbooks.findIndex((spellbook) => spellbook.url === 'test-spellbook');
-		let spellbookToUpdate = spellbooks[index];
-		if (spellbookToUpdate) {
+		const spellbookIndex = spellbooks.findIndex((spellbook) => spellbook.url === 'test-spellbook');
+		let spellbookToUpdate = spellbooks[spellbookIndex];
+		const isSpellInSpellbook = spellbookToUpdate.spell_ids.some((id) => id === spellId);
+
+		if (spellbookToUpdate && !isSpellInSpellbook) {
 			spellbookToUpdate.spell_ids = [...spellbookToUpdate.spell_ids, spellId];
-			spellbooks[index] = spellbookToUpdate;
+			spellbooks[spellbookIndex] = spellbookToUpdate;
 			console.log(spellbookToUpdate);
 
 			localStorage.setItem('spellbooks', JSON.stringify(spellbooks));
+		} else {
+			console.log('idiot');
 		}
 	}
 </script>

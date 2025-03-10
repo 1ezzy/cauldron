@@ -4,19 +4,19 @@
 	import { page } from '$app/state';
 	import SpellDetails from '$lib/components/SpellDetails.svelte';
 
+	let spellbook = $state<Spellbook>();
+	let spellbooks = $state<Spellbook[]>();
 	let spellbookSlug = $state(page.params.spellbookName);
 
-	let spellbook = $state<Spellbook>();
 	let spells = $state<Spell[]>([]);
 	let activeSpell = $state<Spell>();
-
-	let loadingSpells: boolean = $state(true);
+	let loadingSpells = $state<boolean>(true);
 
 	onMount(async () => {
 		const savedSpellbooks = localStorage.getItem('spellbooks');
 		if (savedSpellbooks) {
-			const spellbooks = JSON.parse(savedSpellbooks);
-			spellbook = spellbooks.find((book: Spellbook) => book.url === spellbookSlug);
+			spellbooks = JSON.parse(savedSpellbooks);
+			spellbook = spellbooks?.find((book: Spellbook) => book.url === spellbookSlug);
 
 			if (spellbook) {
 				spells = await getSpells(spellbook);
@@ -26,24 +26,42 @@
 	});
 
 	async function getSpells(spellbook: Spellbook): Promise<Spell[]> {
-		if (spellbook?.spell_ids && spellbook.spell_ids.length > 0) {
-			try {
-				const response = await fetch('/api/spells/byIds', {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json'
-					},
-					body: JSON.stringify({ spellIds: spellbook.spell_ids })
-				});
+		if (spellbook.spell_ids?.length > 0) {
+			const response = await fetch('/api/spells/byIds', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({ spellIds: spellbook.spell_ids })
+			});
 
-				if (response.ok) {
-					return await response.json();
-				}
-			} catch (error) {
-				console.error('Failed to fetch spells', error);
+			if (response.ok) {
+				return await response.json();
 			}
 		}
 		return [];
+	}
+
+	function removeSpell(spellId: string): void {
+		if (spellbook && spellbooks) {
+			const newSpellbookIds = spellbook?.spell_ids.filter((id) => id !== spellId) ?? [];
+			const newSpellbook = {
+				...spellbook,
+				spell_ids: newSpellbookIds
+			};
+			const newSpellbooks = [
+				...spellbooks.filter((book) => book.id !== spellbook?.id),
+				newSpellbook
+			];
+			const newSpells = spells.filter((spell) => {
+				return spell.id !== spellId;
+			});
+
+			spellbook = newSpellbook;
+			spellbooks = newSpellbooks;
+			spells = newSpells;
+			localStorage.setItem('spellbooks', JSON.stringify(newSpellbooks));
+		}
 	}
 </script>
 
@@ -64,13 +82,19 @@
 			<span>Spells:</span>
 			{#if spells && spells.length > 0}
 				{#each spells as spell}
-					<button
-						onclick={() => {
-							activeSpell = spell;
-						}}
-					>
-						<span>{spell.name}</span>
-					</button>
+					<div class="flex gap-2">
+						<button
+							onclick={() => {
+								activeSpell = spell;
+							}}>{spell.name}</button
+						>
+						<button
+							class="text-red-500"
+							onclick={() => {
+								removeSpell(spell.id);
+							}}>(x)</button
+						>
+					</div>
 				{/each}
 			{:else if loadingSpells}
 				<span>Loading</span>

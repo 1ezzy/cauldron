@@ -3,7 +3,6 @@ import { json, type RequestHandler } from '@sveltejs/kit';
 
 export const POST: RequestHandler = async ({ request }) => {
 	const { spellIds } = await request.json();
-	console.log(spellIds);
 
 	if (!spellIds || !Array.isArray(spellIds) || spellIds.length === 0) {
 		return json({ error: 'Invalid spell IDs' }, { status: 400 });
@@ -16,8 +15,6 @@ export const POST: RequestHandler = async ({ request }) => {
 			}
 		}
 	});
-
-	console.log(spells);
 
 	if (!spells) {
 		return json({ message: 'Spells not found' }, { status: 404 });
