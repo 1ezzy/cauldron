@@ -12,18 +12,25 @@
 	let activeSpell = $state<Spell>();
 	let loadingSpells = $state<boolean>(true);
 
-	onMount(async () => {
-		const savedSpellbooks = localStorage.getItem('spellbooks');
-		if (savedSpellbooks) {
-			spellbooks = JSON.parse(savedSpellbooks);
-			spellbook = spellbooks?.find((book: Spellbook) => book.url === spellbookSlug);
-
-			if (spellbook) {
-				spells = await getSpells(spellbook);
-				loadingSpells = false;
-			}
-		}
+	onMount(() => {
+		getSpellbooks();
 	});
+
+	async function getSpellbooks() {
+		const savedSpellbooks = localStorage.getItem('spellbooks');
+		if (!savedSpellbooks) {
+			loadingSpells = false;
+			return;
+		}
+
+		spellbooks = JSON.parse(savedSpellbooks);
+		spellbook = spellbooks?.find((book: Spellbook) => book.url === spellbookSlug);
+
+		if (spellbook) {
+			spells = await getSpells(spellbook);
+			loadingSpells = false;
+		}
+	}
 
 	async function getSpells(spellbook: Spellbook): Promise<Spell[]> {
 		if (spellbook.spell_ids?.length > 0) {
@@ -76,9 +83,13 @@
 	</div>
 
 	<div
-		class="flex w-full flex-1 flex-col justify-start gap-16 md:flex-row md:justify-center md:gap-0 md:overflow-y-hidden"
+		class="flex w-full flex-1 flex-col justify-start gap-16
+		md:flex-row md:justify-center md:gap-4 md:overflow-y-hidden"
 	>
-		<div class="flex flex-col items-center gap-2 border md:flex-1 md:basis-1/4">
+		<div
+			class="flex flex-col items-center gap-2 border
+			md:flex-1 md:basis-1/4 md:p-8"
+		>
 			<span>Spells:</span>
 			{#if spells && spells.length > 0}
 				{#each spells as spell}
@@ -102,10 +113,15 @@
 				<span>No spells to display</span>
 			{/if}
 		</div>
-		<div class="flex flex-col items-center gap-8 md:basis-3/4 md:overflow-y-scroll md:p-8">
-			<span class:font-bold={activeSpell}>{activeSpell?.name ?? 'No Spell Selected'}</span>
+		<div
+			class="flex flex-col items-center gap-8
+			md:basis-3/4 md:overflow-y-scroll md:p-8"
+		>
 			{#if activeSpell}
+				<span class:font-bold={activeSpell}>{activeSpell?.name}</span>
 				<SpellDetails spell={activeSpell} />
+			{:else}
+				<span>Select a spell on the left to view its details</span>
 			{/if}
 		</div>
 	</div>

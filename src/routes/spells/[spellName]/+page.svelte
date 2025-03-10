@@ -1,22 +1,29 @@
 <script lang="ts">
-	import type { PageProps } from './$types';
-	import { formatSpellLevel } from '$lib/utils/string-utils';
-	import type { Spell, Spellbook } from '@prisma/client';
 	import { onMount } from 'svelte';
+	import { formatSpellLevel } from '$lib/utils/string-utils';
 	import SpellDetails from '$lib/components/SpellDetails.svelte';
+	import type { PageProps } from './$types';
+	import type { Spellbook } from '@prisma/client';
 
 	let { data }: PageProps = $props();
 
-	let spellbooks: Spellbook[] = [];
+	let spellbooks = $state<Spellbook[]>([]);
 
 	onMount(() => {
-		const savedSpellbooks = localStorage.getItem('spellbooks');
-		if (savedSpellbooks) {
-			spellbooks = JSON.parse(savedSpellbooks);
-		}
+		getSpellbooks();
 	});
 
+	function getSpellbooks() {
+		const savedSpellbooks = localStorage.getItem('spellbooks');
+		if (!savedSpellbooks) {
+			return;
+		}
+
+		spellbooks = JSON.parse(savedSpellbooks);
+	}
+
 	function addToSpellbook(spellId: string): void {
+		// TODO: update findIndex to use selected spellbook, probably a 2nd argument
 		const spellbookIndex = spellbooks.findIndex((spellbook) => spellbook.url === 'test-spellbook');
 		let spellbookToUpdate = spellbooks[spellbookIndex];
 		const isSpellInSpellbook = spellbookToUpdate.spell_ids.some((id) => id === spellId);
@@ -24,11 +31,8 @@
 		if (spellbookToUpdate && !isSpellInSpellbook) {
 			spellbookToUpdate.spell_ids = [...spellbookToUpdate.spell_ids, spellId];
 			spellbooks[spellbookIndex] = spellbookToUpdate;
-			console.log(spellbookToUpdate);
 
 			localStorage.setItem('spellbooks', JSON.stringify(spellbooks));
-		} else {
-			console.log('idiot');
 		}
 	}
 </script>

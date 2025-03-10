@@ -2,14 +2,20 @@
 	import { onMount } from 'svelte';
 	import type { Spellbook } from '@prisma/client';
 
-	let spellbooks: Spellbook[] = [];
+	let spellbooks = $state<Spellbook[]>([]);
 
 	onMount(() => {
-		const savedSpellbooks = localStorage.getItem('spellbooks');
-		if (savedSpellbooks) {
-			spellbooks = JSON.parse(savedSpellbooks);
-		}
+		getSpellbooks();
 	});
+
+	function getSpellbooks() {
+		const savedSpellbooks = localStorage.getItem('spellbooks');
+		if (!savedSpellbooks) {
+			return;
+		}
+
+		spellbooks = JSON.parse(savedSpellbooks);
+	}
 </script>
 
 <svelte:head>
