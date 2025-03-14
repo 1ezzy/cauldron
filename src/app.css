@@ -1,11 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Crimson+Pro');
 
 @import 'tailwindcss';
-@plugin '@tailwindcss/forms';
+@import '@layerstack/tailwind/core.css';
+@import '@layerstack/tailwind/utils.css';
+@import '@layerstack/tailwind/themes/basic.css';
 
-* {
-	@apply box-border;
-}
+@source '../../node_modules/svelte-ux/dist';
+@source '../../node_modules/layerchart/dist';
+@plugin '@tailwindcss/forms';
 
 html,
 body {
