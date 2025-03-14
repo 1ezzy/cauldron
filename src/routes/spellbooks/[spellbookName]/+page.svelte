@@ -2,10 +2,11 @@
 	import { onMount } from 'svelte';
 	import type { Spell, Spellbook } from '@prisma/client';
 	import { page } from '$app/state';
+	import { goto } from '$app/navigation';
 	import SpellDetails from '$lib/components/SpellDetails.svelte';
 	import PageBlock from '$lib/components/PageBlock.svelte';
 
-	let spellbook = $state<Spellbook | undefined>();
+	let spellbook = $state<Spellbook>();
 	let spellbooks = $state<Spellbook[]>();
 	let spellbookSlug = $state(page.params.spellbookName);
 
@@ -74,6 +75,15 @@
 			localStorage.setItem('spellbooks', JSON.stringify(newSpellbooks));
 		}
 	}
+
+	function deleteSpellbook(): void {
+		if (spellbook && spellbooks) {
+			const newSpellbooks = spellbooks.filter((book) => book.id !== spellbook?.id);
+			localStorage.setItem('spellbooks', JSON.stringify(newSpellbooks));
+
+			goto('/spellbooks');
+		}
+	}
 </script>
 
 <svelte:head>
@@ -83,7 +93,8 @@
 	<PageBlock
 		title={spellbook.spellbook_name}
 		subtitle={`A spellbook for ${spellbook?.character_name}`}
-		gapsize={8}
+		gapsize={'gap-8'}
+		editableHeader={true}
 	>
 		<div
 			class="flex w-full flex-1 flex-col justify-start gap-16
@@ -115,6 +126,9 @@
 				{:else}
 					<span>No spells to display</span>
 				{/if}
+				<button class="mt-auto text-red-500" onclick={() => deleteSpellbook()}>
+					Delete Spellbook
+				</button>
 			</div>
 			<div
 				class="flex flex-col items-center gap-8

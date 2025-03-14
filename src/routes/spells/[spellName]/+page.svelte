@@ -44,7 +44,7 @@
 <PageBlock
 	title={data.spellItem.name}
 	subtitle={formatSpellLevel(data.spellItem.level, data.spellItem.school.name)}
-	gapsize={8}
+	gapsize={'gap-8'}
 >
 	<button onclick={() => addToSpellbook(data.spellItem.id)}>Add To Spellbook</button>
 

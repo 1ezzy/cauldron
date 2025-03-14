@@ -11,7 +11,7 @@
 <svelte:head>
 	<title>Cauldron | Spells</title>
 </svelte:head>
-<PageBlock title="Spells" gapsize={8}>
+<PageBlock title="Spells" gapsize={'gap-8'}>
 	<div class="flex flex-col items-center gap-2">
 		{#each spells.splice(0, 10) as spell}
 			<a href={`spells/${stringToIndex(spell.name.toLowerCase())}`}>{spell.name}</a>

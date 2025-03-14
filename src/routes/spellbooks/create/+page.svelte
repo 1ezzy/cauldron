@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import PageBlock from '$lib/components/PageBlock.svelte';
 	import { stringToIndex } from '$lib/utils/string-utils';
 	import type { Spellbook } from '@prisma/client';
@@ -26,13 +27,15 @@
 			const newSavedSpellbooks = [newSpellbook];
 			localStorage.setItem('spellbooks', JSON.stringify(newSavedSpellbooks));
 		}
+
+		goto('/spellbooks');
 	}
 </script>
 
 <svelte:head>
 	<title>Cauldron | Create Spellbook</title>
 </svelte:head>
-<PageBlock title="Spellbooks" subtitle="Create Spellbook" gapsize={8}>
+<PageBlock title="Spellbooks" subtitle="Create Spellbook" gapsize={'gap-8'}>
 	<div class="flex flex-col gap-4">
 		<div class="flex flex-col">
 			<label for="spellbook_name">Spellbook Name</label>
