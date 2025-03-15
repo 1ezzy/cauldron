@@ -8,14 +8,14 @@ export const stringToIndex = (name: string) => {
 export const formatSpellLevel = (level: number, school?: string) => {
 	switch (level) {
 		case 0:
-			return `${school} cantrip`;
+			return `${school ? school + 'cantrip' : 'Cantrip'}`;
 		case 1:
-			return `${level}st level` + (school ? ` ${school}` : '');
+			return `${level}st` + (school ? `${' level' + school}` : '');
 		case 2:
-			return `${level}nd level` + (school ? ` ${school}` : '');
+			return `${level}nd` + (school ? `${' level' + school}` : '');
 		case 3:
-			return `${level}rd level` + (school ? ` ${school}` : '');
+			return `${level}rd` + (school ? `${' level' + school}` : '');
 		default:
-			return `${level}th level` + (school ? ` ${school}` : '');
+			return `${level}th` + (school ? `${' level' + school}` : '');
 	}
 };

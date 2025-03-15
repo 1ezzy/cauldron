@@ -1,7 +1,8 @@
 <script lang="ts">
-	import { Button } from 'svelte-ux';
+	import { Button, Switch, ThemeSwitch } from 'svelte-ux';
 	import { faGithub } from '@fortawesome/free-brands-svg-icons';
-	import '../app.css';
+
+	import './app.css';
 
 	let { children } = $props();
 </script>
@@ -12,8 +13,9 @@
 		<a href="/spellbooks">Spellbooks</a>
 		<a href="/spells">Spells</a>
 	</div>
-	<div class="absolute top-1/2 right-8 -translate-x-1/2 -translate-y-1/2">
-		<Button icon={{ data: faGithub, size: '24px' }} size="lg"></Button>
+	<div class="absolute top-1/2 right-8 flex -translate-x-1/2 -translate-y-1/2">
+		<!-- <Button icon={{ data: faGithub, size: '32px' }} size="lg" color="danger"></Button>
+		<ThemeSwitch /> -->
 	</div>
 </header>
 
