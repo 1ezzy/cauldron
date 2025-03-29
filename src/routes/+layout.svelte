@@ -14,15 +14,15 @@
 		<a href="/spells">Spells</a>
 	</div>
 	<div class="absolute top-1/2 right-8 flex -translate-x-1/2 -translate-y-1/2">
-		<!-- <Button icon={{ data: faGithub, size: '32px' }} size="lg" color="danger"></Button>
-		<ThemeSwitch /> -->
+		<!-- <Button icon={{ data: faGithub, size: '32px' }} size="lg" color="danger"></Button> -->
+		<ThemeSwitch />
 	</div>
 </header>
 
 <section
-	class="items:start flex min-h-[calc(100vh-4rem)] justify-center px-8 py-16 md:items-center md:px-0 md:py-0"
+	class="flex min-h-[calc(100vh-4rem)] flex-col justify-center px-8 py-16 md:items-center md:px-0 md:py-0"
 >
-	<div class="flex justify-center md:h-[80vh] md:w-[60vh]">
+	<div class="flex justify-center py-16 md:w-[70vw] md:flex-1">
 		{@render children()}
 	</div>
 </section>

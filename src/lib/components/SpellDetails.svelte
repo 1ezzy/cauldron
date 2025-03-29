@@ -2,7 +2,7 @@
 	let { spell } = $props();
 </script>
 
-<div class="flex flex-col gap-2 md:flex-row md:gap-12">
+<div class="flex flex-col justify-center gap-2 md:flex-row md:gap-12">
 	<div class="flex flex-col items-center">
 		<span>Casting Time</span>
 		<span>{spell.casting_time}</span>

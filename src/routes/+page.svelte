@@ -1,5 +1,6 @@
 <script lang="ts">
 	import PageBlock from '$lib/components/PageBlock.svelte';
+	import { Button } from 'svelte-ux';
 </script>
 
 <svelte:head>
@@ -12,7 +13,7 @@
 	center
 >
 	<div class="flex flex-col items-center gap-8">
-		<a href="/spellbooks/create">Create New Spellbook</a>
-		<a href="/spells">View Spells</a>
+		<Button variant="fill" color="primary" href="/spells">View Spells</Button>
+		<Button variant="fill" color="primary" href="/spellbooks/create">Create New Spellbook</Button>
 	</div>
 </PageBlock>

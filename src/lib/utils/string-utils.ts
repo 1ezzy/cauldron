@@ -19,3 +19,7 @@ export const formatSpellLevel = (level: number, school?: string) => {
 			return `${level}th` + (school ? `${' level' + school}` : '');
 	}
 };
+
+export const capitalizeFirstLetter = (text: string) => {
+	return text.charAt(0).toUpperCase() + text.slice(1);
+};

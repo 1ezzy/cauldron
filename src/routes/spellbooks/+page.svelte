@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import type { Spellbook } from '@prisma/client';
 	import PageBlock from '$lib/components/PageBlock.svelte';
+	import { Button } from 'svelte-ux';
 
 	let spellbooks = $state<Spellbook[]>([]);
 
@@ -23,10 +24,12 @@
 	<title>Cauldron | Spellbooks</title>
 </svelte:head>
 <PageBlock title="Spellbooks" gapsize={'gap-8'}>
-	<div class="flex flex-col items-center gap-4">
+	<div class="flex flex-col items-center gap-8">
 		{#each spellbooks as spellbook}
 			<a href={`/spellbooks/${spellbook.url}`}>{spellbook.spellbook_name}</a>
 		{/each}
-		<a class="mt-auto md:mt-0" href="/spellbooks/create">Create New Spellbook</a>
+		<Button variant="fill" color="success" class="" href="/spellbooks/create"
+			>Create New Spellbook</Button
+		>
 	</div>
 </PageBlock>
