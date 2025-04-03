@@ -28,8 +28,8 @@
 		{#each spellbooks as spellbook}
 			<a href={`/spellbooks/${spellbook.url}`}>{spellbook.spellbook_name}</a>
 		{/each}
-		<Button variant="fill" color="success" class="" href="/spellbooks/create"
-			>Create New Spellbook</Button
-		>
+		<Button variant="fill" color="success" class="" href="/spellbooks/create">
+			Create New Spellbook
+		</Button>
 	</div>
 </PageBlock>

@@ -5,6 +5,8 @@
 	import { goto } from '$app/navigation';
 	import SpellDetails from '$lib/components/SpellDetails.svelte';
 	import PageBlock from '$lib/components/PageBlock.svelte';
+	import { Button } from 'svelte-ux';
+	import { faEye, faMinus, faPencil, faXmark } from '@fortawesome/free-solid-svg-icons';
 
 	let spellbook = $state<Spellbook>();
 	let spellbooks = $state<Spellbook[]>();
@@ -13,6 +15,8 @@
 	let spells = $state<Spell[]>([]);
 	let activeSpell = $state<Spell>();
 	let loadingSpells = $state<boolean>(true);
+
+	let editSpellMode = $state<boolean>(false);
 
 	onMount(() => {
 		getSpellbooks();
@@ -101,24 +105,43 @@
 		md:flex-row md:justify-center md:gap-4 md:overflow-y-hidden"
 		>
 			<div
-				class="flex flex-col items-center gap-2 border text-center
-			md:flex-1 md:basis-1/4 md:p-8"
+				class="flex flex-col gap-2 border text-left
+			md:flex-1 md:basis-1/4 md:p-4"
 			>
-				<span>Spells:</span>
+				<div class="flex gap-2 p-4">
+					<span>Spells:</span>
+					{#if !editSpellMode}
+						<Button icon={faPencil} size="sm" onclick={() => (editSpellMode = true)}></Button>
+					{:else}
+						<Button icon={faXmark} size="sm" onclick={() => (editSpellMode = false)}></Button>
+					{/if}
+				</div>
 				{#if spells && spells.length > 0}
 					{#each spells as spell}
-						<div class="flex gap-2">
-							<button
+						<div class="flex">
+							{#if editSpellMode}
+								<Button
+									class="ml-2 p-2"
+									icon={faMinus}
+									size="sm"
+									color="danger"
+									onclick={() => removeSpell(spell.id)}
+								></Button>
+							{:else}
+								<Button
+									class="ml-2 p-2"
+									icon={faEye}
+									size="sm"
+									color="primary"
+									onclick={() => (activeSpell = spell)}
+								></Button>{/if}
+							<Button
 								onclick={() => {
 									activeSpell = spell;
-								}}>{spell.name}</button
+								}}
 							>
-							<button
-								class="text-red-500"
-								onclick={() => {
-									removeSpell(spell.id);
-								}}>(x)</button
-							>
+								{spell.name}
+							</Button>
 						</div>
 					{/each}
 				{:else if loadingSpells}

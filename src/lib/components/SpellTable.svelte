@@ -31,7 +31,14 @@
 		addSpell: (value: string) => void;
 	} = $props();
 
-	let selectedLevels = $state<string[]>([]);
+	let displayData = $state(data);
+	function updateDisplayData(): void {
+		displayData = data.filter((spell: Spell) => {
+			selectedLevels.includes(spell.level);
+		});
+	}
+
+	let selectedLevels = $state<number[]>([]);
 	let levelOptions = [
 		...Array(10)
 			.keys()
@@ -62,7 +69,6 @@
 	}
 
 	function emitAddEvent(value: string): void {
-		console.log(value);
 		addSpell(value);
 	}
 </script>
@@ -91,12 +97,13 @@
 				</span>
 				<MultiSelectMenu
 					options={levelOptions}
-					value={selectedLevels}
+					value={selectedLevels.map(String)}
 					placeholder="Levels"
 					mode="immediate"
 					maintainOrder
 					on:change={(e) => {
-						selectedLevels = e.detail.value as string[];
+						selectedLevels = e.detail.value as number[];
+						updateDisplayData();
 					}}
 					{open}
 				>
@@ -147,7 +154,7 @@
 			</ToggleButton>
 		</div>
 	</div>
-	<Paginate {data} perPage={pageCount} let:pageData let:pagination>
+	<Paginate data={displayData} perPage={pageCount} let:pageData let:pagination>
 		<Table
 			class={['w-full p-4', className]}
 			classes={{ td: 'py-1' }}

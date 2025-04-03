@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Button, Card, Icon, TextField } from 'svelte-ux';
 	import type { Spell, Spellbook } from '@prisma/client';
-	import { faArrowUpLong, faArrowDownLong } from '@fortawesome/free-solid-svg-icons';
+	import { faArrowUpLong, faArrowDownLong, faMinus } from '@fortawesome/free-solid-svg-icons';
 	import { goto } from '$app/navigation';
 	import PageBlock from '$lib/components/PageBlock.svelte';
 	import SpellTable from '$lib/components/SpellTable.svelte';
@@ -20,11 +20,13 @@
 
 	function addSpellToCard(spellName: string) {
 		const spell = spells.find((spell) => spell.name === spellName);
-		console.log(spellName, spells[0].name);
 		if (spell) {
 			selectedSpells.push(spell);
 		}
-		console.log(selectedSpells);
+	}
+
+	function removeSpellFromCard(spellName: string) {
+		selectedSpells = selectedSpells.filter((spell) => spell.name !== spellName);
 	}
 
 	function saveSpellbooks() {
@@ -38,12 +40,10 @@
 			...newSpellbook,
 			id: crypto.randomUUID(),
 			url: stringToIndex(newSpellbook.spellbook_name),
-			spell_ids: [],
+			spell_ids: selectedSpells.map((spell) => spell.id),
 			created_at: new Date(),
 			updated_at: new Date()
 		};
-
-		console.log(newSpellbook);
 
 		let savedSpellbooks = localStorage.getItem('spellbooks');
 		if (savedSpellbooks) {
@@ -105,9 +105,15 @@
 				title="Spells To Add"
 				subheading="These spells will be added on spellbook creation"
 			>
-				{#each selectedSpells as spell}
-					{spell.name}
-				{/each}
+				<div slot="contents">
+					{#each selectedSpells as spell}
+						<span class="flex gap-2">
+							<Button icon={faMinus} size="sm" onclick={() => removeSpellFromCard(spell.name)}
+							></Button>
+							{spell.name}
+						</span>
+					{/each}
+				</div>
 			</Card>
 		</div>
 		<div class="flex basis-2/3">

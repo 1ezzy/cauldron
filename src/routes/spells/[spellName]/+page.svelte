@@ -5,10 +5,13 @@
 	import SpellDetails from '$lib/components/SpellDetails.svelte';
 	import PageBlock from '$lib/components/PageBlock.svelte';
 	import type { PageProps } from './$types';
+	import { Button, Dialog, Radio } from 'svelte-ux';
 
 	let { data }: PageProps = $props();
 
 	let spellbooks = $state<Spellbook[]>([]);
+	let selectedSpellbookId = $state<string>();
+	let open = $state<boolean>(false);
 
 	onMount(() => {
 		getSpellbooks();
@@ -41,12 +44,33 @@
 <svelte:head>
 	<title>Cauldron | Spellbooks</title>
 </svelte:head>
+<Dialog bind:open classes={{ dialog: 'mx-auto w-64 flex flex-col items-center' }}>
+	<div slot="title">Add {data?.spellItem.name} To:</div>
+	<div class="bt-4 flex flex-col gap-8 px-8 pt-4 pb-6">
+		{#each spellbooks as spellbook}
+			<Radio
+				name="spellbook name"
+				value={spellbook.id}
+				fullWidth
+				onclick={() => (selectedSpellbookId = spellbook.id)}
+			>
+				{spellbook.spellbook_name}
+			</Radio>
+		{/each}
+	</div>
+	<div slot="actions">
+		<Button variant="fill" color="neutral" onclick={() => (open = false)}>Close</Button>
+		<Button variant="fill" color="primary" onclick={() => addToSpellbook(data.spellItem.id)}>
+			Add To Spellbook
+		</Button>
+	</div>
+</Dialog>
 <PageBlock
 	title={data.spellItem.name}
 	subtitle={formatSpellLevel(data.spellItem.level, data.spellItem.school.name)}
 	gapsize={'gap-8'}
 >
-	<button onclick={() => addToSpellbook(data.spellItem.id)}>Add To Spellbook</button>
+	<Button variant="fill" color="primary" onclick={() => (open = true)}>Add To Spellbook</Button>
 
 	<SpellDetails spell={data.spellItem} />
 </PageBlock>
